@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+:root {
+  /* color-scheme: light dark; */
+  --bg-surface: light-dark(color-mix(in srgb, black 2%, transparent), black);
+}
+
+body {
+  font-size: 14px;
+}
+
+svg {
+  @apply mx-auto w-auto shadow-xl;
+  max-height: calc(100vh - 4rem);
+}
+
+.surface {
+  background-color: var(--bg-surface);
+}

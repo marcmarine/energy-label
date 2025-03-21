@@ -1,0 +1,44 @@
+{
+  "name": "energy-label",
+  "version": "1.0.0",
+  "description": "Generate EU-compliant energy labels in SVG format.",
+  "main": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "build:docs": "npm run build -w docs",
+    "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
+    "build:lib": "rolldown --config rolldown.config.mjs",
+    "build": "bun run build:lib && npm run build:types",
+    "watch:docs": "npm run dev -w docs",
+    "watch:lib": "npm run build:lib -- --watch",
+    "dev": "npm-run-all --parallel watch:lib watch:docs"
+  },
+  "author": "Marc Mariné <shenobi@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/qrcode": "^1.5.5",
+    "dts-bundle-generator": "^9.5.1",
+    "npm-run-all": "^4.1.5",
+    "rolldown": "^1.0.0-beta.6",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "@lit-labs/ssr": "^3.3.1",
+    "lit-html": "^3.2.1",
+    "qrcode": "^1.5.4"
+  },
+  "workspaces": [
+    ".",
+    "docs"
+  ],
+  "files": [
+    "dist"
+  ]
+}
