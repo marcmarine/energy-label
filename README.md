@@ -1,6 +1,8 @@
-# Energy Label Generator
+# Energy Label ⚡ Generator
 
 A TypeScript library for generating EU-compliant energy labels as SVG files in Node.js.
+
+![Energy label example of wine refrigerator](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
 
 > [!NOTE]
 > Currently is only available for wine refrigerators.
@@ -30,7 +32,7 @@ label.generateSVGString().then(string => {
 
 ## Feedback
 
-Feel free to provide any comments. All kinds of contributions are welcome.
+Feel free to provide any comments. All kinds of contributions are welcome 🚀.
 
 ## License
 
