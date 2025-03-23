@@ -14,7 +14,7 @@
     "build:docs": "npm run build -w docs",
     "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",
-    "build": "bun run build:lib && npm run build:types",
+    "build": "npm run build:lib && npm run build:types",
     "watch:docs": "npm run dev -w docs",
     "watch:lib": "npm run build:lib -- --watch",
     "dev": "npm-run-all --parallel watch:lib watch:docs"
