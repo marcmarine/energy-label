@@ -1,6 +1,6 @@
 import { defineConfig } from 'rolldown'
 
-const external = ['lit-html', '@lit-labs/ssr', 'qrcode', 'react']
+const external = ['lit-html', '@lit-labs/ssr', 'qrcode', 'react', 'svgo']
 
 export default defineConfig([
   {

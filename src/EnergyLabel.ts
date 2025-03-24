@@ -1,5 +1,6 @@
 import QRCode from 'qrcode'
 import { svg } from 'lit-html'
+import { optimize } from 'svgo/browser'
 import { renderTemplate } from './templates'
 import type { EURegulationAct } from './definitions'
 
@@ -27,14 +28,23 @@ export default class EnergyLabel {
 
   private generateSVGDocument(svgString: string) {
     const parser = new DOMParser()
+
     return parser.parseFromString(svgString, 'image/svg+xml')
+  }
+
+  private optimizeSVG(svgString: string) {
+    return optimize(svgString).data
   }
 
   async generateSVGString(): Promise<string> {
     const qrCode = await QRCode.toDataURL(`https://eprel.ec.europa.eu/${this.options.eprelRegistrationNumber}`, { margin: 0, width: 512 })
     const imageElement = svg`<image href="${qrCode}" x="298.75" y="11.34" width="52.91" />`
 
-    return renderTemplate(this.regulation, { ...this.options, qrCodeImage: imageElement })
+    const svgString = renderTemplate(this.regulation, { ...this.options, qrCodeImage: imageElement })
+
+    const optimizedSVGString = this.optimizeSVG(svgString)
+
+    return optimizedSVGString
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
@@ -65,11 +75,9 @@ export default class EnergyLabel {
   async downloadSVGFile(): Promise<void> {
     const svgString = await this.generateSVGString()
 
-    const parser = new DOMParser()
-    const xmlDoc = parser.parseFromString(svgString, 'image/svg+xml')
-    const serializedSVG = new XMLSerializer().serializeToString(xmlDoc)
+    const optimizedSVGString = this.optimizeSVG(svgString)
 
-    const blob = this.createSVGBinaryData(serializedSVG) as Blob
+    const blob = this.createSVGBinaryData(optimizedSVGString) as Blob
 
     const url = URL.createObjectURL(blob)
 
