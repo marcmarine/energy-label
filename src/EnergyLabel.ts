@@ -1,5 +1,4 @@
 import QRCode from 'qrcode'
-import { svg } from 'lit-html'
 import { optimize } from 'svgo/browser'
 import { renderTemplate } from './templates'
 import type { EURegulationAct } from './definitions'
@@ -36,15 +35,20 @@ export default class EnergyLabel {
     return optimize(svgString).data
   }
 
+  private async generateQRCodeDataUrl(registrationNumber?: string): Promise<string> {
+    const QR_CODE_OPTIONS = { margin: 0, width: 512 }
+    const qrCodeUrl = `https://eprel.ec.europa.eu/${registrationNumber}`
+
+    return await QRCode.toDataURL(qrCodeUrl, QR_CODE_OPTIONS)
+  }
+
   async generateSVGString(): Promise<string> {
-    const qrCode = await QRCode.toDataURL(`https://eprel.ec.europa.eu/${this.options.eprelRegistrationNumber}`, { margin: 0, width: 512 })
-    const imageElement = svg`<image href="${qrCode}" x="298.75" y="11.34" width="52.91" />`
+    const qrCodeDataUrl = await this.generateQRCodeDataUrl(this.options.eprelRegistrationNumber)
 
-    const svgString = renderTemplate(this.regulation, { ...this.options, qrCodeImage: imageElement })
+    const templateData = { ...this.options, qrCodeDataUrl }
+    const rawSvgString = renderTemplate(this.regulation, templateData)
 
-    const optimizedSVGString = this.optimizeSVG(svgString)
-
-    return optimizedSVGString
+    return this.optimizeSVG(rawSvgString)
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
@@ -75,9 +79,7 @@ export default class EnergyLabel {
   async downloadSVGFile(): Promise<void> {
     const svgString = await this.generateSVGString()
 
-    const optimizedSVGString = this.optimizeSVG(svgString)
-
-    const blob = this.createSVGBinaryData(optimizedSVGString) as Blob
+    const blob = this.createSVGBinaryData(svgString) as Blob
 
     const url = URL.createObjectURL(blob)
 

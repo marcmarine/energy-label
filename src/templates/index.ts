@@ -1,14 +1,14 @@
-import { html, svg, type SVGTemplateResult } from 'lit-html'
+import { html, svg } from 'lit-html'
 import { render } from '@lit-labs/ssr'
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js'
 import reg2019R2016 from './02019R2016-20230930'
 import type { EnergyLabelOptions } from '../EnergyLabel'
-import { mmToPx } from '../utils'
 import type { EURegulationAct } from '../definitions'
+import { mmToPx } from '../utils'
 
-const header = (supplierOrTrademark: string = "Supplier's name", modelIdentifier: string = 'Model Identifier', qrCodeImage?: SVGTemplateResult) => svg`
+const header = (supplierOrTrademark: string = "Supplier's name", modelIdentifier: string = 'Model Identifier', qrCodeDataUrl: string = '1234567') => svg`
 <g id="eu-branding">
-  ${qrCodeImage}
+  <image href="${qrCodeDataUrl}" x="${mmToPx(79)}" y="${mmToPx(3)}" width="${mmToPx(14)}" />
   <g id="eu-flag">
     <rect x="${mmToPx(3)}" y="${mmToPx(3)}" width="${mmToPx(21)}" height="${mmToPx(14)}" fill="#034EA2" />
     <g id="stars" fill="#FFF200">
@@ -56,14 +56,14 @@ export function renderTemplate(
   _regulation: EURegulationAct,
   options: Partial<
     EnergyLabelOptions & {
-      qrCodeImage: SVGTemplateResult
+      qrCodeDataUrl: string
     }
   >
 ) {
   const template = html`
     <svg width="${mmToPx(96)}" height="${mmToPx(192)}" viewBox="0 0 ${mmToPx(96)} ${mmToPx(192)}" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="${mmToPx(96)}" height="${mmToPx(192)}" fill="white" />
-      ${header(options.supplierOrTrademark, options.modelIdentifier, options.qrCodeImage)}
+      ${header(options.supplierOrTrademark, options.modelIdentifier, options.qrCodeDataUrl)}
       ${reg2019R2016(options.efficiencyClass, options.consolidatedEnergyConsAnnual, options.capBottles, options.noise, options.noiseClass)}
     </svg>
   `
