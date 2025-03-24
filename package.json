@@ -15,6 +15,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
+    "build:example": "node --experimental-strip-types build-example.ts",
     "build:docs": "npm run build -w docs",
     "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",
