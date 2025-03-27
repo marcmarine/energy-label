@@ -18,14 +18,5 @@ export default defineConfig([
       format: 'module',
       exports: 'named'
     }
-  },
-  {
-    input: 'src/index.ts',
-    external,
-    output: {
-      format: 'commonjs',
-      file: 'dist/index.cjs',
-      exports: 'named'
-    }
   }
 ])
