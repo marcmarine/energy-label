@@ -1,18 +1,7 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
 import { renderTemplate } from './templates'
-import type { EURegulationAct } from './definitions'
-
-export interface EnergyLabelOptions {
-  supplierOrTrademark: string
-  modelIdentifier: string
-  eprelRegistrationNumber: string
-  efficiencyClass: string
-  consolidatedEnergyConsAnnual: number
-  capBottles: number
-  noise: number
-  noiseClass: string
-}
+import type { EnergyLabelOptions, EURegulationAct } from './definitions'
 
 export default class EnergyLabel {
   public regulation: EURegulationAct = '2019/2016/2023-09-30'
