@@ -1,11 +1,13 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel } from 'energy-label'
+import { createEnergyLabel, EnergyLabelOptions, FlagOriginOption } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { faker } from '@faker-js/faker'
 import { capitalize, getEliUrl } from './lib/utils'
+import VersionNumber from './components/version-number'
+import { GITHUB_URL } from './lib/constants'
 
 const REGULATION_ID = '2019/2016/2023-09-30'
 
@@ -25,20 +27,31 @@ export default function Page() {
     []
   )
   const [options, setOptions] = useState(generateOptions())
+  const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
 
-  const label = useMemo(() => createEnergyLabel(REGULATION_ID, options), [options])
+  const label = useMemo(() => createEnergyLabel(REGULATION_ID, { ...(options as EnergyLabelOptions), flagOrigin }), [flagOrigin, options])
 
   useEffect(() => {
     if (labelContainerRef.current) {
       label.appendSVGToElement(labelContainerRef.current!)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options])
+  }, [flagOrigin, options])
 
   const handleDownload = useCallback(() => {
     label.downloadSVGFile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options])
+  }, [flagOrigin, options])
+
+  const getProductLabel = (origin: string) => {
+    const label = 'Product'
+    switch (origin) {
+      case 'UK':
+        return 'Great Britain ' + label
+      default:
+        return 'European ' + label
+    }
+  }
 
   return (
     <>
@@ -47,26 +60,40 @@ export default function Page() {
         <div className="px-4 md:px-8">
           <div className="py-5">
             <h1 className="mb-2 font-bold text-4xl">Energy Label Generator</h1>
-            <Breadcrumb />
+            <Breadcrumb
+              selector={
+                <select
+                  value={flagOrigin}
+                  onChange={e => setFlagOrigin(e.target.value as FlagOriginOption)}
+                  className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-bold text-lg appearance-none"
+                >
+                  {['EU', 'UK'].map(origin => (
+                    <option key={origin} value={origin}>
+                      {getProductLabel(origin)}
+                    </option>
+                  ))}
+                </select>
+              }
+            />
           </div>
           <div className="py-6">
             <h2 className="font-bold text-2xl">Wine refrigerators</h2>
           </div>
           <div className="py-4 flex flex-col gap-4 w-full">
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Supplier&apos;s Name:{' '}
               <input value={options.supplierOrTrademark} onChange={e => setOptions(prev => ({ ...prev, supplierOrTrademark: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Model Identifier: <input value={options.modelIdentifier} onChange={e => setOptions(prev => ({ ...prev, modelIdentifier: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
             </label>
-            <label className="flex-1 gap-4 flex justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex-1 gap-4 flex justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               EPREL ID:{' '}
               <input value={options.eprelRegistrationNumber} onChange={e => setOptions(prev => ({ ...prev, eprelRegistrationNumber: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Efficiency class:
-              <select value={options.efficiencyClass} onChange={e => setOptions(prev => ({ ...prev, efficiencyClass: e.target.value }))} className="flex-1 text-right outline-none font-semibold">
+              <select value={options.efficiencyClass} onChange={e => setOptions(prev => ({ ...prev, efficiencyClass: e.target.value }))} className="py-0.5 select flex-1 text-right outline-none font-semibold">
                 {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map(scale => (
                   <option key={scale} value={scale}>
                     {scale}
@@ -74,7 +101,7 @@ export default function Page() {
                 ))}
               </select>
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Consumtion:{' '}
               <input
                 value={options.consolidatedEnergyConsAnnual}
@@ -83,17 +110,17 @@ export default function Page() {
                 className="flex-1 text-right outline-none font-semibold"
               />
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Number of wine bottles:{' '}
               <input value={options.capBottles} type="number" onChange={e => setOptions(prev => ({ ...prev, capBottles: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Airborne acoustical noise emissions:{' '}
               <input value={options.noise} type="number" onChange={e => setOptions(prev => ({ ...prev, noise: Number(e.target.value) }))} className="flex-1 text-right outline-none font-semibold" />
             </label>
-            <label className="flex gap-4 justify-between border-b border-dotted border-neutral-400 hover:bg-neutral-50">
+            <label className="flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
               Noise class:
-              <select value={options.noiseClass} className="flex-1 text-right outline-none font-semibold" onChange={e => setOptions(prev => ({ ...prev, noiseClass: e.target.value }))}>
+              <select value={options.noiseClass} className="py-0.5 select flex-1 text-right outline-none font-semibold" onChange={e => setOptions(prev => ({ ...prev, noiseClass: e.target.value }))}>
                 {['A', 'B', 'C', 'D'].map(scale => (
                   <option key={scale} value={scale}>
                     {scale}
@@ -102,34 +129,42 @@ export default function Page() {
               </select>
             </label>
           </div>
-          <div className="mb-4 py-2 flex flex-col items-start leading-none">
+          <div className="mb-8 py-2 flex flex-col items-start leading-none">
             <span>Regulation document</span>
             <a href={getEliUrl(label.regulation)} className="underline hover:no-underline" target="_blank">
               {getEliUrl(label.regulation)}
             </a>
           </div>
-          <div className="py-4 flex justify-center md:justify-end">
-            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+          <div className="mb-1 flex justify-center md:justify-end">
+            <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full md:w-auto">
               <button
                 onClick={() => {
                   setOptions(generateOptions())
                 }}
-                className="px-3 py-2 font-bold text-neutral-600 border border-neutral-300 cursor-pointer hover:bg-neutral-50 active:bg-neutral-100"
+                className="va-button !text-center"
               >
                 Generate random information
               </button>
-              <button onClick={handleDownload} className="px-3 py-2 font-bold text-white bg-blue-800 cursor-pointer hover:bg-blue-700 active:bg-blue-900">
+              <button onClick={handleDownload} className="va-button !bg-[var(--bg-primary)] !text-center button--primary">
                 Download the label in SVG
               </button>
             </div>
           </div>
+          <p className="mb-4 text-xs opacity-50 text-center md:text-right">
+            <small>
+              Powered by{' '}
+              <a href={GITHUB_URL} className="hover:underline">
+                <code>energy-label</code> v<VersionNumber />
+              </a>
+            </small>
+          </p>
         </div>
       </div>
       <div className="surface flex flex-col flex-1">
-        <div className="flex flex-col max-h-screen sticky top-0">
+        <div className="flex flex-col h-screen sticky top-0">
           <div ref={labelContainerRef} className="px-8 pt-12 pb-8 overflow-hidden flex items-center flex-1" />
-          <div className="pb-6 flex justify-center">
-            <button onClick={handleDownload} className="p-2 text-blue-800 hover:text-blue-600 active:text-neutral-600 cursor-pointer">
+          <div className="pb-8 gap-2 flex flex-col items-center justify-center">
+            <button onClick={handleDownload} className="va-button">
               Download the label in SVG
             </button>
           </div>

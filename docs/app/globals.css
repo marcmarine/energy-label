@@ -1,8 +1,13 @@
 @import 'tailwindcss';
+@import 'varvara-css/css';
 
 :root {
-  /* color-scheme: light dark; */
-  --bg-surface: light-dark(color-mix(in srgb, black 2%, transparent), black);
+  color-scheme: light dark;
+  --bg-surface: light-dark(color-mix(in srgb, black 2%, transparent), color-mix(in srgb, black 8%, transparent));
+  --bg-primary: #193cb8;
+
+  --va-border-color: transparent;
+  --va-space-ratio: 0.5;
 }
 
 body {
@@ -16,4 +21,18 @@ svg {
 
 .surface {
   background-color: var(--bg-surface);
+}
+
+.select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(45deg, #0000 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, #0000 50%);
+  background-position: calc(100% - 10px) calc(1px + 50%), calc(100% - 6.1px) calc(1px + 50%);
+  background-size: 4px 4px, 4px 4px;
+  padding-right: 1.8rem;
+}
+
+.button--primary {
+  @apply font-semibold;
+  color: light-dark(var(--va-color-background), var(--va-color-foreground));
 }
