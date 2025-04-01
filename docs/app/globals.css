@@ -5,9 +5,9 @@
   color-scheme: light dark;
   --bg-surface: light-dark(color-mix(in srgb, black 2%, transparent), color-mix(in srgb, black 8%, transparent));
   --bg-primary: #193cb8;
+  --va-space-ratio: 0.5;
 
   --va-border-color: transparent;
-  --va-space-ratio: 0.5;
 }
 
 body {

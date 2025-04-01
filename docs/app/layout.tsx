@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Energy Label Generator',
-  description: 'A TypeScript library for generating EU energy labels as SVG files in Node.js.'
+  description: 'A toolkit for generating EU-compliant energy labels.'
 }
 
 export default function RootLayout({
