@@ -13,8 +13,12 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.BASE_URL as string),
   title: 'Energy Label Generator',
-  description: 'A toolkit for generating EU-compliant energy labels.'
+  description: 'A toolkit for generating EU-compliant energy labels.',
+  openGraph: {
+    images: '/opengraph-image.png'
+  }
 }
 
 export default function RootLayout({

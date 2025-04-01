@@ -54,6 +54,7 @@ jobs:
       - name: Build documentation
         run: npm run build:docs
         env:
+          BASE_URL: ${{ steps.setup_pages.outputs.origin }}
           PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
 
       - name: Upload artifact
