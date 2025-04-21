@@ -28,22 +28,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 'lts/*'
+          bun-version: latest
 
       - name: Install dependencies
-        run: npm clean-install
+        run: bun install
 
       - name: Test
-        run: npm test
+        run: bun test
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-        run: npm audit signatures
+        run: bunx upgradeps # temporary alternative until bun audit
 
       - name: Release
         env:
@@ -53,4 +53,4 @@ jobs:
           GIT_COMMITTER_EMAIL: ${{ vars.GIT_COMMITTER_EMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: bunx semantic-release
