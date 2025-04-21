@@ -51,7 +51,8 @@ jobs:
         run: bun run build
 
       - name: Build documentation
-        run: bun build:docs
+        # Re-install after building library to copy updated dist/ into docs via file:..
+        run: bun install && bun build:docs
         env:
           BASE_URL: ${{ steps.setup_pages.outputs.origin }}
           PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
