@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, EnergyLabelOptions, FlagOriginOption } from 'energy-label'
+import { createEnergyLabel, EnergyLabelOptions, FlagOriginOption, EU_REGULATION } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { faker } from '@faker-js/faker'
@@ -14,22 +14,23 @@ const REGULATION_ID = '2019/2016/2023-09-30'
 export default function Page() {
   const labelContainerRef = useRef(null)
   const generateOptions = useCallback(
-    () => ({
-      supplierOrTrademark: capitalize(faker.food.fruit()),
-      modelIdentifier: `${faker.helpers.replaceSymbols('##???####??')}`,
-      efficiencyClass: faker.string.fromCharacters('abcdefg').toUpperCase(),
-      consolidatedEnergyConsAnnual: faker.number.int(999),
-      capBottles: faker.number.int(99),
-      eprelRegistrationNumber: String(faker.number.int(9999999)),
-      noise: faker.number.int(99),
-      noiseClass: faker.string.fromCharacters('abcd').toUpperCase()
-    }),
+    () =>
+      ({
+        supplierName: capitalize(faker.food.fruit()),
+        modelName: `${faker.helpers.replaceSymbols('##???####??')}`,
+        efficiencyRating: faker.string.fromCharacters('abcdefg').toUpperCase(),
+        annualEnergyConsumption: faker.number.int(999),
+        bottleCapacity: faker.number.int(99),
+        eprelRegistrationNumber: String(faker.number.int(9999999)),
+        noiseEmissions: faker.number.int(99),
+        noiseEmissionsClass: faker.string.fromCharacters('abcd').toUpperCase()
+      } as EnergyLabelOptions),
     []
   )
   const [options, setOptions] = useState(generateOptions())
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
 
-  const label = useMemo(() => createEnergyLabel(REGULATION_ID, { ...(options as EnergyLabelOptions), flagOrigin }), [flagOrigin, options])
+  const label = useMemo(() => createEnergyLabel(REGULATION_ID, { ...options, flagOrigin }), [flagOrigin, options])
 
   useEffect(() => {
     if (labelContainerRef.current) {
@@ -78,15 +79,14 @@ export default function Page() {
               />
             </div>
             <div className="py-6">
-              <h2 className="font-bold text-2xl">Wine refrigerators</h2>
+              <h2 className="font-bold text-2xl">{EU_REGULATION[REGULATION_ID].title}</h2>
             </div>
             <div className="py-4 flex flex-col gap-4 w-full">
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Supplier&apos;s Name:{' '}
-                <input value={options.supplierOrTrademark} onChange={e => setOptions(prev => ({ ...prev, supplierOrTrademark: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
+                Supplier&apos;s Name: <input value={options.supplierName} onChange={e => setOptions(prev => ({ ...prev, supplierOrTrademark: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Model Identifier: <input value={options.modelIdentifier} onChange={e => setOptions(prev => ({ ...prev, modelIdentifier: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
+                Model Identifier: <input value={options.modelName} onChange={e => setOptions(prev => ({ ...prev, modelIdentifier: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
               </label>
               <label className="py-0.5 flex-1 gap-4 flex justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 EPREL ID:{' '}
@@ -94,7 +94,7 @@ export default function Page() {
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Efficiency class:
-                <select value={options.efficiencyClass} onChange={e => setOptions(prev => ({ ...prev, efficiencyClass: e.target.value }))} className="py-0.5 select flex-1 text-right outline-none font-semibold">
+                <select value={options.efficiencyRating} onChange={e => setOptions(prev => ({ ...prev, efficiencyClass: e.target.value }))} className="py-0.5 select flex-1 text-right outline-none font-semibold">
                   {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map(scale => (
                     <option key={scale} value={scale}>
                       {scale}
@@ -105,7 +105,7 @@ export default function Page() {
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Consumtion:{' '}
                 <input
-                  value={options.consolidatedEnergyConsAnnual}
+                  value={options.annualEnergyConsumption}
                   type="number"
                   onChange={e => setOptions(prev => ({ ...prev, consolidatedEnergyConsAnnual: Number(e.target.value) }))}
                   className="flex-1 text-right outline-none font-semibold"
@@ -113,15 +113,15 @@ export default function Page() {
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Number of wine bottles:{' '}
-                <input value={options.capBottles} type="number" onChange={e => setOptions(prev => ({ ...prev, capBottles: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
+                <input value={options.bottleCapacity} type="number" onChange={e => setOptions(prev => ({ ...prev, capBottles: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Airborne acoustical noise emissions:{' '}
-                <input value={options.noise} type="number" onChange={e => setOptions(prev => ({ ...prev, noise: Number(e.target.value) }))} className="flex-1 text-right outline-none font-semibold" />
+                <input value={options.noiseEmissions} type="number" onChange={e => setOptions(prev => ({ ...prev, noise: Number(e.target.value) }))} className="flex-1 text-right outline-none font-semibold" />
               </label>
               <label className="flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Noise class:
-                <select value={options.noiseClass} className="py-0.5 select flex-1 text-right outline-none font-semibold" onChange={e => setOptions(prev => ({ ...prev, noiseClass: e.target.value }))}>
+                <select value={options.noiseEmissionsClass} className="py-0.5 select flex-1 text-right outline-none font-semibold" onChange={e => setOptions(prev => ({ ...prev, noiseClass: e.target.value }))}>
                   {['A', 'B', 'C', 'D'].map(scale => (
                     <option key={scale} value={scale}>
                       {scale}
