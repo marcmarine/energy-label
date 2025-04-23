@@ -5,7 +5,7 @@ import reg2019R2016 from './02019R2016-20230930'
 import type { EnergyLabelOptions, EURegulationAct, FlagOriginOption } from '../definitions'
 import { mmToPx } from '../utils'
 
-const Flag = (origin: FlagOriginOption) =>
+const flag = (origin: FlagOriginOption) =>
   origin === 'EU'
     ? svg`
   <path d="M0 53.062H79.37V0H0V53.062Z" fill="#034EA2"/>
@@ -38,7 +38,7 @@ const Flag = (origin: FlagOriginOption) =>
 const header = (flagOrigin: FlagOriginOption = 'EU', supplierOrTrademark: string = "Supplier's name", modelIdentifier: string = 'Model Identifier', qrCodeDataUrl: string = '1234567') => svg`
 <g id="EU-branding">
   <g transform="translate(${mmToPx(3)}, ${mmToPx(3)})">
-    ${Flag(flagOrigin)}
+    ${flag(flagOrigin)}
   </g>
   <g id="logo">
     <path d="M98.2699 56.355V18.4991H124.101V26.0569H106.145V33.2815H123.357V40.6661H106.145V48.9571H124.101V56.355H98.2699Z" fill="#034EA2" />
@@ -78,8 +78,8 @@ export function renderTemplate(
   const template = html`
     <svg width="${mmToPx(96)}" height="${mmToPx(192)}" viewBox="0 0 ${mmToPx(96)} ${mmToPx(192)}" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="${mmToPx(96)}" height="${mmToPx(192)}" fill="white" />
-      ${header(options.flagOrigin, options.supplierOrTrademark, options.modelIdentifier, options.qrCodeDataUrl)}
-      ${reg2019R2016(options.efficiencyClass, options.consolidatedEnergyConsAnnual, options.capBottles, options.noise, options.noiseClass)}
+      ${header(options.flagOrigin, options.supplierName, options.modelName, options.qrCodeDataUrl)}
+      ${reg2019R2016(options.efficiencyRating, options.annualEnergyConsumption, options.bottleCapacity, options.noiseEmissions, options.noiseEmissionsClass)}
     </svg>
   `
 

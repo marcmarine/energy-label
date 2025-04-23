@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import EnergyLabel, { EnergyLabelOptions } from './EnergyLabel'
+import EnergyLabel from './EnergyLabel'
+import type { EnergyLabelOptions } from './definitions'
 
 describe('EnergyLabel', () => {
-  const TEST_LABEL_DATA: EnergyLabelOptions = {
-    supplierOrTrademark: 'Watermelon',
-    modelIdentifier: '123A',
-    efficiencyClass: 'A',
-    consolidatedEnergyConsAnnual: 321,
-    capBottles: 12,
+  const TEST_LABEL_DATA: Partial<EnergyLabelOptions> = {
+    supplierName: 'Watermelon',
+    modelName: '123A',
+    efficiencyRating: 'A',
+    annualEnergyConsumption: 321,
+    bottleCapacity: 12,
     eprelRegistrationNumber: '1234567',
-    noise: 12,
-    noiseClass: 'A'
+    noiseEmissions: 12,
+    noiseEmissionsClass: 'A'
   }
 
   it('should to return a certain SVG string with default values', async () => {

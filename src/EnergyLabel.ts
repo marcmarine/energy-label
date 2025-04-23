@@ -74,8 +74,8 @@ export default class EnergyLabel {
 
     const downloadLink = document.createElement('a')
     downloadLink.href = url
-    const { supplierOrTrademark, modelIdentifier } = this.options
-    downloadLink.download = `${supplierOrTrademark?.replaceAll(' ', '-')}_${modelIdentifier}.svg`
+    const { supplierName, modelName } = this.options
+    downloadLink.download = `${supplierName?.replaceAll(' ', '-')}_${modelName}.svg`
 
     document.body.appendChild(downloadLink)
     downloadLink.click()

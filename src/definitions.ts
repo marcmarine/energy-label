@@ -6,12 +6,12 @@ export type FlagOriginOption = 'EU' | 'UK'
 
 export interface EnergyLabelOptions {
   flagOrigin: FlagOriginOption
-  supplierOrTrademark: string
-  modelIdentifier: string
+  supplierName: string
+  modelName: string
   eprelRegistrationNumber: string
-  efficiencyClass: string
-  consolidatedEnergyConsAnnual: number
-  capBottles: number
-  noise: number
-  noiseClass: string
+  efficiencyRating: string
+  annualEnergyConsumption: number
+  bottleCapacity: number
+  noiseEmissions: number
+  noiseEmissionsClass: string
 }
