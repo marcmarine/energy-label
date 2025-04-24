@@ -1,3 +1,17 @@
+# [1.0.0-beta.3](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-04-24)
+
+
+### Bug Fixes
+
+* **docs:** Correct input field names ([584b121](https://github.com/marcmarine/energy-label/commit/584b121160732156965a73c7dc6b412afea82327))
+* **docs:** Correct URL for Open Graph image ([b0b966d](https://github.com/marcmarine/energy-label/commit/b0b966dcac2671f36032ca2b5f8bdd94afb9c987))
+
+
+### Features
+
+* Add fridge and freezer support and type definitions ([f1179a5](https://github.com/marcmarine/energy-label/commit/f1179a5e3bd150fc1aab4c589e5e2d71be0cb4df))
+* Update EnergyLabelOptions interface ([4de9e6d](https://github.com/marcmarine/energy-label/commit/4de9e6d131ef577210d3d7d028956d189bc34c85))
+
 # [1.0.0-beta.2](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-03-28)
 
 
