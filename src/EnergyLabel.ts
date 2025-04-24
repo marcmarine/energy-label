@@ -1,16 +1,16 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
 import { renderTemplate } from './templates'
-import type { EnergyLabelOptions, EURegulationAct } from './definitions'
+import type { EURegulationAct, LabelRegulationMap } from './definitions'
 
-export default class EnergyLabel {
-  public regulation: EURegulationAct = '2019/2016/2023-09-30'
-  public options: Partial<EnergyLabelOptions> = {}
+export default class EnergyLabel<T extends EURegulationAct> {
+  public regulation: T
+  public options: Partial<LabelRegulationMap> = {}
 
-  constructor(regulation: EURegulationAct, options?: Partial<EnergyLabelOptions>) {
+  constructor(regulation: T, options?: Partial<LabelRegulationMap>) {
     this.regulation = regulation
     if (options) {
-      this.options = { ...options }
+      this.options = options
     }
   }
 

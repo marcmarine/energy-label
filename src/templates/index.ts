@@ -2,7 +2,7 @@ import { html, svg } from 'lit-html'
 import { render } from '@lit-labs/ssr'
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js'
 import reg2019R2016 from './02019R2016-20230930'
-import type { EnergyLabelOptions, EURegulationAct, FlagOriginOption } from '../definitions'
+import type { EURegulationAct, FlagOriginOption, HouseholdFridgesAndFreezersOptions, WineStorageAppliancesOptions } from '../definitions'
 import { mmToPx } from '../utils'
 
 const flag = (origin: FlagOriginOption) =>
@@ -70,16 +70,17 @@ const header = (flagOrigin: FlagOriginOption = 'EU', supplierOrTrademark: string
 export function renderTemplate(
   _regulation: EURegulationAct,
   options: Partial<
-    EnergyLabelOptions & {
-      qrCodeDataUrl: string
-    }
+    | WineStorageAppliancesOptions &
+        HouseholdFridgesAndFreezersOptions & {
+          qrCodeDataUrl: string
+        }
   >
 ) {
   const template = html`
     <svg width="${mmToPx(96)}" height="${mmToPx(192)}" viewBox="0 0 ${mmToPx(96)} ${mmToPx(192)}" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="${mmToPx(96)}" height="${mmToPx(192)}" fill="white" />
       ${header(options.flagOrigin, options.supplierName, options.modelName, options.qrCodeDataUrl)}
-      ${reg2019R2016(options.efficiencyRating, options.annualEnergyConsumption, options.bottleCapacity, options.noiseEmissions, options.noiseEmissionsClass)}
+      ${reg2019R2016(options.efficiencyRating, options.annualEnergyConsumption, options.chillVolume, options.frozenVolume, options.bottleCapacity, options.noiseEmissions, options.noiseEmissionsClass)}
     </svg>
   `
 

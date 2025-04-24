@@ -1,7 +1,7 @@
 import { svg } from 'lit-html'
 import { mmToPx } from '../utils'
 
-const efficiencyScale = (efficiencyClass: string = 'A') => {
+const efficiencyScale = (efficiencyRating: string = 'A') => {
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const colors = ['#00A651', '#50B848', '#BFD730', '#FFF200', '#FDB913', '#F37021', '#ED1C24']
   const widthsInMm = [19, 25, 29, 32, 36, 40, 44]
@@ -18,7 +18,7 @@ const efficiencyScale = (efficiencyClass: string = 'A') => {
           />
           <text x="${mmToPx(3)}" y="${index * mmToPx(8.5 + 1.5) + mmToPx(8.5 + 1.5)}" transform="translate(0, -14)" font-family="Calibri" font-size="19pt" font-weight="bold" fill="white">${cls}</text>
           ${
-            cls === efficiencyClass
+            cls === efficiencyRating
               ? svg`<g transform="translate(0,${mmToPx(-6 + 8.5 / 2)})">
                 <g transform="translate(0,${index * mmToPx(8.5 + 1.5)})">
                   <polygon points="${mmToPx(67)},${mmToPx(6)} ${mmToPx(75)},0 ${mmToPx(90)},0 ${mmToPx(90)},${mmToPx(12)} ${mmToPx(75)},${mmToPx(12)}" fill="black" />
@@ -34,9 +34,9 @@ const efficiencyScale = (efficiencyClass: string = 'A') => {
   `
 }
 
-const annualEnergyConsumption = (consolidatedEnergyConsAnnual: number | 'XYZ' = 'XYZ') => svg`
+const energyConsumption = (annualEnergyConsumption: number | 'XYZ' = 'XYZ') => svg`
   <text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-    <tspan font-size="28pt" font-weight="bold">${consolidatedEnergyConsAnnual}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
+    <tspan font-size="28pt" font-weight="bold">${annualEnergyConsumption}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
   </text>
   <path d="M${mmToPx(3)} ${mmToPx(123.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
 `
@@ -75,17 +75,56 @@ const symbolAcousticalNoise = (x: number, y: number) => svg`
     <path d="M68.6381 45.8273C70.9479 40.3119 72.0396 34.3628 71.8383 28.3866C71.6371 22.4105 70.1477 16.5483 67.4721 11.2007M77.1015 49.5088C79.9471 42.735 81.2928 35.4256 81.0463 28.0825C80.7998 20.7394 78.9669 13.5367 75.6735 6.96903M59.952 42.7223C61.8093 38.2791 62.6876 33.4878 62.5271 28.6747C62.3666 23.8615 61.171 19.1394 59.0218 14.8298M49.3531 0.876961V58.7189L26.6879 44.8578H1.07501V15.0394H26.6748L49.34 0.876961H49.3531Z" stroke="black" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round"/>
   </g>`
 
-const wineStorage = (capBottles: number | 'XYZ' = 'XYZ', noise: number | 'XY' = 'XY', noiseClass: string = 'A') => svg`
-  ${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
-  <text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-    <tspan font-size="16pt" font-weight="bold" >${capBottles}</tspan>
+const symbolFreeze = (x: number, y: number) => svg`
+<g transform="translate(${x}, ${y})">
+  <path d="M23.675 1V53.91" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15.9785 4.93251L23.5507 12.7837L31.3854 4.67126" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M31.3854 49.3725L23.7994 41.5212L15.9785 49.6337" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1.80139 14.3788L46.0598 40.82" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1.22107 23.2612L11.543 20.3875L8.68267 9.27751" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M46.1289 31.6487L35.807 34.5225L38.6673 45.6325" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M1.80139 40.655L46.0598 14.2138" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8.90377 45.6325L11.6673 34.88L1 31.91" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38.4462 9.53875L35.6826 20.2912L46.35 23.2612" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+`
+
+const symbolChillCompartment = (x: number, y: number) => svg`
+<g transform="translate(${x}, ${y})">
+  <path d="M4.31961 15.675H24.1266M3.94615 7.87679L1 15.4V53.91H27.46V15.1799L24.5138 7.87679H3.94615ZM4.31961 1V7.87679H24.1266V1H4.31961Z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
+</g>
+
+`
+
+const fridgesAndFreezers = (chillVolume: number | 'XYZ' = 'XYZ', frozenVolume: number | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => svg`
+  ${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
+  <text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+    <tspan font-size="16pt" font-weight="bold" >${chillVolume}</tspan><tspan font-size="12pt"> L</tspan>
+  </text>
+  ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
+  <text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+    <tspan font-size="16pt" font-weight="bold" >${frozenVolume}</tspan><tspan font-size="12pt"> L</tspan>
   </text>
   ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
-    <tspan font-size="12pt" font-weight="bold">${noise}</tspan><tspan font-size="9pt">dB</tspan>
+    <tspan font-size="12pt" font-weight="bold">${noiseEmissions}</tspan><tspan font-size="9pt">dB</tspan>
   </text>
   <text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-    ${['A', 'B', 'C', 'D'].map(cls => svg`<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" font-weight="${cls === noiseClass ? 'bold' : 'normal'}">${cls}</tspan>`)}
+    ${['A', 'B', 'C', 'D'].map(cls => svg`<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" font-weight="${cls === noiseEmissionsClass ? 'bold' : 'normal'}">${cls}</tspan>`)}
+  </text>
+`
+
+const wineStorage = (bottleCapacity: number | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => svg`
+  ${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
+  <text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+    <tspan font-size="16pt" font-weight="bold" >${bottleCapacity}</tspan>
+  </text>
+  ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
+  <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
+    <tspan font-size="12pt" font-weight="bold">${noiseEmissions}</tspan><tspan font-size="9pt">dB</tspan>
+  </text>
+  <text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+    ${['A', 'B', 'C', 'D'].map(cls => svg`<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" font-weight="${cls === noiseEmissionsClass ? 'bold' : 'normal'}">${cls}</tspan>`)}
   </text>
 `
 
@@ -95,9 +134,9 @@ const regulationNumber = () => svg`
 </text>
 `
 
-export default (efficiencyClass?: string, consolidatedEnergyConsAnnual?: number, capBottles?: number, noise?: number, noiseClass?: string) => svg`
-  ${efficiencyScale(efficiencyClass)}
-  ${annualEnergyConsumption(consolidatedEnergyConsAnnual)}
-  ${wineStorage(capBottles, noise, noiseClass)}
+export default (efficiencyRating?: string, annualEnergyConsumption?: number, chillVolume?: number, frozenVolume?: number, bottleCapacity?: number, noiseEmissions?: number, noiseEmissionsClass?: string) => svg`
+  ${efficiencyScale(efficiencyRating)}
+  ${energyConsumption(annualEnergyConsumption)}
+  ${Boolean(bottleCapacity) ? wineStorage(bottleCapacity, noiseEmissions, noiseEmissionsClass) : fridgesAndFreezers(chillVolume, frozenVolume, noiseEmissions, noiseEmissionsClass)}
   ${regulationNumber()}
 `
