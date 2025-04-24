@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, EnergyLabelOptions, FlagOriginOption, EU_REGULATION } from 'energy-label'
+import { createEnergyLabel, FlagOriginOption, EU_REGULATION, WineStorageAppliancesOptions, HouseholdFridgesAndFreezersOptions } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { faker } from '@faker-js/faker'
@@ -20,11 +20,13 @@ export default function Page() {
         modelName: `${faker.helpers.replaceSymbols('##???####??')}`,
         efficiencyRating: faker.string.fromCharacters('abcdefg').toUpperCase(),
         annualEnergyConsumption: faker.number.int(999),
-        bottleCapacity: faker.number.int(99),
+        bottleCapacity: 0,
         eprelRegistrationNumber: String(faker.number.int(9999999)),
+        frozenVolume: faker.number.int(99),
+        chillVolume: faker.number.int(99),
         noiseEmissions: faker.number.int(99),
         noiseEmissionsClass: faker.string.fromCharacters('abcd').toUpperCase()
-      } as EnergyLabelOptions),
+      } as WineStorageAppliancesOptions & HouseholdFridgesAndFreezersOptions),
     []
   )
   const [options, setOptions] = useState(generateOptions())
@@ -110,6 +112,14 @@ export default function Page() {
                   onChange={e => setOptions(prev => ({ ...prev, annualEnergyConsumption: Number(e.target.value) }))}
                   className="flex-1 text-right outline-none font-semibold"
                 />
+              </label>
+              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
+                Frozen Volume:{' '}
+                <input value={options.frozenVolume} type="number" onChange={e => setOptions(prev => ({ ...prev, frozenVolume: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
+              </label>
+              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
+                Chill Volume:{' '}
+                <input value={options.chillVolume} type="number" onChange={e => setOptions(prev => ({ ...prev, chillVolume: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Number of wine bottles:{' '}
