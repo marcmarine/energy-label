@@ -18,9 +18,9 @@
     "build:docs": "bun --filter docs build",
     "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",
-    "build": "bun run build:lib && bun run build:types",
+    "build": "bun build:lib && bun build:types",
     "watch:docs": "bun --filter docs dev",
-    "watch:lib": "bun run build:lib -- --watch",
+    "watch:lib": "bun build:lib -- --watch",
     "dev": "npm-run-all --parallel watch:lib watch:docs"
   },
   "bugs": "https://github.com/marcmarine/energy-label/issues/new",
