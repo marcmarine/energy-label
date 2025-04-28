@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, FlagOriginOption, EU_REGULATION, WineStorageAppliancesOptions, HouseholdFridgesAndFreezersOptions } from 'energy-label'
+import { createEnergyLabel, EU_REGULATION, type FlagOriginOption } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { faker } from '@faker-js/faker'
@@ -14,19 +14,18 @@ const REGULATION_ID = '2019/2016/2023-09-30'
 export default function Page() {
   const labelContainerRef = useRef(null)
   const generateOptions = useCallback(
-    () =>
-      ({
-        supplierName: capitalize(faker.food.fruit()),
-        modelName: `${faker.helpers.replaceSymbols('##???####??')}`,
-        efficiencyRating: faker.string.fromCharacters('abcdefg').toUpperCase(),
-        annualEnergyConsumption: faker.number.int(999),
-        bottleCapacity: 0,
-        eprelRegistrationNumber: String(faker.number.int(9999999)),
-        frozenVolume: faker.number.int(99),
-        chillVolume: faker.number.int(99),
-        noiseEmissions: faker.number.int(99),
-        noiseEmissionsClass: faker.string.fromCharacters('abcd').toUpperCase()
-      } as WineStorageAppliancesOptions & HouseholdFridgesAndFreezersOptions),
+    () => ({
+      supplierName: capitalize(faker.food.fruit()),
+      modelName: `${faker.helpers.replaceSymbols('##???####??')}`,
+      efficiencyRating: faker.string.fromCharacters('abcdefg').toUpperCase(),
+      annualEnergyConsumption: faker.number.int(999),
+      bottleCapacity: 0,
+      eprelRegistrationNumber: String(faker.number.int(9999999)),
+      frozenVolume: faker.number.int(99),
+      chillVolume: faker.number.int(99),
+      noiseEmissions: faker.number.int(99),
+      noiseEmissionsClass: faker.string.fromCharacters('abcd').toUpperCase()
+    }),
     []
   )
   const [options, setOptions] = useState(generateOptions())
