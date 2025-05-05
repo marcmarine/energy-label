@@ -1,8 +1,9 @@
 # Energy Label ⚡ Generator
 
-A TypeScript library for generating EU-compliant energy labels as SVG files in Node.js.
+A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG files in Node.js.
 
-[![NPM Version (with dist tag)](https://img.shields.io/npm/v/energy-label/beta)](https://www.npmjs.com/package/energy-label)
+[![NPM Version (with dist tag)](https://img.shields.io/npm/v/energy-label/beta)](https://www.npmjs.com/package/energy-label/v/beta)
+[![GitHub License](https://img.shields.io/github/license/marcmarine/energy-label)](LICENSE)
 
 ![Energy label example of wine refrigerator](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
 
@@ -16,12 +17,12 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 - Flags (🇪🇺/🇬🇧) can be selected for products sold in the European Union and Great Britain.
 
 > [!NOTE]
-> Currently, it is only available for wine refrigerators.
+> Currently, it is only available for wine refrigerators and arrow labels.
 
 ## Installation
 
 ```bash
-npm install energy-label
+npm install energy-label@beta
 ```
 
 ## Usage
@@ -32,7 +33,7 @@ npm install energy-label
 import EnergyLabel from 'energy-label'
 import fs from 'node:fs'
 
-const label = new EnergyLabel('2019/2016/2023-09-30')
+const label = new EnergyLabel('refrigerating-appliances')
 
 label.generateSVGString().then(string => {
   fs.writeFileSync('example.svg', string)

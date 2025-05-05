@@ -1,14 +1,14 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
 import { renderTemplate } from './templates'
-import type { EURegulationAct, LabelRegulationMap } from './definitions'
+import type { Templates, TemplatesWithQR } from './definitions'
 
-export default class EnergyLabel<T extends EURegulationAct> {
-  public regulation: T
-  public options: Partial<LabelRegulationMap> = {}
+export default class EnergyLabel<T extends keyof Templates> {
+  public template: T
+  public options: Partial<Templates[T]> = {}
 
-  constructor(regulation: T, options?: Partial<LabelRegulationMap>) {
-    this.regulation = regulation
+  constructor(template: T = 'default' as T, options?: Partial<Templates[T]>) {
+    this.template = template
     if (options) {
       this.options = options
     }
@@ -32,12 +32,16 @@ export default class EnergyLabel<T extends EURegulationAct> {
   }
 
   async generateSVGString(): Promise<string> {
-    const qrCodeDataUrl = await this.generateQRCodeDataUrl(this.options.eprelRegistrationNumber)
+    let templateData = this.options
 
-    const templateData = { ...this.options, qrCodeDataUrl }
-    const rawSvgString = renderTemplate(this.regulation, templateData)
+    if (this.template !== 'default') {
+      const { eprelRegistrationNumber } = this.options as Templates[TemplatesWithQR]
+      const qrCodeDataUrl = await this.generateQRCodeDataUrl(eprelRegistrationNumber)
+      templateData = { ...this.options, qrCodeDataUrl }
+    }
 
-    return this.optimizeSVG(rawSvgString)
+    const rawSvg = renderTemplate(this.template, templateData)
+    return this.optimizeSVG(rawSvg)
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
@@ -74,7 +78,7 @@ export default class EnergyLabel<T extends EURegulationAct> {
 
     const downloadLink = document.createElement('a')
     downloadLink.href = url
-    const { supplierName, modelName } = this.options
+    const { supplierName, modelName } = this.options as Templates[TemplatesWithQR]
     downloadLink.download = `${supplierName?.replaceAll(' ', '-')}_${modelName}.svg`
 
     document.body.appendChild(downloadLink)

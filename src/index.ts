@@ -1,9 +1,8 @@
 import EnergyLabel from './EnergyLabel'
-import type { EURegulationAct, LabelRegulationMap } from './definitions'
-export { EU_REGULATION } from './constants'
+import type { Templates } from './definitions'
 
-export function createEnergyLabel<T extends EURegulationAct>(regulation: T, options?: Partial<LabelRegulationMap>) {
-  return new EnergyLabel(regulation, options)
+export function createEnergyLabel<T extends keyof Templates>(template?: T, options?: Partial<Templates[T]>) {
+  return new EnergyLabel(template, options)
 }
 
 export * from './definitions'

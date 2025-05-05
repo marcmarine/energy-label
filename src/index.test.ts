@@ -3,7 +3,7 @@ import * as index from './index'
 
 describe('Index', () => {
   it('should export certain submodules', () => {
-    ;['default', 'createEnergyLabel', 'EU_REGULATION'].forEach(moduleName => {
+    ;['default', 'createEnergyLabel'].forEach(moduleName => {
       expect(Object.keys(index)).toContain(moduleName)
     })
   })

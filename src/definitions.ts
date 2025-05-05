@@ -1,10 +1,10 @@
-import type { EU_REGULATION } from './constants'
-
-export type EURegulationAct = keyof typeof EU_REGULATION
-
 export type FlagOriginOption = 'EU' | 'UK'
 
-export interface EnergyLabelOptions {
+export interface DefaultOptions {
+  efficiencyRating: string
+}
+
+export interface EnergyLabelOptions extends DefaultOptions {
   flagOrigin: FlagOriginOption
   supplierName: string
   modelName: string
@@ -12,7 +12,6 @@ export interface EnergyLabelOptions {
 }
 
 export interface RefrigeratingAppliancesOption extends EnergyLabelOptions {
-  efficiencyRating: string
   annualEnergyConsumption: number
   noiseEmissions: number
   noiseEmissionsClass: string
@@ -26,9 +25,11 @@ export interface HouseholdFridgesAndFreezersOptions extends RefrigeratingApplian
   frozenVolume: number
 }
 
-// Temporary type used to map labeling regulations
-export type LabelRegulationMap = WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
+export interface Templates {
+  default: DefaultOptions
+  'refrigerating-appliances': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
+}
 
-// export interface LabelRegulationMap {
-//   'refrigerating-appliances': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
-// }
+export type TemplatesWithQR = Exclude<keyof Templates, 'default'>
+
+export type TemplateName = keyof Templates
