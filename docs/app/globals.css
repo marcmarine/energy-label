@@ -15,7 +15,7 @@ body {
 }
 
 svg {
-  @apply mx-auto w-auto shadow-xl;
+  @apply mx-auto w-auto;
   max-height: calc(100vh - 4rem);
 }
 

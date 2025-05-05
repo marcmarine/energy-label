@@ -1,15 +1,13 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, EU_REGULATION, type FlagOriginOption } from 'energy-label'
+import { createEnergyLabel, type FlagOriginOption } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { faker } from '@faker-js/faker'
-import { capitalize, getEliUrl } from './lib/utils'
+import { capitalize } from './lib/utils'
 import VersionNumber from './components/version-number'
-import { GITHUB_URL } from './lib/constants'
-
-const REGULATION_ID = '2019/2016/2023-09-30'
+import { NPM_URL_BETA } from './lib/constants'
 
 export default function Page() {
   const labelContainerRef = useRef(null)
@@ -30,20 +28,19 @@ export default function Page() {
   )
   const [options, setOptions] = useState(generateOptions())
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
+  const [arrowLabel, setArrowLabel] = useState(false)
 
-  const label = useMemo(() => createEnergyLabel(REGULATION_ID, { ...options, flagOrigin }), [flagOrigin, options])
+  const label = useMemo(() => createEnergyLabel(arrowLabel ? undefined : 'refrigerating-appliances', { ...options, flagOrigin }), [flagOrigin, options, arrowLabel])
 
   useEffect(() => {
     if (labelContainerRef.current) {
       label.appendSVGToElement(labelContainerRef.current!)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flagOrigin, options])
+  }, [label])
 
   const handleDownload = useCallback(() => {
     label.downloadSVGFile()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flagOrigin, options])
+  }, [label])
 
   const getProductLabel = (origin: string) => {
     const label = 'Product'
@@ -79,8 +76,13 @@ export default function Page() {
                 }
               />
             </div>
-            <div className="py-6">
-              <h2 className="font-bold text-2xl">{EU_REGULATION[REGULATION_ID].title}</h2>
+            <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
+              <h2 className="font-bold text-2xl">Household refrigerating appliances</h2>
+              <label className="inline-flex items-center cursor-pointer">
+                <span className="me-2 text-sm font-medium text-nowrap">View Arrow</span>
+                <input type="checkbox" checked={arrowLabel} onChange={e => setArrowLabel(e.target.checked)} className="sr-only peer" />
+                <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+              </label>
             </div>
             <div className="py-4 flex flex-col gap-4 w-full">
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
@@ -139,44 +141,51 @@ export default function Page() {
                 </select>
               </label>
             </div>
-            <div className="mb-8 py-2 flex flex-col items-start leading-none">
-              <span>Regulation document</span>
-              <a href={getEliUrl(label.regulation)} className="underline hover:no-underline break-all" target="_blank">
-                {getEliUrl(label.regulation)}
-              </a>
-            </div>
           </div>
           <footer className="px-4 md:px-8 flex flex-col justify-start flex-1 sticky bottom-0 py-4 bg-[color-mix(in_srgb,var(--va-color-background)_60%,transparent)] backdrop-blur">
-            <div className="mb-1 flex justify-center md:justify-end">
-              <div className="flex flex-col md:flex-row gap-2 md:gap-3 w-full md:w-auto">
-                <button
-                  onClick={() => {
-                    setOptions(generateOptions())
-                  }}
-                  className="va-button !text-center"
-                >
-                  Generate random information
-                </button>
-                <button onClick={handleDownload} className="va-button !px-2 !bg-[var(--bg-primary)] !text-center button--primary">
-                  Download the label in SVG
-                </button>
+            <div className="flex justify-center md:justify-end">
+              <div className="flex flex-col items-center md:items-end gap-1">
+                <div className="inline-flex gap-2" role="group">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOptions(generateOptions())
+                    }}
+                    className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:ring-4 focus:ring-blue-300 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white cursor-pointer active:*:rotate-90 *:transition-transform *:ease-in-out"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.2} stroke="currentColor" className="size-5 ">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDownload}
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-bold px-4 py-2.5 focus:outline-none button--primary cursor-pointer"
+                  >
+                    Download the label in SVG
+                  </button>
+                </div>
+                <p className="text-xs opacity-50 text-center md:text-right mx-1">
+                  <small>
+                    Powered by{' '}
+                    <a href={NPM_URL_BETA} className="hover:underline">
+                      <code>energy-label</code> <VersionNumber />
+                    </a>
+                  </small>
+                </p>
               </div>
             </div>
-            <p className="text-xs opacity-50 text-center md:text-right">
-              <small>
-                Powered by{' '}
-                <a href={GITHUB_URL} className="hover:underline">
-                  <code>energy-label</code> v<VersionNumber />
-                </a>
-              </small>
-            </p>
           </footer>
         </div>
       </div>
       <div className="surface flex flex-col flex-1">
-        <div className="flex flex-col h-screen sticky top-0">
-          <div ref={labelContainerRef} className="px-8 pt-12 pb-8 overflow-hidden flex items-center flex-1" />
-          <div className="pb-8 gap-2 flex flex-col items-center justify-center">
+        <div className="flex flex-col lg:h-screen sticky top-0">
+          <div ref={labelContainerRef} className="px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1" />
+          <div className="pb-8 gap-2 flex flex-col items-center justify-center md:hidden">
             <button onClick={handleDownload} className="va-button">
               Download the label in SVG
             </button>
