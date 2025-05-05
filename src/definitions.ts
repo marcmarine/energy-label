@@ -30,5 +30,5 @@ export interface HouseholdFridgesAndFreezersOptions extends RefrigeratingApplian
 export type LabelRegulationMap = WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
 
 // export interface LabelRegulationMap {
-//   '2019/2016/2023-09-30': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
+//   'refrigerating-appliances': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
 // }

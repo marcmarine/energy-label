@@ -15,7 +15,7 @@ describe('EnergyLabel', () => {
   }
 
   it('should to return a certain SVG string with default values', async () => {
-    const label = new EnergyLabel('2019/2016/2023-09-30')
+    const label = new EnergyLabel('refrigerating-appliances')
     const svgString = await label.generateSVGString()
 
     expect(svgString).toContain('Model Identifier')
@@ -23,7 +23,7 @@ describe('EnergyLabel', () => {
   })
 
   it('should to return the SVG string with correct data', async () => {
-    const label = new EnergyLabel('2019/2016/2023-09-30', TEST_LABEL_DATA)
+    const label = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
     const svgString = await label.generateSVGString()
 
     // EPREL Registration Number isn't displayed in the SVG.

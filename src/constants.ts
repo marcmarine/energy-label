@@ -1,5 +1,5 @@
 export const EU_REGULATION = {
-  '2019/2016/2023-09-30': {
+  'refrigerating-appliances': {
     title: 'Household refrigerating appliances'
   }
 }
