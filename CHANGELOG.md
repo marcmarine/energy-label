@@ -1,3 +1,17 @@
+# [1.0.0-beta.4](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-05-05)
+
+
+### Bug Fixes
+
+* Correct types for `createEnergyLabel` function ([6271aaf](https://github.com/marcmarine/energy-label/commit/6271aaf54339db9e361c14920624c057d53204fd))
+* Remove test item from EU regulations ([95571e5](https://github.com/marcmarine/energy-label/commit/95571e57eebf701785b241d5a26a3f9005a91b42))
+
+
+### Features
+
+* Add image generation for efficiency class arrows ([8af2eb3](https://github.com/marcmarine/energy-label/commit/8af2eb34787299831633a95e89de42f131203018))
+* Use human readable identifiers for templates ([8211ef0](https://github.com/marcmarine/energy-label/commit/8211ef0c788a2d97d3a18f74a8fdcabe20151745))
+
 # [1.0.0-beta.3](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-04-24)
 
 
