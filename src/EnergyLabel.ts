@@ -1,7 +1,6 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
-import { renderTemplate } from './templates'
-import type { Templates, TemplatesWithQR } from './definitions'
+import { renderTemplate, type Templates, type TemplatesWithQR } from './templates'
 
 export default class EnergyLabel<T extends keyof Templates> {
   public template: T

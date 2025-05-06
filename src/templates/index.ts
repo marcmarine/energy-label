@@ -2,8 +2,28 @@ import { html, svg } from 'lit-html'
 import { render } from '@lit-labs/ssr'
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js'
 import defaultTemplate from './default'
-import refrigeratingAppliancesTemplate from './refrigerating-appliances'
-import type { Templates } from '../definitions'
+import refrigeratingAppliancesTemplate, { type HouseholdFridgesAndFreezersOptions, type WineStorageAppliancesOptions } from './refrigerating-appliances'
+
+export type FlagOriginOption = 'EU' | 'UK'
+
+export interface DefaultOptions {
+  efficiencyRating: string
+}
+
+export interface EnergyLabelOptions extends DefaultOptions {
+  flagOrigin: FlagOriginOption
+  supplierName: string
+  modelName: string
+  eprelRegistrationNumber: string
+}
+
+export type TemplatesWithQR = Exclude<keyof Templates, 'default'>
+
+export type TemplateName = keyof Templates
+export interface Templates {
+  default: DefaultOptions
+  'refrigerating-appliances': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
+}
 
 export function renderTemplate(
   template: keyof Templates,

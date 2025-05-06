@@ -1,6 +1,20 @@
 import { html, svg } from 'lit-html'
 import { mmToPx } from '../utils'
-import type { FlagOriginOption, HouseholdFridgesAndFreezersOptions, WineStorageAppliancesOptions } from '../definitions'
+import type { EnergyLabelOptions, FlagOriginOption } from '.'
+
+export interface RefrigeratingAppliancesOption extends EnergyLabelOptions {
+  annualEnergyConsumption: number
+  noiseEmissions: number
+  noiseEmissionsClass: string
+}
+export interface WineStorageAppliancesOptions extends RefrigeratingAppliancesOption {
+  bottleCapacity: number
+}
+
+export interface HouseholdFridgesAndFreezersOptions extends RefrigeratingAppliancesOption {
+  chillVolume: number
+  frozenVolume: number
+}
 
 const efficiencyScale = (efficiencyRating: string = 'A') => {
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
