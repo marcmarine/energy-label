@@ -1,3 +1,10 @@
+# [1.0.0-beta.5](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-05-10)
+
+
+### Features
+
+* Introduce template for smartphones and tablets ([028ce94](https://github.com/marcmarine/energy-label/commit/028ce94decaacc7ba5fa93ed9cc83a04488573a2))
+
 # [1.0.0-beta.4](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-05-05)
 
 
