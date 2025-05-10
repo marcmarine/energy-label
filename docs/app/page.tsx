@@ -1,36 +1,66 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, type FlagOriginOption } from 'energy-label'
+import { createEnergyLabel, type FlagOriginOption, type TemplateName } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
-import { faker } from '@faker-js/faker'
-import { capitalize } from './lib/utils'
+import { generateFakeOptions } from './lib/utils'
 import VersionNumber from './components/version-number'
 import { NPM_URL_BETA } from './lib/constants'
+import InputList from './components/input-list'
+
+const REGULATIONS = {
+  smartphones: {
+    name: 'Smartphones and Tablets',
+    inputs: [
+      { label: "Supplier's Name", key: 'supplierName', type: 'text' },
+      { label: 'Model Identifier', key: 'modelName', type: 'text' },
+      { label: 'EPREL ID', key: 'eprelRegistrationNumber', type: 'text' },
+      { label: 'Efficiency class', key: 'efficiencyRating', type: 'select', options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
+      { label: 'Battery Endurance (Hours)', key: 'batteryEnduranceHours', type: 'number' },
+      { label: 'Battery Endurance (Minutes)', key: 'batteryEnduranceMinutes', type: 'number' },
+      { label: 'Fall Reliability Class', key: 'fallReliabilityClass', type: 'select', options: ['A', 'B', 'C', 'D', 'E'] },
+      { label: 'Repairability Class', key: 'repairabilityClass', type: 'select', options: ['A', 'B', 'C', 'D', 'E'] },
+      { label: 'Battery Endurance (Cycles)', key: 'batteryEnduranceInCycles', type: 'text' },
+      { label: 'Ingress Protection Rating', key: 'ingressProtectionRating', type: 'text' }
+    ]
+  },
+  'refrigerating-appliances': {
+    name: 'Household refrigerating appliances',
+    inputs: [
+      { label: "Supplier's Name", key: 'supplierName', type: 'text' },
+      { label: 'Model Identifier', key: 'modelName', type: 'text' },
+      { label: 'EPREL ID', key: 'eprelRegistrationNumber', type: 'text' },
+      { label: 'Efficiency class', key: 'efficiencyRating', type: 'select', options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
+      { label: 'Consumption', key: 'annualEnergyConsumption', type: 'number' },
+      { label: 'Frozen Volume', key: 'frozenVolume', type: 'number' },
+      { label: 'Chill Volume', key: 'chillVolume', type: 'number' },
+      { label: 'Number of wine bottles', key: 'bottleCapacity', type: 'number' },
+      { label: 'Airborne acoustical noise emissions', key: 'noiseEmissions', type: 'number' },
+      { label: 'Noise class', key: 'noiseEmissionsClass', type: 'select', options: ['A', 'B', 'C', 'D'] }
+    ]
+  }
+}
 
 export default function Page() {
   const labelContainerRef = useRef(null)
-  const generateOptions = useCallback(
-    () => ({
-      supplierName: capitalize(faker.food.fruit()),
-      modelName: `${faker.helpers.replaceSymbols('##???####??')}`,
-      efficiencyRating: faker.string.fromCharacters('abcdefg').toUpperCase(),
-      annualEnergyConsumption: faker.number.int(999),
-      bottleCapacity: 0,
-      eprelRegistrationNumber: String(faker.number.int(9999999)),
-      frozenVolume: faker.number.int(99),
-      chillVolume: faker.number.int(99),
-      noiseEmissions: faker.number.int(99),
-      noiseEmissionsClass: faker.string.fromCharacters('abcd').toUpperCase()
-    }),
-    []
-  )
-  const [options, setOptions] = useState(generateOptions())
+
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
+  const [regulation, setRegulation] = useState<TemplateName>('smartphones')
   const [arrowLabel, setArrowLabel] = useState(false)
 
-  const label = useMemo(() => createEnergyLabel(arrowLabel ? undefined : 'refrigerating-appliances', { ...options, flagOrigin }), [flagOrigin, options, arrowLabel])
+  const generateOptions = useCallback(() => {
+    const fakeOptions = generateFakeOptions()
+    return {
+      ...fakeOptions.common,
+      ...fakeOptions['smartphones'],
+      ...fakeOptions['refrigerating-appliances']
+    } as Record<string, string | number>
+  }, [])
+
+  const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
+
+  const label = useMemo(() => createEnergyLabel(arrowLabel ? undefined : regulation, { ...options, flagOrigin }), [flagOrigin, options, arrowLabel, regulation])
 
   useEffect(() => {
     if (labelContainerRef.current) {
@@ -61,23 +91,36 @@ export default function Page() {
             <div className="py-5">
               <h1 className="mb-2 font-bold text-4xl">Energy Label Generator</h1>
               <Breadcrumb
-                selector={
+                items={[
                   <select
+                    key="flagOrigin"
                     value={flagOrigin}
                     onChange={e => setFlagOrigin(e.target.value as FlagOriginOption)}
-                    className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-bold text-lg appearance-none"
+                    className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-semibold text-lg appearance-none"
                   >
                     {['EU', 'UK'].map(origin => (
                       <option key={origin} value={origin}>
                         {getProductLabel(origin)}
                       </option>
                     ))}
+                  </select>,
+                  <select
+                    key="regulation"
+                    value={regulation}
+                    onChange={e => setRegulation(e.target.value as TemplateName)}
+                    className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-semibold text-lg appearance-none"
+                  >
+                    {Object.keys(REGULATIONS).map(key => (
+                      <option key={key} value={key}>
+                        {REGULATIONS[key as keyof typeof REGULATIONS].name}
+                      </option>
+                    ))}
                   </select>
-                }
+                ]}
               />
             </div>
             <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
-              <h2 className="font-bold text-2xl">Household refrigerating appliances</h2>
+              <h2 className="font-bold text-2xl">{REGULATIONS[regulation as keyof typeof REGULATIONS].name}</h2>
               <label className="inline-flex items-center cursor-pointer">
                 <span className="me-2 text-sm font-medium text-nowrap">View Arrow</span>
                 <input type="checkbox" checked={arrowLabel} onChange={e => setArrowLabel(e.target.checked)} className="sr-only peer" />
@@ -85,7 +128,8 @@ export default function Page() {
               </label>
             </div>
             <div className="py-4 flex flex-col gap-4 w-full">
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
+              <InputList config={REGULATIONS[regulation as keyof typeof REGULATIONS].inputs} values={options} setValues={setOptions} />
+              {/* <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
                 Supplier&apos;s Name: <input value={options.supplierName} onChange={e => setOptions(prev => ({ ...prev, supplierName: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
               </label>
               <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
@@ -139,7 +183,7 @@ export default function Page() {
                     </option>
                   ))}
                 </select>
-              </label>
+              </label> */}
             </div>
           </div>
           <footer className="px-4 md:px-8 flex flex-col justify-start flex-1 sticky bottom-0 py-4 bg-[color-mix(in_srgb,var(--va-color-background)_60%,transparent)] backdrop-blur">
