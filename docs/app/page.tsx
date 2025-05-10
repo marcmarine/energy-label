@@ -226,7 +226,7 @@ export default function Page() {
           </footer>
         </div>
       </div>
-      <div className="surface flex flex-col flex-1">
+      <div className="surface flex flex-col flex-1 justify-center min-h-screen">
         <div className="flex flex-col lg:h-screen sticky top-0">
           <div ref={labelContainerRef} className="px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1" />
           <div className="pb-8 gap-2 flex flex-col items-center justify-center md:hidden">
