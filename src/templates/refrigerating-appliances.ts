@@ -1,6 +1,7 @@
-import { html, svg } from 'lit-html'
+import { svg } from 'lit-html'
 import { mmToPx } from '../utils'
-import type { EnergyLabelOptions, FlagOriginOption } from '.'
+import type { EnergyLabelOptions } from '.'
+import * as common from './common'
 
 export interface RefrigeratingAppliancesOption extends EnergyLabelOptions {
   annualEnergyConsumption: number
@@ -16,9 +17,34 @@ export interface HouseholdFridgesAndFreezersOptions extends RefrigeratingApplian
   frozenVolume: number
 }
 
+export default (
+  options: Partial<
+    WineStorageAppliancesOptions &
+      HouseholdFridgesAndFreezersOptions & {
+        qrCodeDataUrl: string
+      }
+  >
+) => svg`
+<svg width="${mmToPx(96)}" height="${mmToPx(192)}" viewBox="0 0 ${mmToPx(96)} ${mmToPx(192)}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${mmToPx(96)}" height="${mmToPx(192)}" fill="white" />
+  ${common.flag(mmToPx(3), mmToPx(3), mmToPx(21), options.flagOrigin)}
+  ${common.logo(mmToPx(26), mmToPx(5), mmToPx(10))}
+  ${common.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), options.qrCodeDataUrl)}
+  <text id="supplier-name" fill="black" font-family="Verdana" font-size="12" font-weight="bold">
+    <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${options.supplierName || "Supplier's Name"}</tspan>
+  </text>
+  <text id="model-identifier" fill="black" font-family="Verdana" font-size="12" text-anchor="end">
+    <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${options.modelName || 'Model Identifier'}</tspan>
+  </text>
+  <path d="M${mmToPx(3)} ${mmToPx(27)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
+  ${efficiencyScale(options.efficiencyRating)}
+  ${energyConsumption(options.annualEnergyConsumption)}
+  <path d="M${mmToPx(3)} ${mmToPx(123.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
+  ${icons(options.chillVolume, options.frozenVolume, options.bottleCapacity, options.noiseEmissions, options.noiseEmissionsClass)}
+</svg>`
+
 const efficiencyScale = (efficiencyRating: string = 'A') => {
-  const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-  const colors = ['#00A651', '#50B848', '#BFD730', '#FFF200', '#FDB913', '#F37021', '#ED1C24']
+  const { classes, colors } = common.EFFICIENCY_SCALE
   const widthsInMm = [19, 25, 29, 32, 36, 40, 44]
 
   return svg`
@@ -53,7 +79,6 @@ const energyConsumption = (annualEnergyConsumption: number | 'XYZ' = 'XYZ') => s
   <text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="black" font-family="Verdana" text-anchor="middle">
     <tspan font-size="28pt" font-weight="bold">${annualEnergyConsumption}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
   </text>
-  <path d="M${mmToPx(3)} ${mmToPx(123.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
 `
 
 const symbolWineStorage = (x: number, y: number) => svg`
@@ -149,84 +174,7 @@ const regulationNumber = () => svg`
 </text>
 `
 
-export const content = (efficiencyRating?: string, annualEnergyConsumption?: number, chillVolume?: number, frozenVolume?: number, bottleCapacity?: number, noiseEmissions?: number, noiseEmissionsClass?: string) => svg`
-  ${efficiencyScale(efficiencyRating)}
-  ${energyConsumption(annualEnergyConsumption)}
+export const icons = (chillVolume?: number, frozenVolume?: number, bottleCapacity?: number, noiseEmissions?: number, noiseEmissionsClass?: string) => svg`
   ${Boolean(bottleCapacity) ? wineStorage(bottleCapacity, noiseEmissions, noiseEmissionsClass) : fridgesAndFreezers(chillVolume, frozenVolume, noiseEmissions, noiseEmissionsClass)}
   ${regulationNumber()}
 `
-
-const flag = (origin: FlagOriginOption) =>
-  origin === 'EU'
-    ? svg`
-  <path d="M0 53.062H79.37V0H0V53.062Z" fill="#034EA2"/>
-  <path d="M38.7951 8.66706L39.6173 6L40.4262 8.66706H43.1845L40.9699 10.4006L41.8186 13.1344L39.6173 11.4541L37.416 13.1344L38.2912 10.4006L36.0501 8.66706H38.7951Z" fill="#FFF200"/>
-  <path d="M38.9667 43.8997L39.8543 41.226L40.7138 43.8997H43.6304L41.2774 45.6313L42.1932 48.3604L39.8543 46.6842L37.5013 48.3604L38.4312 45.6313L36.0501 43.8997H38.9667Z" fill="#FFF200"/>
-  <path d="M47.7131 41.6702L48.5485 38.9965L49.3574 41.6702H52.1024L49.8879 43.388L50.7498 46.1309L48.5485 44.4408L46.3339 46.1309L47.2092 43.388L44.9681 41.6702H47.7131Z" fill="#FFF200"/>
-  <path d="M47.7131 10.9032L48.5485 8.22949L49.3574 10.9032H52.1024L49.8879 12.6209L50.7498 15.3639L48.5485 13.6738L46.3339 15.3639L47.2092 12.6209L44.9681 10.9032H47.7131Z" fill="#FFF200"/>
-  <path d="M54.4015 17.4245L55.2237 14.918L56.0326 17.4245H58.7909L56.5763 19.035L57.425 21.6065L55.2237 20.035L53.0224 21.6065L53.8976 19.035L51.6565 17.4245H54.4015Z" fill="#FFF200"/>
-  <path d="M54.4015 35.2556L55.2237 32.7539L56.0326 35.2556H58.7909L56.5763 36.8759L57.425 39.4424L55.2237 37.861L53.0224 39.4424L53.8976 36.8759L51.6565 35.2556H54.4015Z" fill="#FFF200"/>
-  <path d="M56.6178 26.3295L57.4532 23.836L58.2622 26.3295H61.0204L58.8059 27.9529L59.6546 30.5244L57.4532 28.94L55.2519 30.5244L56.1139 27.9529L53.886 26.3295H56.6178Z" fill="#FFF200"/>
-  <path d="M29.8771 10.8893L30.7126 8.22949L31.5215 10.8893H34.2665L32.0519 12.6209L32.9139 15.3639L30.7126 13.6738L28.498 15.3639L29.3732 12.6209L27.1321 10.8893H29.8771Z" fill="#FFF200"/>
-  <path d="M23.6345 17.5865L24.47 14.918L25.2789 17.5865H28.0239L25.8093 19.3148L26.6713 22.0524L24.47 20.3656L22.2554 22.0524L23.1306 19.3148L20.8895 17.5865H23.6345Z" fill="#FFF200"/>
-  <path d="M21.405 26.3377L22.2405 23.836L23.0494 26.3377H25.7944L23.5798 27.9579L24.4418 30.5244L22.2405 28.9431L20.0259 30.5244L20.9011 27.9579L18.66 26.3377H21.405Z" fill="#FFF200"/>
-  <path d="M23.6345 35.2556L24.47 32.7539L25.2789 35.2556H28.0239L25.8093 36.8759L26.6713 39.4424L24.47 37.861L22.2554 39.4424L23.1306 36.8759L20.8895 35.2556H23.6345Z" fill="#FFF200"/>
-  <path d="M30.0487 41.665L30.9223 38.9965L31.7958 41.665H34.7124L32.3594 43.3933L33.2612 46.1309L30.9223 44.4441L28.5834 46.1309L29.5133 43.3933L27.1321 41.665H30.0487Z" fill="#FFF200"/>
-`
-    : svg`
-  <path fill="#034EA2" d="M.64.045v53.01h79.49V.044H.64Z"/>
-  <path fill="#fff" fill-rule="evenodd" d="M31.115 26.55-1.815 4.591 3.095-4.5l37.291 24.868L77.677-4.5l4.907 9.091L49.655 26.55l32.93 21.959-4.908 9.091-37.292-24.868L3.094 57.6l-4.908-9.091L31.115 26.55Z" clip-rule="evenodd"/>
-  <mask id="a" width="81" height="54" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:luminance">
-    <path fill="#fff" d="M40.385 26.55H80.13v26.504L40.386 26.55Zm0 0v26.504H.64L40.385 26.55Zm0 0H.64V.045L40.385 26.55Zm0 0V.045H80.13L40.386 26.55Z"/>
-  </mask>
-  <g mask="url(#a)">
-    <path fill="#DA2E33" fill-rule="evenodd" d="M34.205 26.55-.996 3.076l3.272-6.06 38.11 25.413L78.494-2.985l3.271 6.06-35.2 23.475 35.2 23.474-3.271 6.06-38.11-25.413-38.11 25.414-3.271-6.06L34.205 26.55Z" clip-rule="evenodd"/>
-  </g>
-  <path fill="#DA2E33" d="M-.95 19.482h34.976V-1.72h12.718v21.203H81.72v14.136H46.744V54.82H34.026V33.618H-.95V19.482Z"/>
-  <path fill="#fff" fill-rule="evenodd" d="M32.436-3.488h15.898v21.203H83.31v17.67H48.334v21.203H32.436V35.385H-2.54v-17.67h34.976V-3.488Zm3.18 3.533V21.25H.64v10.602h34.976v21.203h9.538V31.851H80.13V21.249H45.155V.045h-9.54Z" clip-rule="evenodd"/>
-`
-
-const header = (flagOrigin: FlagOriginOption = 'EU', supplierOrTrademark: string = "Supplier's name", modelIdentifier: string = 'Model Identifier', qrCodeDataUrl: string = '1234567') => svg`
-<g id="EU-branding">
-  <g transform="translate(${mmToPx(3)}, ${mmToPx(3)})">
-    ${flag(flagOrigin)}
-  </g>
-  <g id="logo">
-    <path d="M98.2699 56.355V18.4991H124.101V26.0569H106.145V33.2815H123.357V40.6661H106.145V48.9571H124.101V56.355H98.2699Z" fill="#034EA2" />
-    <path d="M152.879 43.9985V18.4991H160.621V56.355H151.376L135.851 31.1888V56.355H128.109V18.4991H137.341L152.879 43.9985Z" fill="#034EA2" />
-    <path d="M165.074 56.355V18.4991H190.46V26.0569H172.818V33.2815H189.742V40.6661H172.818V48.9571H190.46V56.355H165.074Z" fill="#034EA2" />
-    <path
-      d="M194.468 56.355V18.5024H212.404C214.208 18.4698 216.009 18.676 217.758 19.1157C219.136 19.4684 220.406 20.1555 221.452 21.1157C222.477 22.1315 223.22 23.3949 223.607 24.7823C224.109 26.5921 224.343 28.4651 224.303 30.3422C224.304 31.4926 224.228 32.6417 224.076 33.7821C223.946 34.7741 223.74 35.7547 223.46 36.7154C223.109 37.7088 222.488 38.5857 221.667 39.2487C222.42 40.0571 222.982 41.0228 223.313 42.0753C223.68 43.2444 223.861 44.4636 223.848 45.6885V56.355H215.817V46.5418C215.883 46.0092 215.827 45.4686 215.653 44.9607C215.479 44.4527 215.192 43.9905 214.814 43.6086C213.862 43.0065 212.738 42.7303 211.615 42.8219H202.245V56.355H194.468ZM202.312 35.4754H211.106C212.026 35.492 212.945 35.416 213.85 35.2487C214.402 35.1536 214.933 34.9594 215.416 34.6754C215.978 34.2221 216.259 33.0754 216.259 31.2355C216.355 29.8424 216.183 28.4439 215.75 27.1156C215.416 26.3689 214.318 25.9823 212.444 25.9823H202.312V35.4621V35.4754Z"
-      fill="#034EA2"
-    />
-    <path
-      d="M241.728 35.6733H260.06C260.249 37.0986 260.343 38.1643 260.37 38.857C260.397 39.5497 260.37 40.1891 260.37 40.6953V43.7991C260.416 46.4436 259.996 49.0759 259.13 51.5785C258.648 52.9508 257.725 54.1297 256.502 54.9354C254.983 55.8465 253.271 56.3981 251.501 56.5472C250.377 56.6627 249.214 56.7382 248.01 56.7737C246.805 56.8092 245.601 56.8092 244.397 56.7737C238.376 56.7737 234.238 55.8146 231.982 53.8964C229.538 51.9071 228.316 47.9774 228.316 42.1073V39.7895C228.316 39.0035 228.316 38.191 228.316 37.3651V32.9025C228.316 28.0182 229.314 24.4082 231.309 22.0726C232.476 20.8152 233.967 19.8945 235.622 19.4084C237.712 18.7682 239.891 18.4624 242.079 18.5026H244.154C244.828 18.5026 245.525 18.5026 246.244 18.5026H250.193C253.878 18.618 256.461 19.6038 257.944 21.4598C259.626 23.7676 260.462 26.5722 260.316 29.4124V32.716H252.417C252.57 30.7238 252.36 28.7206 251.797 26.8015C251.609 26.4285 250.827 26.2021 249.425 26.1222C248.257 26.0511 247.12 26.0067 246.015 25.989H242.55C239.657 25.989 237.945 26.2909 237.415 26.8948C236.885 27.4987 236.583 29.5856 236.512 33.1556C236.512 33.5286 236.512 33.8838 236.512 34.2213C236.512 34.5543 236.512 34.9406 236.512 35.3536V37.4983V42.2938C236.512 43.2662 236.512 44.1987 236.619 45.0512C236.68 45.8513 236.811 46.6446 237.01 47.4224V47.3158C237.214 47.7526 237.524 48.1325 237.913 48.4214C238.449 48.7884 239.071 49.0132 239.72 49.0742C240.488 49.184 241.262 49.2419 242.038 49.2474C242.483 49.2474 242.955 49.2474 243.386 49.2474H246.743C247.809 49.258 248.876 49.2091 249.937 49.1008C250.539 49.0874 251.121 48.8818 251.595 48.5147C252.121 48.0618 252.39 46.5565 252.39 44.0122V43.1064H241.728V35.6733Z"
-      fill="#034EA2"
-    />
-    <path d="M279.408 18.4991L276 29.4149L285.323 27.8651L271.982 57.2457L276 35.9484L267.063 36.3359L270.842 18.4991H279.408Z" fill="#034EA2" />
-  </g>
-  <image href="${qrCodeDataUrl}" x="${mmToPx(79)}" y="${mmToPx(3)}" width="${mmToPx(14)}" />
-</g>
-<g id="product">
-  <text id="supplier-name" fill="black" font-family="Verdana" font-size="12" font-weight="bold">
-    <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${supplierOrTrademark}</tspan>
-  </text>
-  <text id="model-identifier" fill="black" font-family="Verdana" font-size="12" text-anchor="end">
-    <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${modelIdentifier}</tspan>
-  </text>
-  <path d="M${mmToPx(3)} ${mmToPx(27)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
-</g>
-`
-
-export default (
-  options: Partial<
-    | WineStorageAppliancesOptions &
-        HouseholdFridgesAndFreezersOptions & {
-          qrCodeDataUrl: string
-        }
-  >
-) => html`<svg width="${mmToPx(96)}" height="${mmToPx(192)}" viewBox="0 0 ${mmToPx(96)} ${mmToPx(192)}" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="${mmToPx(96)}" height="${mmToPx(192)}" fill="white" />
-  ${header(options.flagOrigin, options.supplierName, options.modelName, options.qrCodeDataUrl)}
-  ${content(options.efficiencyRating, options.annualEnergyConsumption, options.chillVolume, options.frozenVolume, options.bottleCapacity, options.noiseEmissions, options.noiseEmissionsClass)}
-</svg>`

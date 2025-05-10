@@ -1,6 +1,6 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
-import { renderTemplate, type Templates, type TemplatesWithQR } from './templates'
+import { renderTemplateOptions, type Templates, type TemplatesWithQR } from './templates'
 
 export default class EnergyLabel<T extends keyof Templates> {
   public template: T
@@ -31,16 +31,16 @@ export default class EnergyLabel<T extends keyof Templates> {
   }
 
   async generateSVGString(): Promise<string> {
-    let templateData = this.options
+    let templateOptions = this.options
 
     if (this.template !== 'default') {
-      const { eprelRegistrationNumber } = this.options as Templates[TemplatesWithQR]
+      const { eprelRegistrationNumber } = this.options as unknown as Templates[TemplatesWithQR]
       const qrCodeDataUrl = await this.generateQRCodeDataUrl(eprelRegistrationNumber)
-      templateData = { ...this.options, qrCodeDataUrl }
+      templateOptions = { ...this.options, qrCodeDataUrl }
     }
 
-    const rawSvg = renderTemplate(this.template, templateData)
-    return this.optimizeSVG(rawSvg)
+    const result = renderTemplateOptions(this.template, templateOptions)
+    return this.optimizeSVG(result)
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
@@ -77,7 +77,7 @@ export default class EnergyLabel<T extends keyof Templates> {
 
     const downloadLink = document.createElement('a')
     downloadLink.href = url
-    const { supplierName, modelName } = this.options as Templates[TemplatesWithQR]
+    const { supplierName, modelName } = this.options as unknown as Templates[TemplatesWithQR]
     downloadLink.download = `${supplierName?.replaceAll(' ', '-')}_${modelName}.svg`
 
     document.body.appendChild(downloadLink)

@@ -1,8 +1,8 @@
-import { html, svg } from 'lit-html'
 import { render } from '@lit-labs/ssr'
 import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js'
 import defaultTemplate from './default'
 import refrigeratingAppliancesTemplate, { type HouseholdFridgesAndFreezersOptions, type WineStorageAppliancesOptions } from './refrigerating-appliances'
+import smartphonesAndTabletsTemplate, { type SmartphonesAndTabletsOption } from './smartphones'
 
 export type FlagOriginOption = 'EU' | 'UK'
 
@@ -23,27 +23,29 @@ export type TemplateName = keyof Templates
 export interface Templates {
   default: DefaultOptions
   'refrigerating-appliances': WineStorageAppliancesOptions | HouseholdFridgesAndFreezersOptions
+  smartphones: SmartphonesAndTabletsOption
 }
 
-export function renderTemplate(
-  template: keyof Templates,
-  options: Partial<
-    Templates[keyof Templates] & {
-      qrCodeDataUrl: string
-    }
-  >
-) {
-  const getTemplate = (template: keyof Templates) => {
-    switch (template) {
-      case 'refrigerating-appliances':
-        return refrigeratingAppliancesTemplate(options)
-      default:
-        return defaultTemplate(options)
-    }
+type TemplateOptions = Partial<
+  Templates[keyof Templates] & {
+    qrCodeDataUrl: string
   }
+>
 
-  const result = render(getTemplate(template))
-  const contentString = collectResultSync(result)
+const templateFactory = (templateKey: keyof Templates, options: TemplateOptions) => {
+  switch (templateKey) {
+    case 'refrigerating-appliances':
+      return refrigeratingAppliancesTemplate(options)
+    case 'smartphones':
+      return smartphonesAndTabletsTemplate(options)
+    default:
+      return defaultTemplate(options)
+  }
+}
 
-  return contentString
+export function renderTemplateOptions(templateKey: keyof Templates, options: TemplateOptions) {
+  const template = templateFactory(templateKey, options)
+  const result = render(template)
+
+  return collectResultSync(result)
 }

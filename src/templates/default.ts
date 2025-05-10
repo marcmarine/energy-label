@@ -1,10 +1,10 @@
-import { html } from 'lit-html'
+import { svg } from 'lit-html'
 
 export default ({ efficiencyRating = 'A' }: { efficiencyRating?: string }) => {
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const colors = ['#00A651', '#50B848', '#BFD730', '#FFF200', '#FDB913', '#F37021', '#ED1C24']
 
-  return html`<svg xmlns="http://www.w3.org/2000/svg" width="92" height="51" viewBox="0 0 92 51" fill="none">
+  return svg`<svg xmlns="http://www.w3.org/2000/svg" width="92" height="51" viewBox="0 0 92 51" fill="none">
     <path fill="#fff" d="M90.74.41H23L.5 25 23 49.71h67.74V.41Z" />
     <path fill="${colors[classes.indexOf(efficiencyRating)]}" d="M72 .41H23L.5 25 23 49.71h49V.41Z" />
     <path stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8pt" d="M90.74.41H23L.5 25 23 49.71h67.74V.41Z" />
