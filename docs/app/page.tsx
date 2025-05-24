@@ -6,41 +6,9 @@ import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { generateFakeOptions } from './lib/utils'
 import VersionNumber from './components/version-number'
-import { NPM_URL_BETA } from './lib/constants'
+import { GITHUB_BETA_URL, NPM_URL_BETA, REGULATIONS } from './lib/constants'
 import InputList from './components/input-list'
-
-const REGULATIONS = {
-  smartphones: {
-    name: 'Smartphones and Tablets',
-    inputs: [
-      { label: "Supplier's Name", key: 'supplierName', type: 'text' },
-      { label: 'Model Identifier', key: 'modelName', type: 'text' },
-      { label: 'EPREL ID', key: 'eprelRegistrationNumber', type: 'text' },
-      { label: 'Efficiency class', key: 'efficiencyRating', type: 'select', options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
-      { label: 'Battery Endurance (Hours)', key: 'batteryEnduranceHours', type: 'number' },
-      { label: 'Battery Endurance (Minutes)', key: 'batteryEnduranceMinutes', type: 'number' },
-      { label: 'Fall Reliability Class', key: 'fallReliabilityClass', type: 'select', options: ['A', 'B', 'C', 'D', 'E'] },
-      { label: 'Repairability Class', key: 'repairabilityClass', type: 'select', options: ['A', 'B', 'C', 'D', 'E'] },
-      { label: 'Battery Endurance (Cycles)', key: 'batteryEnduranceInCycles', type: 'text' },
-      { label: 'Ingress Protection Rating', key: 'ingressProtectionRating', type: 'text' }
-    ]
-  },
-  'refrigerating-appliances': {
-    name: 'Household refrigerating appliances',
-    inputs: [
-      { label: "Supplier's Name", key: 'supplierName', type: 'text' },
-      { label: 'Model Identifier', key: 'modelName', type: 'text' },
-      { label: 'EPREL ID', key: 'eprelRegistrationNumber', type: 'text' },
-      { label: 'Efficiency class', key: 'efficiencyRating', type: 'select', options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
-      { label: 'Consumption', key: 'annualEnergyConsumption', type: 'number' },
-      { label: 'Frozen Volume', key: 'frozenVolume', type: 'number' },
-      { label: 'Chill Volume', key: 'chillVolume', type: 'number' },
-      { label: 'Number of wine bottles', key: 'bottleCapacity', type: 'number' },
-      { label: 'Airborne acoustical noise emissions', key: 'noiseEmissions', type: 'number' },
-      { label: 'Noise class', key: 'noiseEmissionsClass', type: 'select', options: ['A', 'B', 'C', 'D'] }
-    ]
-  }
-}
+import CodeBlock from './components/code-block'
 
 export default function Page() {
   const labelContainerRef = useRef(null)
@@ -48,7 +16,6 @@ export default function Page() {
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
   const [regulation, setRegulation] = useState<TemplateName>('smartphones')
   const [arrowLabel, setArrowLabel] = useState(false)
-
   const generateOptions = useCallback(() => {
     const fakeOptions = generateFakeOptions()
     return {
@@ -59,6 +26,19 @@ export default function Page() {
   }, [])
 
   const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
+
+  const getCurrentRegulationOptions = useCallback(() => {
+    const regulationInputs = REGULATIONS[regulation as keyof typeof REGULATIONS].inputs
+    const currentOptions: Record<string, string | number> = {}
+
+    regulationInputs.forEach(input => {
+      if (options[input.key] !== undefined) {
+        currentOptions[input.key] = options[input.key]
+      }
+    })
+
+    return currentOptions
+  }, [options, regulation])
 
   const label = useMemo(() => createEnergyLabel(arrowLabel ? undefined : regulation, { ...options, flagOrigin }), [flagOrigin, options, arrowLabel, regulation])
 
@@ -82,14 +62,18 @@ export default function Page() {
     }
   }
 
+  const { name: regulationName, regulationNumber } = REGULATIONS[regulation as keyof typeof REGULATIONS]
+
   return (
     <>
       <div className="flex flex-col flex-1">
-        <Header />
+        <div className="sticky top-0 z-10 bg-[color-mix(in_srgb,var(--va-color-background)_60%,transparent)] backdrop-blur">
+          <Header />
+        </div>
         <div className="flex flex-col flex-1">
-          <div className="px-4 md:px-8 flex-1">
-            <div className="py-5">
-              <h1 className="mb-2 font-bold text-4xl">Energy Label Generator</h1>
+          <div className="px-4 md:px-8 pt-5 flex-1">
+            <h1 className="mb-2 font-bold text-4xl">Energy Label Generator</h1>
+            <div className="-mx-4 md:-mx-8 pt-1 py-1.5 mb-5 flex flex-col md:flex-row md:items-center justify-between gap-3 border-t border-white/5 border-dashed px-4 md:px-8 sticky top-[60] bg-[color-mix(in_srgb,var(--va-color-background)_90%,transparent)] backdrop-blur-lg z-10">
               <Breadcrumb
                 items={[
                   <select
@@ -118,72 +102,47 @@ export default function Page() {
                   </select>
                 ]}
               />
-            </div>
-            <div className="py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
-              <h2 className="font-bold text-2xl">{REGULATIONS[regulation as keyof typeof REGULATIONS].name}</h2>
               <label className="inline-flex items-center cursor-pointer">
                 <span className="me-2 text-sm font-medium text-nowrap">View Arrow</span>
                 <input type="checkbox" checked={arrowLabel} onChange={e => setArrowLabel(e.target.checked)} className="sr-only peer" />
                 <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
               </label>
             </div>
-            <div className="py-4 flex flex-col gap-4 w-full">
+            <h2 className="mb-2 font-semibold text-xl">Product information</h2>
+            <div className="mb-8 flex flex-col gap-2 w-full">
               <InputList config={REGULATIONS[regulation as keyof typeof REGULATIONS].inputs} values={options} setValues={setOptions} />
-              {/* <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Supplier&apos;s Name: <input value={options.supplierName} onChange={e => setOptions(prev => ({ ...prev, supplierName: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Model Identifier: <input value={options.modelName} onChange={e => setOptions(prev => ({ ...prev, modelName: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
-              </label>
-              <label className="py-0.5 flex-1 gap-4 flex justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                EPREL ID:{' '}
-                <input value={options.eprelRegistrationNumber} onChange={e => setOptions(prev => ({ ...prev, eprelRegistrationNumber: e.target.value }))} className="flex-1 text-right outline-none font-semibold" />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Efficiency class:
-                <select value={options.efficiencyRating} onChange={e => setOptions(prev => ({ ...prev, efficiencyRating: e.target.value }))} className="py-0.5 select flex-1 text-right outline-none font-semibold">
-                  {['A', 'B', 'C', 'D', 'E', 'F', 'G'].map(scale => (
-                    <option key={scale} value={scale}>
-                      {scale}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Consumtion:{' '}
-                <input
-                  value={options.annualEnergyConsumption}
-                  type="number"
-                  onChange={e => setOptions(prev => ({ ...prev, annualEnergyConsumption: Number(e.target.value) }))}
-                  className="flex-1 text-right outline-none font-semibold"
-                />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Frozen Volume:{' '}
-                <input value={options.frozenVolume} type="number" onChange={e => setOptions(prev => ({ ...prev, frozenVolume: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Chill Volume:{' '}
-                <input value={options.chillVolume} type="number" onChange={e => setOptions(prev => ({ ...prev, chillVolume: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Number of wine bottles:{' '}
-                <input value={options.bottleCapacity} type="number" onChange={e => setOptions(prev => ({ ...prev, bottleCapacity: Number(e.target.value) }))} className="flex-1 text-right font-bold outline-none" />
-              </label>
-              <label className="py-0.5 flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Airborne acoustical noise emissions:{' '}
-                <input value={options.noiseEmissions} type="number" onChange={e => setOptions(prev => ({ ...prev, noiseEmissions: Number(e.target.value) }))} className="flex-1 text-right outline-none font-semibold" />
-              </label>
-              <label className="flex gap-4 justify-between border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)]">
-                Noise class:
-                <select value={options.noiseEmissionsClass} className="py-0.5 select flex-1 text-right outline-none font-semibold" onChange={e => setOptions(prev => ({ ...prev, noiseEmissionsClass: e.target.value }))}>
-                  {['A', 'B', 'C', 'D'].map(scale => (
-                    <option key={scale} value={scale}>
-                      {scale}
-                    </option>
-                  ))}
-                </select>
-              </label> */}
+              <div>
+                <p className="font-semibold">Regulation (EU) {regulationNumber}</p>
+                <p>
+                  <a href={`http://data.europa.eu/eli/reg_del/${regulationNumber}/oj`} className="va-link">
+                    http://data.europa.eu/eli/reg_del/{regulationNumber}/oj
+                  </a>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h2 id="documentation" className="text-xl font-semibold">
+                Documentation
+              </h2>
+              <p>Integrate into your JavaScript/TypeScript projects.</p>
+              <CodeBlock language="bash" text="npm i energy-label@beta" />
+              <CodeBlock
+                language="js"
+                text={`// Import the energy label generator function
+import { createEnergyLabel } from 'energy-label'
+
+// Create the energy label instance for ${regulationName}
+const label = createEnergyLabel(${arrowLabel ? undefined : `'${regulation}'`}, ${JSON.stringify({ flagOrigin, ...getCurrentRegulationOptions() }, null, 2)})
+
+// Method 1: Finds an HTML element with ID 'energy-label' and appends the SVG
+label.appendSVGToElement(document.querySelector('#energy-label'))
+
+// Method 2: Triggers a b owser download with the generated energy label
+label.downloadSVGFile()`}
+              />
+              <a href={GITHUB_BETA_URL} className="va-link self-end">
+                View source code
+              </a>
             </div>
           </div>
           <footer className="px-4 md:px-8 flex flex-col justify-start flex-1 sticky bottom-0 py-4 bg-[color-mix(in_srgb,var(--va-color-background)_60%,transparent)] backdrop-blur">
@@ -226,8 +185,8 @@ export default function Page() {
           </footer>
         </div>
       </div>
-      <div className="surface flex flex-col flex-1 justify-center min-h-screen">
-        <div className="flex flex-col lg:h-screen sticky top-0">
+      <div className="surface flex-1 justify-center">
+        <div className="flex flex-col h-screen sticky top-0">
           <div ref={labelContainerRef} className="px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1" />
           <div className="pb-8 gap-2 flex flex-col items-center justify-center md:hidden">
             <button onClick={handleDownload} className="va-button">

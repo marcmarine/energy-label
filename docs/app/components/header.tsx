@@ -16,6 +16,9 @@ export default function Header() {
         </Link>
       </div>
       <nav className="flex gap-4">
+        <Link href="#documentation" className="va-button !text-xs hover:underline">
+          documentation
+        </Link>
         <a href={FIGMA_URL} className="relative va-button !text-xs hover:underline">
           figma <span className="absolute -top-1 -right-3 animate-pulse text-fuchsia-600 px-0.5 rounded !text-[0.8em]">new</span>
         </a>
