@@ -32,7 +32,7 @@
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "va-code-block": "^0.1.1",
-        "varvara-css": "0.7.1",
+        "varvara-css": "^0.7.3",
       },
       "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",
@@ -1628,7 +1628,7 @@
 
     "validate-npm-package-name": ["validate-npm-package-name@6.0.0", "", {}, "sha512-d7KLgL1LD3U3fgnvWEY1cQXoO/q6EQ1BSz48Sa149V/5zVTAbgmZIpyI8TRi6U9/JNyeYLlTKsEMPtLC27RFUg=="],
 
-    "varvara-css": ["varvara-css@0.7.1", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-vrVFxwz1eiIiRKGVuAwjT19knIVRnGs/y3vjr0ukpNzNQw3vU5PvP/PgSz531aoFXc+oRZGnRGWlTrE0Yq27Lw=="],
+    "varvara-css": ["varvara-css@0.7.3", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-CHwlxdqmd9JDQlaeBiHca5nd1rQMS0QsBJr4FC9oGXs+MvRhH0jS2r6H9NAgftDKMIb/yWwdcx6j0aO6vFVsAg=="],
 
     "vite": ["vite@6.3.5", "", { "dependencies": { "esbuild": "^0.25.0", "fdir": "^6.4.4", "picomatch": "^4.0.2", "postcss": "^8.5.3", "rollup": "^4.34.9", "tinyglobby": "^0.2.13" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^18.0.0 || ^20.0.0 || >=22.0.0", "jiti": ">=1.21.0", "less": "*", "lightningcss": "^1.21.0", "sass": "*", "sass-embedded": "*", "stylus": "*", "sugarss": "*", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-cZn6NDFE7wdTpINgs++ZJ4N49W2vRp8LCKrn3Ob1kYNtOo21vfDoaV5GzBfLU4MovSAB8uNRm4jgzVQZ+mBzPQ=="],
 
