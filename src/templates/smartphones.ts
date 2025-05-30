@@ -1,4 +1,3 @@
-import { svg } from 'lit-html'
 import type { EnergyLabelBaseData } from '.'
 import { mmToPx } from '../utils'
 import * as common from './common'
@@ -18,7 +17,7 @@ export default (
       qrCodeDataUrl: string
     }
   >
-) => svg`<svg width="${mmToPx(68)}" height="${mmToPx(136)}" viewBox="0 0 ${mmToPx(68)} ${mmToPx(136)}" fill="none" xmlns="http://www.w3.org/2000/svg">
+) => `<svg width="${mmToPx(68)}" height="${mmToPx(136)}" viewBox="0 0 ${mmToPx(68)} ${mmToPx(136)}" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="${mmToPx(68)}" height="${mmToPx(136)}" fill="white" />
   ${common.flag(mmToPx(2), mmToPx(2), mmToPx(15), options.flagOrigin)}
   ${common.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}
@@ -49,7 +48,7 @@ const efficiencyScale = (efficiencyRating: string = 'A') => {
   const widthsInMm = [17, 20, 23, 26, 29, 32, 35]
 
   return classes.map(
-    (cls, index) => svg`
+    (cls, index) => `
           <path 
             d="M0,${index * mmToPx(6 + 1)} H${mmToPx(widthsInMm[index]) - mmToPx(3)} L${mmToPx(widthsInMm[index])},${index * mmToPx(6 + 1) + mmToPx(3)} L${mmToPx(widthsInMm[index]) - mmToPx(3)},${
       index * mmToPx(6 + 1) + mmToPx(6)
@@ -59,7 +58,7 @@ const efficiencyScale = (efficiencyRating: string = 'A') => {
           <text x="${mmToPx(2)}" y="${index * mmToPx(6 + 1) + mmToPx(6 + 1)}" transform="translate(0, -11)" font-family="Calibri" font-size="11pt" font-weight="bold" fill="white">${cls}</text>
           ${
             cls === efficiencyRating
-              ? svg`<g transform="translate(0, ${mmToPx(-1)})">
+              ? `<g transform="translate(0, ${mmToPx(-1)})">
                 <g transform="translate(0,${index * mmToPx(6 + 1)})">
                   <polygon points="${mmToPx(48)},${mmToPx(4)} ${mmToPx(53.5)},0 ${mmToPx(64)},0 ${mmToPx(64)},${mmToPx(8)} ${mmToPx(53.5)},${mmToPx(8)}" fill="black" />
                   <text x="${mmToPx(58)}" y="${mmToPx(6.2)}" font-size="20pt" font-weight="bold" fill="white" font-family="Calibri" text-anchor="middle">${classes[index]}</text>
@@ -71,7 +70,7 @@ const efficiencyScale = (efficiencyRating: string = 'A') => {
   )
 }
 
-const icons = (fallReliabilityClass: string = 'B', repairabilityClass: string = 'D', batteryEnduranceInCycles: string = 'XY00', ingressProtectionRating: string = 'IPXY') => svg`
+const icons = (fallReliabilityClass: string = 'B', repairabilityClass: string = 'D', batteryEnduranceInCycles: string = 'XY00', ingressProtectionRating: string = 'IPXY') => `
 <g transform="translate(0, ${mmToPx(89)})">
   ${fallReliabilityClassIcon(mmToPx(10.67), mmToPx(3), fallReliabilityClass)}
   ${repairabilityClassIcon(mmToPx(41.6), mmToPx(3), repairabilityClass)}
@@ -80,21 +79,21 @@ const icons = (fallReliabilityClass: string = 'B', repairabilityClass: string = 
 </g>
 `
 
-const fallReliabilityClassIcon = (x: number, y: number, fallReliabilityClass: string) => svg`
+const fallReliabilityClassIcon = (x: number, y: number, fallReliabilityClass: string) => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(fallReliabilityClass)}
   ${symbolFreeFall(18, 9)}
 </g>
 `
 
-const repairabilityClassIcon = (x: number, y: number, repairabilityClass: string) => svg`
+const repairabilityClassIcon = (x: number, y: number, repairabilityClass: string) => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(repairabilityClass)}
   ${symbolRepairability(16, 16)}
 </g>
 `
 
-const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: string) => svg`
+const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: string) => `
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
   <text x="${mmToPx(0)}" y="${mmToPx(16)}" fill="black" font-family="Verdana" text-anchor="middle">
@@ -103,7 +102,7 @@ const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycl
 </g>
 `
 
-const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: string) => svg`
+const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: string) => `
 <g transform="translate(${x}, ${y})">
   ${symbolIngressProtection(-24.64, mmToPx(2))}
   <text x="${mmToPx(0)}" y="${mmToPx(16)}" fill="black" font-family="Verdana" text-anchor="middle">
@@ -112,20 +111,22 @@ const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: st
 </g>
 `
 
-const aToEScale = (selectedClass: string) => svg`
+const aToEScale = (selectedClass: string) => `
 <text fill="black" font-family="Verdana">
-  ${['A', 'B', 'C', 'D', 'E'].map(
-    (cls, index) =>
-      svg`<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"  font-weight="${
-        cls === selectedClass ? 'bold' : 'normal'
-      }" style="alignment-baseline: ${cls === selectedClass ? 'hanging' : 'before-edge'}">${cls}</tspan>`
-  )}
+  ${['A', 'B', 'C', 'D', 'E']
+    .map(
+      (cls, index) =>
+        `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"  font-weight="${
+          cls === selectedClass ? 'bold' : 'normal'
+        }" style="alignment-baseline: ${cls === selectedClass ? 'hanging' : 'before-edge'}">${cls}</tspan>`
+    )
+    .join('')}
 </text>`
 
 const bateryEndurance = (batteryEnduranceHours: number | 'X' = 'X', batteryEnduranceMinutes: number | 'Y' = 'Y') => {
   const digits = String(batteryEnduranceHours).concat(String(batteryEnduranceMinutes)).length
 
-  return svg`
+  return `
     <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
       ${symbolBateryEndurance(0, mmToPx(3))}
       <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
@@ -135,7 +136,7 @@ const bateryEndurance = (batteryEnduranceHours: number | 'X' = 'X', batteryEndur
     </g>`
 }
 
-const symbolBateryEndurance = (x: number, y: number) => svg`
+const symbolBateryEndurance = (x: number, y: number) => `
 <g transform="translate(${x}, ${y})">
   <path d="M15.1756 5.49085V29.4003C15.1756 30.2848 14.5349 31 13.7425 31H2.43314C1.64207 31 1 30.2848 1 29.4003V5.49085C1 4.60781 1.64207 3.8912 2.43314 3.8912H13.7425C14.5349 3.8912 15.1756 4.60781 15.1756 5.49085ZM4.96213 3.8912V1.95181C4.96213 1.42639 5.34412 0.999999 5.81551 0.999999H10.142C10.6134 0.999999 10.9941 1.42639 10.9941 1.95181V3.8912" fill="white"/>
   <path d="M4.96213 3.8912V1.95181C4.96213 1.42639 5.34412 0.999999 5.81551 0.999999H10.142C10.6134 0.999999 10.9941 1.42639 10.9941 1.95181V3.8912M15.1756 5.49085V29.4003C15.1756 30.2848 14.5349 31 13.7425 31H2.43314C1.64207 31 1 30.2848 1 29.4003V5.49085C1 4.60781 1.64207 3.8912 2.43314 3.8912H13.7425C14.5349 3.8912 15.1756 4.60781 15.1756 5.49085Z" stroke="black" stroke-width="1" stroke-miterlimit="10"/>
@@ -150,7 +151,7 @@ const symbolBateryEndurance = (x: number, y: number) => svg`
 </g>
 `
 
-const symbolFreeFall = (x: number, y: number) => svg`
+const symbolFreeFall = (x: number, y: number) => `
 <g transform="translate(${x}, ${y})">
   <path d="M26.3142 21.0686L34.9275 32.4646C35.8435 33.6832 35.5995 35.4139 34.3809 36.3299L23.6435 44.4099C22.4249 45.3272 20.6942 45.0832 19.7769 43.8646L1.55553 19.6486C0.6382 18.4299 0.882201 16.6992 2.10087 15.7819L12.8395 7.7019C14.0569 6.7859 15.7875 7.0299 16.7049 8.24857L18.9035 11.1699M7.83687 15.4206L11.8329 12.4139M27.6955 35.4726C28.2835 36.2539 28.1262 37.3646 27.3449 37.9526C26.5635 38.5406 25.4529 38.3846 24.8649 37.6019C24.2769 36.8206 24.4342 35.7099 25.2155 35.1219C25.9969 34.5339 27.1075 34.6912 27.6955 35.4726Z"  stroke-width="1" stroke="black" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M28.1276 43.424L31.4596 43.8493L33.8703 44.1573L31.5343 44.8267C30.253 45.1933 28.9716 45.56 27.6903 45.9267C28.5103 46.3427 29.3303 46.76 30.149 47.176L32.2876 48.2627L29.893 48.1213C28.3703 48.0307 26.8463 47.9413 25.3223 47.8507C25.4596 48.576 25.5983 49.3013 25.7356 50.028L25.9383 51.1L24.993 50.5533C23.9823 49.968 22.9716 49.3827 21.9596 48.7973C21.1396 49.612 20.3183 50.4267 19.4983 51.2427L18.7356 52L18.6476 50.9293C18.5876 50.1893 18.5263 49.4507 18.4663 48.712C17.0143 49.176 15.5623 49.6413 14.1116 50.1067L11.857 50.8293L13.6263 49.2573C14.3076 48.652 14.989 48.0467 15.6703 47.4413L11.649 47.328L8.41431 47.2387L11.525 46.348C12.8063 45.9813 14.0876 45.6147 15.369 45.248C14.549 44.832 13.729 44.4147 12.909 43.9987L11.2876 43.1747L13.1023 43.0533L16.8156 42.808" stroke-width="1" stroke="black" stroke-miterlimit="8"/>
@@ -158,7 +159,7 @@ const symbolFreeFall = (x: number, y: number) => svg`
 </g>
 `
 
-const symbolRepairability = (x: number, y: number) => svg`
+const symbolRepairability = (x: number, y: number) => `
 <g transform="translate(${x}, ${y})">
   <path d="M11.1289 30.9284C9.51024 32.547 7.14891 32.9804 5.13691 32.219L8.54358 28.8137C9.06358 28.2937 9.06358 27.451 8.54358 26.9324L7.13424 25.5217C6.61424 25.003 5.77291 25.003 5.25291 25.523L1.84624 28.9284C1.08491 26.9164 1.51824 24.555 3.13691 22.9364C4.93424 21.139 7.64891 20.8044 9.77824 21.9364L22.3689 9.3457C21.2369 7.21637 21.5716 4.50304 23.3689 2.7057C24.9876 1.08704 27.3489 0.65237 29.3609 1.4137L25.9542 4.82037C25.4356 5.34037 25.4342 6.1817 25.9542 6.7017L27.3636 8.11237C27.8836 8.63104 28.7262 8.63103 29.2449 8.11103L32.6516 4.70437C33.4129 6.71637 32.9796 9.0777 31.3609 10.6964C29.5636 12.4937 26.8489 12.8297 24.7196 11.6964L12.1289 24.287C13.2609 26.4177 12.9262 29.131 11.1289 30.9284Z" stroke-width="1" stroke="black" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M26.5752 27.5667L15.4698 38.3653" stroke-width="1" stroke="black" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -166,7 +167,7 @@ const symbolRepairability = (x: number, y: number) => svg`
 </g>
 `
 
-const symbolBateryEnduranceCycles = (x: number, y: number) => svg`
+const symbolBateryEnduranceCycles = (x: number, y: number) => `
 <g transform="translate(${x}, ${y})">
   <path d="M4.68533 10.1039V8.22385C4.68533 7.71452 5.06133 7.30118 5.524 7.30118H9.78267C10.2467 7.30118 10.6227 7.71452 10.6227 8.22385V10.1039M14.9533 11.6545V34.8318C14.9533 35.6892 14.3227 36.3825 13.5427 36.3825H2.41067C1.632 36.3825 1 35.6892 1 34.8318V11.6545C1 10.7985 1.632 10.1039 2.41067 10.1039H13.5427C14.3227 10.1039 14.9533 10.7985 14.9533 11.6545Z" stroke="black" stroke-miterlimit="10"/>
   <path d="M22.8268 10.1039V8.22385C22.8268 7.71452 23.2028 7.30118 23.6668 7.30118H27.9254C28.3894 7.30118 28.7641 7.71452 28.7641 8.22385V10.1039M32.8801 11.6545V34.8318C32.8801 35.6892 32.2494 36.3825 31.4694 36.3825H20.3374C19.5588 36.3825 18.9268 35.6892 18.9268 34.8318V11.6545C18.9268 10.7985 19.5588 10.1039 20.3374 10.1039H31.4694C32.2494 10.1039 32.8801 10.7985 32.8801 11.6545Z" stroke="black" stroke-miterlimit="10"/>
@@ -190,7 +191,7 @@ const symbolBateryEnduranceCycles = (x: number, y: number) => svg`
 </g>
 `
 
-const symbolIngressProtection = (x: number, y: number) => svg`
+const symbolIngressProtection = (x: number, y: number) => `
 <g transform="translate(${x}, ${y})">
   <path d="M35.2433 0.742535C34.014 2.0892 30.6807 6.05987 30.6807 9.4372C30.6807 11.9425 32.7127 13.9812 35.2113 13.9812C37.7087 13.9812 39.7407 11.9425 39.7407 9.4372C39.7407 5.48653 36.486 1.94787 35.2433 0.742535Z" fill="white"/>
   <path d="M35.2433 0.742534C34.014 2.0892 30.6807 6.05987 30.6807 9.4372C30.6807 11.9425 32.7127 13.9812 35.2113 13.9812C37.7087 13.9812 39.7407 11.9425 39.7407 9.4372C39.7407 5.48653 36.486 1.94787 35.2433 0.742534Z" stroke="black" stroke-miterlimit="10"/>

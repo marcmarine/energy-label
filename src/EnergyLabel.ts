@@ -1,4 +1,4 @@
-import { renderTemplateOptions, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
+import { templateFactory, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
 import { QRCodeGenerator, SVGOptimizer } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
@@ -15,11 +15,11 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
 
     if (this.template !== 'arrow') {
       const { eprelRegistrationNumber } = this.data as unknown as TemplatesData[TemplatesWithQR]
-      const qrCodeDataUrl = await QRCodeGenerator.generate(eprelRegistrationNumber)
+      const qrCodeDataUrl = await QRCodeGenerator.generate(`https://eprel.ec.europa.eu/${eprelRegistrationNumber}`)
       templateOptions = { ...this.data, qrCodeDataUrl }
     }
 
-    const result = renderTemplateOptions(this.template, templateOptions)
+    const result = templateFactory(this.template, templateOptions)
 
     return SVGOptimizer.optimize(result)
   }

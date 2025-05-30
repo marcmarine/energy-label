@@ -4,8 +4,6 @@
     "": {
       "name": "energy-label",
       "dependencies": {
-        "@lit-labs/ssr": "^3.3.1",
-        "lit-html": "^3.2.1",
         "qrcode": "^1.5.4",
         "svgo": "^4.0.0-rc.1",
       },

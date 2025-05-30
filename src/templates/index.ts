@@ -1,5 +1,3 @@
-import { render } from '@lit-labs/ssr'
-import { collectResultSync } from '@lit-labs/ssr/lib/render-result.js'
 import arrowTemplate from './arrow'
 import refrigeratingAppliancesTemplate, { type HouseholdFridgesAndFreezersData, type WineStorageAppliancesData } from './refrigerating-appliances'
 import smartphonesAndTabletsTemplate, { type SmartphonesAndTabletsData } from './smartphones'
@@ -32,7 +30,7 @@ export type TemplatesDataValues = Partial<
   }
 >
 
-const templateFactory = (templateKey: TemplateName, data: TemplatesDataValues) => {
+export const templateFactory = (templateKey: TemplateName, data: TemplatesDataValues) => {
   switch (templateKey) {
     case 'refrigerating-appliances':
       return refrigeratingAppliancesTemplate(data)
@@ -41,11 +39,4 @@ const templateFactory = (templateKey: TemplateName, data: TemplatesDataValues) =
     default:
       return arrowTemplate(data as EfficiencyRatingData)
   }
-}
-
-export function renderTemplateOptions(templateKey: TemplateName = 'arrow', data: TemplatesDataValues) {
-  const template = templateFactory(templateKey, data)
-  const result = render(template)
-
-  return collectResultSync(result)
 }
