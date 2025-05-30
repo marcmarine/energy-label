@@ -1,7 +1,5 @@
-import QRCode from 'qrcode'
-import { optimize } from 'svgo/browser'
 import { renderTemplateOptions, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
-import { QRCodeGenerator } from './utils'
+import { QRCodeGenerator, SVGOptimizer } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   private template?: T
@@ -10,16 +8,6 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   constructor(template?: T, data: Partial<TemplatesData[T]> = {}) {
     this.template = template
     this.data = data
-  }
-
-  private generateSVGDocument(svgString: string) {
-    const parser = new DOMParser()
-
-    return parser.parseFromString(svgString, 'image/svg+xml')
-  }
-
-  private optimizeSVG(svgString: string) {
-    return optimize(svgString).data
   }
 
   async generateLabel(): Promise<string> {
@@ -32,7 +20,8 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     }
 
     const result = renderTemplateOptions(this.template, templateOptions)
-    return this.optimizeSVG(result)
+
+    return SVGOptimizer.optimize(result)
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
@@ -41,7 +30,8 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     }
 
     const svgString = await this.generateLabel()
-    const svgDocument = this.generateSVGDocument(svgString)
+    const parser = new DOMParser()
+    const svgDocument = parser.parseFromString(svgString, 'image/svg+xml')
     const svgElement = svgDocument.documentElement
 
     svgElement.setAttribute('width', '100%')
