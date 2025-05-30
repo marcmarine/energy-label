@@ -1,26 +1,26 @@
 import { svg } from 'lit-html'
 import { mmToPx } from '../utils'
-import type { EnergyLabelOptions } from '.'
+import type { EnergyLabelBaseData } from '.'
 import * as common from './common'
 
-export interface RefrigeratingAppliancesOption extends EnergyLabelOptions {
+export interface RefrigeratingAppliancesData extends EnergyLabelBaseData {
   annualEnergyConsumption: number
   noiseEmissions: number
   noiseEmissionsClass: string
 }
-export interface WineStorageAppliancesOptions extends RefrigeratingAppliancesOption {
+export interface WineStorageAppliancesData extends RefrigeratingAppliancesData {
   bottleCapacity: number
 }
 
-export interface HouseholdFridgesAndFreezersOptions extends RefrigeratingAppliancesOption {
+export interface HouseholdFridgesAndFreezersData extends RefrigeratingAppliancesData {
   chillVolume: number
   frozenVolume: number
 }
 
 export default (
   options: Partial<
-    WineStorageAppliancesOptions &
-      HouseholdFridgesAndFreezersOptions & {
+    WineStorageAppliancesData &
+      HouseholdFridgesAndFreezersData & {
         qrCodeDataUrl: string
       }
   >

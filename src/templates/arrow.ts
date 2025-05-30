@@ -1,6 +1,7 @@
 import { svg } from 'lit-html'
+import type { EfficiencyRatingData } from '.'
 
-export default ({ efficiencyRating = 'A' }: { efficiencyRating?: string }) => {
+export default ({ efficiencyRating = 'A' }: EfficiencyRatingData) => {
   const classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
   const colors = ['#00A651', '#50B848', '#BFD730', '#FFF200', '#FDB913', '#F37021', '#ED1C24']
 

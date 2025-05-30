@@ -1,16 +1,14 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
-import { renderTemplateOptions, type Templates, type TemplatesWithQR } from './templates'
+import { renderTemplateOptions, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
 
-export default class EnergyLabel<T extends keyof Templates> {
-  public template: T
-  public options: Partial<Templates[T]> = {}
+export default class EnergyLabel<T extends TemplateName = 'arrow'> {
+  private template?: T
+  private data: Partial<TemplatesData[T]>
 
-  constructor(template: T = 'default' as T, options?: Partial<Templates[T]>) {
+  constructor(template?: T, data: Partial<TemplatesData[T]> = {}) {
     this.template = template
-    if (options) {
-      this.options = options
-    }
+    this.data = data
   }
 
   private generateSVGDocument(svgString: string) {
@@ -31,12 +29,12 @@ export default class EnergyLabel<T extends keyof Templates> {
   }
 
   async generateSVGString(): Promise<string> {
-    let templateOptions = this.options
+    let templateOptions = this.data
 
-    if (this.template !== 'default') {
-      const { eprelRegistrationNumber } = this.options as unknown as Templates[TemplatesWithQR]
+    if (this.template !== 'arrow') {
+      const { eprelRegistrationNumber } = this.data as unknown as TemplatesData[TemplatesWithQR]
       const qrCodeDataUrl = await this.generateQRCodeDataUrl(eprelRegistrationNumber)
-      templateOptions = { ...this.options, qrCodeDataUrl }
+      templateOptions = { ...this.data, qrCodeDataUrl }
     }
 
     const result = renderTemplateOptions(this.template, templateOptions)
@@ -77,7 +75,7 @@ export default class EnergyLabel<T extends keyof Templates> {
 
     const downloadLink = document.createElement('a')
     downloadLink.href = url
-    const { supplierName, modelName } = this.options as unknown as Templates[TemplatesWithQR]
+    const { supplierName, modelName } = this.data as unknown as TemplatesData[TemplatesWithQR]
     downloadLink.download = `${supplierName?.replaceAll(' ', '-')}_${modelName}.svg`
 
     document.body.appendChild(downloadLink)

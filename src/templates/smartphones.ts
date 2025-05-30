@@ -1,9 +1,9 @@
 import { svg } from 'lit-html'
-import type { EnergyLabelOptions } from '.'
+import type { EnergyLabelBaseData } from '.'
 import { mmToPx } from '../utils'
 import * as common from './common'
 
-export interface SmartphonesAndTabletsOption extends EnergyLabelOptions {
+export interface SmartphonesAndTabletsData extends EnergyLabelBaseData {
   batteryEnduranceHours: number
   batteryEnduranceMinutes: number
   fallReliabilityClass: string
@@ -14,7 +14,7 @@ export interface SmartphonesAndTabletsOption extends EnergyLabelOptions {
 
 export default (
   options: Partial<
-    SmartphonesAndTabletsOption & {
+    SmartphonesAndTabletsData & {
       qrCodeDataUrl: string
     }
   >
