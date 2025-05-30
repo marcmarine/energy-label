@@ -52,18 +52,10 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     container.appendChild(svgElement)
   }
 
-  createSVGBinaryData(svgString: string): Blob | Buffer {
-    if (typeof window === 'undefined') {
-      return Buffer.from(svgString)
-    } else {
-      return new Blob([svgString], { type: 'image/svg+xml' })
-    }
-  }
-
   async downloadSVGFile(): Promise<void> {
     const svgString = await this.generateLabel()
 
-    const blob = this.createSVGBinaryData(svgString) as Blob
+    const blob = new Blob([svgString], { type: 'image/svg+xml' })
 
     const url = URL.createObjectURL(blob)
 
