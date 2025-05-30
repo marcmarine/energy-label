@@ -28,7 +28,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     return await QRCode.toDataURL(qrCodeUrl, QR_CODE_OPTIONS)
   }
 
-  async generateSVGString(): Promise<string> {
+  async generateLabel(): Promise<string> {
     let templateOptions = this.data
 
     if (this.template !== 'arrow') {
@@ -46,7 +46,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
       return
     }
 
-    const svgString = await this.generateSVGString()
+    const svgString = await this.generateLabel()
     const svgDocument = this.generateSVGDocument(svgString)
     const svgElement = svgDocument.documentElement
 
@@ -67,7 +67,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   }
 
   async downloadSVGFile(): Promise<void> {
-    const svgString = await this.generateSVGString()
+    const svgString = await this.generateLabel()
 
     const blob = this.createSVGBinaryData(svgString) as Blob
 
