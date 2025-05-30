@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
-import { WineStorageAppliancesOptions } from './templates/refrigerating-appliances'
+import { WineStorageAppliancesData } from './templates/refrigerating-appliances'
 
 describe('EnergyLabel', () => {
-  const TEST_LABEL_DATA: Partial<WineStorageAppliancesOptions> = {
+  const TEST_LABEL_DATA: Partial<WineStorageAppliancesData> = {
     supplierName: 'Watermelon',
     modelName: '123A',
     efficiencyRating: 'A',
@@ -15,22 +15,22 @@ describe('EnergyLabel', () => {
   }
 
   it('should to return a default label with default values', async () => {
-    const label = new EnergyLabel()
-    const svgString = await label.generateSVGString()
+    const generator = new EnergyLabel()
+    const label = await generator.generateLabel()
 
-    expect(svgString).toEqual(expect.stringMatching(/>A</))
+    expect(label).toEqual(expect.stringMatching(/>A</))
   })
 
   it('should to return the SVG string with correct data', async () => {
-    const label = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
-    const svgString = await label.generateSVGString()
+    const generatror = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
+    const label = await generatror.generateLabel()
 
     // EPREL Registration Number isn't displayed in the SVG.
     const { eprelRegistrationNumber, ...rest } = TEST_LABEL_DATA
 
     Object.values(rest).map((value: string | number) => {
       const regExp = new RegExp(String(value))
-      expect(svgString).toMatch(regExp)
+      expect(label).toMatch(regExp)
     })
   })
 })

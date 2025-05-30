@@ -2,10 +2,10 @@ import { renderTemplateOptions, type TemplateName, type TemplatesData, type Temp
 import { QRCodeGenerator, SVGOptimizer } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
-  private template?: T
+  private template: T
   private data: Partial<TemplatesData[T]>
 
-  constructor(template?: T, data: Partial<TemplatesData[T]> = {}) {
+  constructor(template: T = 'arrow' as T, data: Partial<TemplatesData[T]> = {}) {
     this.template = template
     this.data = data
   }
