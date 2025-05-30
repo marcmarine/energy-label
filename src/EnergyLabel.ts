@@ -1,6 +1,7 @@
 import QRCode from 'qrcode'
 import { optimize } from 'svgo/browser'
 import { renderTemplateOptions, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
+import { QRCodeGenerator } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   private template?: T
@@ -21,19 +22,12 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     return optimize(svgString).data
   }
 
-  private async generateQRCodeDataUrl(registrationNumber?: string): Promise<string> {
-    const QR_CODE_OPTIONS = { margin: 0, width: 512 }
-    const qrCodeUrl = `https://eprel.ec.europa.eu/${registrationNumber}`
-
-    return await QRCode.toDataURL(qrCodeUrl, QR_CODE_OPTIONS)
-  }
-
   async generateLabel(): Promise<string> {
     let templateOptions = this.data
 
     if (this.template !== 'arrow') {
       const { eprelRegistrationNumber } = this.data as unknown as TemplatesData[TemplatesWithQR]
-      const qrCodeDataUrl = await this.generateQRCodeDataUrl(eprelRegistrationNumber)
+      const qrCodeDataUrl = await QRCodeGenerator.generate(eprelRegistrationNumber)
       templateOptions = { ...this.data, qrCodeDataUrl }
     }
 
