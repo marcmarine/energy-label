@@ -1,6 +1,6 @@
 import { TemplateCommon } from './TemplateCommon'
 import { Template } from './Template'
-import type { EfficiencyRatingData } from '../types'
+import type { EfficiencyRatingData } from '../defintions'
 
 export class ArrowTemplate extends Template<ArrowData> {
   protected getWidth(): number {

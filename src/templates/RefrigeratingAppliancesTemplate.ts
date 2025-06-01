@@ -1,7 +1,7 @@
 import { mmToPx } from '../utils'
 import { TemplateCommon } from './TemplateCommon'
 import { Template } from './Template'
-import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../types'
+import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
 
 export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> {
   protected getWidth(): number {
