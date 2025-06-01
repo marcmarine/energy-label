@@ -1,19 +1,20 @@
 import { templateFactory, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
+import type { Template } from './templates/Template'
 import { SVGOptimizer } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
-  private template: T
+  private templateFactory: Template
   private data: Partial<TemplatesData[T]>
 
   constructor(template: T = 'arrow' as T, data: Partial<TemplatesData[T]> = {}) {
-    this.template = template
+    this.templateFactory = templateFactory(template)
     this.data = data
   }
 
   async generateLabel(): Promise<string> {
     let templateOptions = this.data
 
-    const result = await templateFactory(this.template).generate(templateOptions)
+    const result = await this.templateFactory.generate(templateOptions)
 
     return SVGOptimizer.optimize(result)
   }
