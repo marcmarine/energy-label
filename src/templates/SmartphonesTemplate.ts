@@ -88,7 +88,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
     <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
-      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours}</tspan><tspan font-size="13pt">h</tspan>
+      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours}</tspan><tspan font-size="13pt">h </tspan>
       <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes}</tspan><tspan font-size="9pt">min</tspan>
     </text>
   </g>
@@ -211,7 +211,10 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   ${repairabilityClassIcon(mmToPx(41.6), mmToPx(3), repairabilityClass ?? 'D')}
   ${batteryEnduranceCyclesIcon(mmToPx(18), mmToPx(25), batteryEnduranceInCycles ?? 'XY00')}
   ${ingressProtectionIcon(mmToPx(50), mmToPx(25), ingressProtectionRating ?? 'IPXY')}
-</g>`
+</g>
+<text transform="translate(${mmToPx(68 - 1.3 - 2)} ${mmToPx(136 - 2)}) rotate(90)" fill="black" font-family="Verdana" font-size="5pt" text-anchor="end">
+  2023/1669
+</text>`
   }
 }
 
