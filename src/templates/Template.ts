@@ -50,5 +50,8 @@ export abstract class Template<T = ArrowData> {
     const content = sections.join('')
 
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none">${content}</svg>`
+      .replace(/\n+/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .replace(/>\s+</g, '><')
   }
 }
