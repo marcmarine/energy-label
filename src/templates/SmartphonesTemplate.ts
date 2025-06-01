@@ -69,7 +69,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 
   protected createConsumption(): string {
     const { batteryEnduranceHours, batteryEnduranceMinutes } = this.data ?? {}
-    const digits = String(batteryEnduranceHours ?? 'X').concat(String(batteryEnduranceMinutes ?? 'Y')).length
+
+    const digits = `${batteryEnduranceHours ?? 'X'}${batteryEnduranceMinutes ?? 'Y'}`.length
 
     const symbolBateryEndurance = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
   <path d="M15.1756 5.49085V29.4003C15.1756 30.2848 14.5349 31 13.7425 31H2.43314C1.64207 31 1 30.2848 1 29.4003V5.49085C1 4.60781 1.64207 3.8912 2.43314 3.8912H13.7425C14.5349 3.8912 15.1756 4.60781 15.1756 5.49085ZM4.96213 3.8912V1.95181C4.96213 1.42639 5.34412 0.999999 5.81551 0.999999H10.142C10.6134 0.999999 10.9941 1.42639 10.9941 1.95181V3.8912" fill="white"/>
@@ -88,8 +89,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
     <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
-      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours}</tspan><tspan font-size="13pt">h </tspan>
-      <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes}</tspan><tspan font-size="9pt">min</tspan>
+      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours || 'X'}</tspan><tspan font-size="13pt">h </tspan>
+      <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes || 'Y'}</tspan><tspan font-size="9pt">min</tspan>
     </text>
   </g>
 </g>
