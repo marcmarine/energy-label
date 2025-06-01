@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, type FlagOriginData, type TemplateName } from 'energy-label'
+import { createEnergyLabel, type FlagOriginData, type TemplateName, LabelDOMRenderer } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { generateFakeOptions } from './lib/utils'
@@ -44,13 +44,17 @@ export default function Page() {
 
   useEffect(() => {
     if (labelContainerRef.current) {
-      label.appendSVGToElement(labelContainerRef.current!)
+      label.generateLabel().then(svgString => {
+        LabelDOMRenderer.appendToElement(labelContainerRef.current!, svgString)
+      })
     }
   }, [label])
 
   const handleDownload = useCallback(() => {
-    label.downloadSVGFile()
-  }, [label])
+    label.generateLabel().then(svgString => {
+      LabelDOMRenderer.downloadFile(svgString, `${String(options.supplierName)?.replaceAll(' ', '-')}_${options.modelName}.svg`)
+    })
+  }, [label, options])
 
   const getProductLabel = (origin: string) => {
     const label = 'Product'
@@ -128,17 +132,21 @@ export default function Page() {
               <CodeBlock language="bash" text="npm i energy-label@beta" />
               <CodeBlock
                 language="js"
-                text={`// Import the energy label generator function
-import { createEnergyLabel } from 'energy-label'
+                text={`// Import the energy label factory function and DOM utilities.
+import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
 
-// Create the energy label instance for ${regulationName}
+// Create an energy label instance for ${regulationName} with product data.
 const label = createEnergyLabel(${arrowLabel ? undefined : `'${regulation}'`}, ${JSON.stringify({ flagOrigin, ...getCurrentRegulationOptions() }, null, 2)})
 
-// Method 1: Finds an HTML element with ID 'energy-label' and appends the SVG
-label.appendSVGToElement(document.querySelector('#energy-label'))
+// Display the energy label in the DOM element with ID 'energy-label'.
+label.generateLabel().then(svgString => {
+  LabelDOMRenderer.appendToElement(document.querySelector('#energy-label'), svgString)
+})
 
-// Method 2: Triggers a b owser download with the generated energy label
-label.downloadSVGFile()`}
+// Download the energy label as an SVG file (default: "label.svg").
+label.generateLabel().then(svgString => {
+  LabelDOMRenderer.downloadFile(svgString)
+})`}
               />
               <a href={GITHUB_BETA_URL} className="va-link self-end">
                 View source code
@@ -187,7 +195,7 @@ label.downloadSVGFile()`}
       </div>
       <div className="surface flex-1 justify-center">
         <div className="flex flex-col h-screen sticky top-0">
-          <div ref={labelContainerRef} className="px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1" />
+          <div ref={labelContainerRef} id="label-canvas" className={`px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1 ${arrowLabel ? 'arrow' : ''}`} />
           <div className="pb-8 gap-2 flex flex-col items-center justify-center md:hidden">
             <button onClick={handleDownload} className="va-button">
               Download the label in SVG
