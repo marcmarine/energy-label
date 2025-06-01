@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
-import { WineStorageAppliancesData } from './templates/RefrigeratingAppliances'
+import { WineStorageAppliancesData } from './types'
 
 describe('EnergyLabel', () => {
   const TEST_LABEL_DATA: Partial<WineStorageAppliancesData> = {

@@ -1,7 +1,7 @@
 import { Template } from './Template'
-import { type EnergyLabelBaseData, type QRCodeDataUrlData } from '.'
 import { mmToPx } from '../utils'
 import { TemplateCommon } from './TemplateCommon'
+import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../types'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected getWidth(): number {

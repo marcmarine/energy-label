@@ -1,8 +1,6 @@
-import type { EfficiencyRatingData } from '.'
 import { TemplateCommon } from './TemplateCommon'
 import { Template } from './Template'
-
-export interface ArrowData extends EfficiencyRatingData {}
+import type { EfficiencyRatingData } from '../types'
 
 export class ArrowTemplate extends Template<ArrowData> {
   protected getWidth(): number {
@@ -25,3 +23,5 @@ export class ArrowTemplate extends Template<ArrowData> {
     />`
   }
 }
+
+export interface ArrowData extends EfficiencyRatingData {}

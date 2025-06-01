@@ -1,4 +1,4 @@
-import type { FlagOriginData } from '.'
+import type { FlagOriginData } from '../types'
 
 export class TemplateCommon {
   static EFFICIENCY_SCALE_COLORS: Record<string, string> = {

@@ -1,5 +1,6 @@
-import { templateFactory, type TemplateName, type TemplatesData, type TemplatesWithQR } from './templates'
+import { templateFactory } from './templates'
 import type { Template } from './templates/Template'
+import type { TemplateName, TemplatesData, TemplatesWithQR } from './types'
 import { SVGOptimizer } from './utils'
 
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
