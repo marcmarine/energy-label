@@ -1,4 +1,4 @@
-import type { HouseholdFridgesAndFreezersData, WineStorageAppliancesData } from './templates/RefrigeratingAppliances'
+import type { HouseholdFridgesAndFreezersData, WineStorageAppliancesData } from './templates/RefrigeratingAppliancesTemplate'
 import type { SmartphonesAndTabletsData } from './templates/SmartphonesTemplate'
 
 export type FlagOriginData = 'EU' | 'UK'

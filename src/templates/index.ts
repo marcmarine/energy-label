@@ -1,5 +1,5 @@
 import { ArrowTemplate } from './ArrowTemplate'
-import { RefrigeratingAppliancesTemplate } from './RefrigeratingAppliances'
+import { RefrigeratingAppliancesTemplate } from './RefrigeratingAppliancesTemplate'
 import { SmartphonesTemplate } from './SmartphonesTemplate'
 import type { TemplateName } from '../types'
 
