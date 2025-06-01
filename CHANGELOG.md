@@ -1,3 +1,18 @@
+# [1.0.0-beta.6](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-06-01)
+
+
+### Bug Fixes
+
+* **smartphones:** Adjust battery display and adds regulation number ([59d7483](https://github.com/marcmarine/energy-label/commit/59d74830d4243e933a0d2610a960cdcb5030ed78))
+
+
+### Features
+
+* Extract DOM manipulation to utility functions ([8bdc671](https://github.com/marcmarine/energy-label/commit/8bdc6718bf67aef59fc5498354f66e58388c08d1))
+* Rename `generateSVGString` to `generateLabel` ([2c2f0fd](https://github.com/marcmarine/energy-label/commit/2c2f0fdd3fbe744407a47453454db86199faf2ac))
+* Simplify SVG appending logic ([86c876d](https://github.com/marcmarine/energy-label/commit/86c876d7de1a0c180a70c54d9f0495640235bba5))
+* **template:** Optimize SVG output formatting ([25853a6](https://github.com/marcmarine/energy-label/commit/25853a605c31202bc2d11a1909264e3dff15583b))
+
 # [1.0.0-beta.5](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-05-10)
 
 
