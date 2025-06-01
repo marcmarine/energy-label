@@ -21,21 +21,14 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   }
 
   async appendSVGToElement(container: HTMLElement): Promise<void> {
-    if (!container) {
-      return
-    }
+    container.innerHTML = ''
 
     const svgString = await this.generateLabel()
     const parser = new DOMParser()
-    const svgDocument = parser.parseFromString(svgString, 'image/svg+xml')
-    const svgElement = svgDocument.documentElement
+    const doc = parser.parseFromString(svgString, 'image/svg+xml')
+    const svg = doc.documentElement
 
-    svgElement.setAttribute('width', '100%')
-    svgElement.setAttribute('height', '100%')
-
-    container.innerHTML = ''
-
-    container.appendChild(svgElement)
+    container.appendChild(svg)
   }
 
   async downloadSVGFile(): Promise<void> {
