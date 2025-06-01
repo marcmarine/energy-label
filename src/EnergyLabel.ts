@@ -19,33 +19,4 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
 
     return SVGOptimizer.optimize(result)
   }
-
-  async appendSVGToElement(container: HTMLElement): Promise<void> {
-    container.innerHTML = ''
-
-    const svgString = await this.generateLabel()
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(svgString, 'image/svg+xml')
-    const svg = doc.documentElement
-
-    container.appendChild(svg)
-  }
-
-  async downloadSVGFile(): Promise<void> {
-    const svgString = await this.generateLabel()
-
-    const blob = new Blob([svgString], { type: 'image/svg+xml' })
-
-    const url = URL.createObjectURL(blob)
-
-    const downloadLink = document.createElement('a')
-    downloadLink.href = url
-    const { supplierName, modelName } = this.data as unknown as TemplatesData[TemplatesWithQR]
-    downloadLink.download = `${supplierName?.replaceAll(' ', '-')}_${modelName}.svg`
-
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-
-    document.body.removeChild(downloadLink)
-  }
 }
