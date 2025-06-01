@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
-import { WineStorageAppliancesData } from './templates/refrigerating-appliances'
+import { WineStorageAppliancesData } from './templates/RefrigeratingAppliances'
 
 describe('EnergyLabel', () => {
   const TEST_LABEL_DATA: Partial<WineStorageAppliancesData> = {
@@ -28,7 +28,7 @@ describe('EnergyLabel', () => {
     // EPREL Registration Number isn't displayed in the SVG.
     const { eprelRegistrationNumber, ...rest } = TEST_LABEL_DATA
 
-    Object.values(rest).map((value: string | number) => {
+    Object.values(rest).map(value => {
       const regExp = new RegExp(String(value))
       expect(label).toMatch(regExp)
     })
