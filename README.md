@@ -7,10 +7,10 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
 ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label/beta)
 
-![Energy label example of household fridges and freezers](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
+![Example of an energy label for smartphones](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
 
 > [!IMPORTANT]
-> Currently, it is available only for household refrigerating appliances. [Regulation (EU) 2019/2016](https://eur-lex.europa.eu/eli/reg_del/2019/2016/2023-09-30)
+> This library is in the early stages of development, so breaking changes are possible.
 
 ## Features
 
@@ -19,6 +19,9 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 - Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
 - Compatible with **any JavaScript framework**, including **React**, **Vue**, **Svelte**, **Angular**, and more.
 - Easily embeddable in websites, SPAs, CMSs, or static pages.
+
+> [!NOTE]
+> It is currently available for smartphones and tablets, refrigerators and arrow labels. More templates will be added gradually.
 
 ## Installation
 
@@ -36,7 +39,7 @@ You can generate an energy label and save it as an SVG file using Node.js:
 import EnergyLabel from 'energy-label'
 import fs from 'node:fs'
 
-const label = new EnergyLabel('2019/2016/2023-09-30')
+const label = new EnergyLabel('smartphones')
 
 label.generateLabel().then(string => {
   fs.writeFileSync('example.svg', string)
