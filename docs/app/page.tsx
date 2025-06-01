@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, type FlagOriginOption, type TemplateName } from 'energy-label'
+import { createEnergyLabel, type FlagOriginData, type TemplateName } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { generateFakeOptions } from './lib/utils'
@@ -13,7 +13,7 @@ import CodeBlock from './components/code-block'
 export default function Page() {
   const labelContainerRef = useRef(null)
 
-  const [flagOrigin, setFlagOrigin] = useState<FlagOriginOption>('EU')
+  const [flagOrigin, setFlagOrigin] = useState<FlagOriginData>('EU')
   const [regulation, setRegulation] = useState<TemplateName>('smartphones')
   const [arrowLabel, setArrowLabel] = useState(false)
   const generateOptions = useCallback(() => {
@@ -79,7 +79,7 @@ export default function Page() {
                   <select
                     key="flagOrigin"
                     value={flagOrigin}
-                    onChange={e => setFlagOrigin(e.target.value as FlagOriginOption)}
+                    onChange={e => setFlagOrigin(e.target.value as FlagOriginData)}
                     className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-semibold text-lg appearance-none"
                   >
                     {['EU', 'UK'].map(origin => (
