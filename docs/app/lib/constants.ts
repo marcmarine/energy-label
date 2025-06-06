@@ -3,6 +3,14 @@ export const GITHUB_BETA_URL = 'https://github.com/marcmarine/energy-label/tree/
 export const FIGMA_URL = 'https://www.figma.com/community/file/1487367561346990079'
 export const NPM_URL_BETA = 'https://www.npmjs.com/package/energy-label/v/beta'
 export const REGULATIONS = {
+  arrow: {
+    name: 'Arrow Label',
+    regulationNumber: null,
+    inputs: [
+      { label: 'Efficiency class', key: 'efficiencyRating', type: 'select', options: ['A', 'B', 'C', 'D', 'E', 'F', 'G'] },
+      { label: 'Label orientation', key: 'labelOrientation', type: 'select', options: ['Left', 'Right'] }
+    ]
+  },
   smartphones: {
     name: 'Smartphones and Tablets',
     regulationNumber: '2023/1669',

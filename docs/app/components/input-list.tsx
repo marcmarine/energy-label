@@ -20,7 +20,7 @@ export default function DynamicInputList({ config, values, setValues }: DynamicI
           {type === 'select' ? (
             <select value={values[key]} onChange={e => setValues(prev => ({ ...prev, [key]: e.target.value }))} className="py-0.5 select flex-1 text-right outline-none font-semibold">
               {selectOptions?.map(option => (
-                <option key={option} value={option}>
+                <option key={option} value={option.toUpperCase()}>
                   {option}
                 </option>
               ))}

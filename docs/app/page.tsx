@@ -15,7 +15,6 @@ export default function Page() {
 
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginData>('EU')
   const [regulation, setRegulation] = useState<TemplateName>('smartphones')
-  const [arrowLabel, setArrowLabel] = useState(false)
   const generateOptions = useCallback(() => {
     const fakeOptions = generateFakeOptions()
     return {
@@ -27,20 +26,21 @@ export default function Page() {
 
   const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
 
+  const { name: regulationName, regulationNumber, inputs: inputList } = useMemo(() => REGULATIONS[regulation as keyof typeof REGULATIONS], [regulation])
+
   const getCurrentRegulationOptions = useCallback(() => {
-    const regulationInputs = REGULATIONS[regulation as keyof typeof REGULATIONS].inputs
     const currentOptions: Record<string, string | number> = {}
 
-    regulationInputs.forEach(input => {
+    inputList.forEach(input => {
       if (options[input.key] !== undefined) {
         currentOptions[input.key] = options[input.key]
       }
     })
 
     return currentOptions
-  }, [options, regulation])
+  }, [options, inputList])
 
-  const label = useMemo(() => createEnergyLabel(arrowLabel ? undefined : regulation, { ...options, flagOrigin }), [flagOrigin, options, arrowLabel, regulation])
+  const label = useMemo(() => createEnergyLabel(regulation, { ...options, flagOrigin }), [flagOrigin, options, regulation])
 
   useEffect(() => {
     if (labelContainerRef.current) {
@@ -65,8 +65,6 @@ export default function Page() {
         return 'European ' + label
     }
   }
-
-  const { name: regulationName, regulationNumber } = REGULATIONS[regulation as keyof typeof REGULATIONS]
 
   return (
     <>
@@ -106,15 +104,10 @@ export default function Page() {
                   </select>
                 ]}
               />
-              <label className="inline-flex items-center cursor-pointer">
-                <span className="me-2 text-sm font-medium text-nowrap">View Arrow</span>
-                <input type="checkbox" checked={arrowLabel} onChange={e => setArrowLabel(e.target.checked)} className="sr-only peer" />
-                <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
-              </label>
             </div>
             <h2 className="mb-2 font-semibold text-xl">Product information</h2>
             <div className="mb-8 flex flex-col gap-2 w-full">
-              <InputList config={REGULATIONS[regulation as keyof typeof REGULATIONS].inputs} values={options} setValues={setOptions} />
+              <InputList config={inputList} values={options} setValues={setOptions} />
               <div>
                 <p className="font-semibold">Regulation (EU) {regulationNumber}</p>
                 <p>
@@ -136,7 +129,7 @@ export default function Page() {
 import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
 
 // Create an energy label instance for ${regulationName} with product data.
-const label = createEnergyLabel(${arrowLabel ? undefined : `'${regulation}'`}, ${JSON.stringify({ flagOrigin, ...getCurrentRegulationOptions() }, null, 2)})
+const label = createEnergyLabel(${`'${regulation}'`}, ${JSON.stringify({ ...(regulation !== 'arrow' && { flagOrigin }), ...getCurrentRegulationOptions() }, null, 2)})
 
 // Display the energy label in the DOM element with ID 'energy-label'.
 label.generateLabel().then(svgString => {
@@ -195,7 +188,7 @@ label.generateLabel().then(svgString => {
       </div>
       <div className="surface flex-1 justify-center">
         <div className="flex flex-col h-screen sticky top-0">
-          <div ref={labelContainerRef} id="label-canvas" className={`px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1 ${arrowLabel ? 'arrow' : ''}`} />
+          <div ref={labelContainerRef} id="label-canvas" className="px-8 pt-12 pb-8 md:pb-12 w-full mx-auto max-w-xl overflow-hidden flex items-center flex-1" />
           <div className="pb-8 gap-2 flex flex-col items-center justify-center md:hidden">
             <button onClick={handleDownload} className="va-button">
               Download the label in SVG
