@@ -1,11 +1,17 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { Template } from './Template'
+import { describe, it, expect } from 'vitest'
 import { ArrowTemplate } from './ArrowTemplate'
 
 describe('Arrow Template', () => {
-  it('should generate complete arrow template', async () => {
+  it('should generate a complete template with default settings', async () => {
     const template = new ArrowTemplate()
     const result = await template.generate({})
+
+    expect(result).toMatchSnapshot()
+  })
+
+  it('should generate a complete left-oriented template', async () => {
+    const template = new ArrowTemplate()
+    const result = await template.generate({ labelOrientation: 'RIGHT' })
 
     expect(result).toMatchSnapshot()
   })

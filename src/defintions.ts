@@ -1,3 +1,4 @@
+import type { ArrowData } from './templates/ArrowTemplate'
 import type { HouseholdFridgesAndFreezersData, WineStorageAppliancesData } from './templates/RefrigeratingAppliancesTemplate'
 import type { SmartphonesAndTabletsData } from './templates/SmartphonesTemplate'
 
@@ -25,7 +26,7 @@ export type TemplateName = keyof TemplatesData
 export type TemplatesWithQR = Exclude<TemplateName, 'arrow'>
 
 export interface TemplatesData {
-  arrow: EfficiencyRatingData
+  arrow: ArrowData
   'refrigerating-appliances': WineStorageAppliancesData | HouseholdFridgesAndFreezersData
   smartphones: SmartphonesAndTabletsData
 }
