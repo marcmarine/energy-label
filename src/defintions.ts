@@ -23,8 +23,6 @@ export type { WineStorageAppliancesData, HouseholdFridgesAndFreezersData, Smartp
 
 export type TemplateName = keyof TemplatesData
 
-export type TemplatesWithQR = Exclude<TemplateName, 'arrow'>
-
 export interface TemplatesData {
   arrow: ArrowData
   'refrigerating-appliances': WineStorageAppliancesData | HouseholdFridgesAndFreezersData
