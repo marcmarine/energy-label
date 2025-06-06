@@ -14,7 +14,7 @@ export default function Page() {
   const labelContainerRef = useRef(null)
 
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginData>('EU')
-  const [regulation, setRegulation] = useState<TemplateName>('smartphones')
+  const [template, setTemplate] = useState<TemplateName>('smartphones')
   const generateOptions = useCallback(() => {
     const fakeOptions = generateFakeOptions()
     return {
@@ -26,7 +26,7 @@ export default function Page() {
 
   const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
 
-  const { name: regulationName, regulationNumber, inputs: inputList } = useMemo(() => REGULATIONS[regulation as keyof typeof REGULATIONS], [regulation])
+  const { name: regulationName, regulationNumber, inputs: inputList } = useMemo(() => REGULATIONS[template as TemplateName], [template])
 
   const getCurrentRegulationOptions = useCallback(() => {
     const currentOptions: Record<string, string | number> = {}
@@ -40,7 +40,7 @@ export default function Page() {
     return currentOptions
   }, [options, inputList])
 
-  const label = useMemo(() => createEnergyLabel(regulation, { ...options, flagOrigin }), [flagOrigin, options, regulation])
+  const label = useMemo(() => createEnergyLabel(template, { ...options, flagOrigin }), [flagOrigin, options, template])
 
   useEffect(() => {
     if (labelContainerRef.current) {
@@ -92,8 +92,8 @@ export default function Page() {
                   </select>,
                   <select
                     key="regulation"
-                    value={regulation}
-                    onChange={e => setRegulation(e.target.value as TemplateName)}
+                    value={template}
+                    onChange={e => setTemplate(e.target.value as TemplateName)}
                     className="select border-b border-dotted border-[var(--va-text-weak)] hover:bg-[var(--bg-surface)] w-full outline-none font-semibold text-lg appearance-none"
                   >
                     {Object.keys(REGULATIONS).map(key => (
@@ -129,7 +129,7 @@ export default function Page() {
 import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
 
 // Create an energy label instance for ${regulationName} with product data.
-const label = createEnergyLabel(${`'${regulation}'`}, ${JSON.stringify({ ...(regulation !== 'arrow' && { flagOrigin }), ...getCurrentRegulationOptions() }, null, 2)})
+const label = createEnergyLabel(${`'${template}'`}, ${JSON.stringify({ ...(template !== 'arrow' && { flagOrigin }), ...getCurrentRegulationOptions() }, null, 2)})
 
 // Display the energy label in the DOM element with ID 'energy-label'.
 label.generateLabel().then(svgString => {
