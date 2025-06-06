@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createEnergyLabel, type FlagOriginData, type TemplateName, LabelDOMRenderer } from 'energy-label'
+import { type FlagOriginData, type TemplateName } from 'energy-label'
 import Header from './components/header'
 import Breadcrumb from './components/breadcrumb'
 import { generateFakeOptions } from './lib/utils'
@@ -9,10 +9,10 @@ import VersionNumber from './components/version-number'
 import { GITHUB_BETA_URL, NPM_URL_BETA, REGULATIONS } from './lib/constants'
 import InputList from './components/input-list'
 import CodeBlock from './components/code-block'
+import { useEnergyLabel } from './lib/use-energy-label'
 
 export default function Page() {
   const labelContainerRef = useRef(null)
-
   const [flagOrigin, setFlagOrigin] = useState<FlagOriginData>('EU')
   const [template, setTemplate] = useState<TemplateName>('smartphones')
   const generateOptions = useCallback(() => {
@@ -23,8 +23,14 @@ export default function Page() {
       ...fakeOptions['refrigerating-appliances']
     } as Record<string, string | number>
   }, [])
-
   const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
+  const { loading, renderTo, download } = useEnergyLabel(template, options)
+
+  useEffect(() => {
+    if (labelContainerRef.current) {
+      renderTo(labelContainerRef.current)
+    }
+  }, [renderTo])
 
   const { name: regulationName, regulationNumber, inputs: inputList } = useMemo(() => REGULATIONS[template as TemplateName], [template])
 
@@ -40,21 +46,9 @@ export default function Page() {
     return currentOptions
   }, [options, inputList])
 
-  const label = useMemo(() => createEnergyLabel(template, { ...options, flagOrigin }), [flagOrigin, options, template])
-
-  useEffect(() => {
-    if (labelContainerRef.current) {
-      label.generateLabel().then(svgString => {
-        LabelDOMRenderer.appendToElement(labelContainerRef.current!, svgString)
-      })
-    }
-  }, [label])
-
   const handleDownload = useCallback(() => {
-    label.generateLabel().then(svgString => {
-      LabelDOMRenderer.downloadFile(svgString, `${String(options.supplierName)?.replaceAll(' ', '-')}_${options.modelName}.svg`)
-    })
-  }, [label, options])
+    download(`${String(options.supplierName)?.replaceAll(' ', '-')}_${options.modelName}.svg`)
+  }, [download, options])
 
   const getProductLabel = (origin: string) => {
     const label = 'Product'
@@ -74,7 +68,7 @@ export default function Page() {
         </div>
         <div className="flex flex-col flex-1">
           <div className="px-4 md:px-8 pt-5 flex-1">
-            <h1 className="mb-2 font-bold text-4xl">Energy Label Generator</h1>
+            <h1 className={`mb-2 font-bold text-4xl ${loading ? 'va-loading-dots' : ''}`}>Energy Label Generator</h1>
             <div className="-mx-4 md:-mx-8 pt-1 py-1.5 mb-5 flex flex-col md:flex-row md:items-center justify-between gap-3 border-t border-white/5 border-dashed px-4 md:px-8 sticky top-[60] bg-[color-mix(in_srgb,var(--va-color-background)_90%,transparent)] backdrop-blur-lg z-10">
               <Breadcrumb
                 items={[
