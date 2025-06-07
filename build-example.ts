@@ -3,6 +3,6 @@ import fs from 'node:fs'
 
 const label = new EnergyLabel('smartphones')
 
-label.generateLabel().then(string => {
+label.generate().then(string => {
   fs.writeFileSync('example.svg', string)
 })

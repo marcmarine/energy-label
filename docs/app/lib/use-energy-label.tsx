@@ -9,7 +9,6 @@ export function useEnergyLabel<T extends TemplateName>(template: T, data: Partia
   useEffect(() => {
     setLoading(true)
     createEnergyLabel(template, data)
-      .generateLabel()
       .then(setSvg)
       .catch(setError)
       .finally(() => setLoading(false))

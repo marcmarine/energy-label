@@ -3,7 +3,7 @@ import { appendToElement, downloadFile } from './utils'
 import type { TemplateName, TemplatesData } from './defintions'
 
 export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>) {
-  return new EnergyLabel(template, data)
+  return new EnergyLabel(template, data).generate()
 }
 
 export const LabelDOMRenderer = {

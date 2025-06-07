@@ -12,7 +12,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
     this.data = data
   }
 
-  async generateLabel(): Promise<string> {
+  async generate(): Promise<string> {
     let templateOptions = this.data
 
     const result = await this.templateFactory.generate(templateOptions)
