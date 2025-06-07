@@ -1,9 +1,41 @@
-import EnergyLabel from './EnergyLabelGenerator'
+import EnergyLabelGenerator from './EnergyLabelGenerator'
 import { appendToElement, downloadFile } from './utils'
 import type { TemplateName, TemplatesData } from './defintions'
 
-export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>) {
-  return new EnergyLabel(template, data).generate()
+/**
+ * Creates an energy label SVG in a single operation.
+ *
+ * @template {TemplateName} [T='arrow'] - The template name type that determines the label structure.
+ *
+ * @param {T} [template='arrow'] - The template name to use for generating the label.
+ * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
+ *
+ * @returns {Promise<string>} A Promise that resolves to an optimized SVG string.
+ *
+ * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
+ *
+ * @example
+ * ```typescript
+ * // Generate with specific template
+ * const arrowSvg = await createEnergyLabel('smartphones', {
+ *   flagOrigin: 'EU',
+ *   supplierName: 'Sultana',
+ *   modelName: '92COU8944VK',
+ *   eprelRegistrationNumber: '3712289',
+ *   efficiencyRating: 'D',
+ *   batteryEnduranceHours: 74,
+ *   batteryEnduranceMinutes: 47,
+ *   fallReliabilityClass: 'C',
+ *   repairabilityClass: 'E',
+ *   batteryEnduranceInCycles: '3900',
+ *   ingressProtectionRating: 'IP14'
+ * });
+ *
+ * ```
+ *
+ */
+export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): Promise<string> {
+  return new EnergyLabelGenerator(template, data).generate()
 }
 
 export const LabelDOMRenderer = {
@@ -13,4 +45,4 @@ export const LabelDOMRenderer = {
 
 export * from './defintions'
 
-export default EnergyLabel
+export default EnergyLabelGenerator

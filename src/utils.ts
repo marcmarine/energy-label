@@ -19,6 +19,27 @@ export class SVGOptimizer {
   }
 }
 
+/**
+ * Appends an SVG string to a DOM element, replacing any existing content.
+ *
+ * @param {HTMLElement} container - The DOM element where the SVG will be appended.
+ * @param {string} svgString - The SVG markup as a string to be inserted.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the SVG has been successfully appended.
+ *
+ * @throws {Error} May throw if the SVG string is invalid or DOM manipulation fails.
+ *
+ * @example
+ * ```typescript
+ * // Get container element
+ * const container = document.getElementById('energy-label');
+ *
+ * // Generate SVG and append to container
+ * const svgString = await createEnergyLabel('arrow', { efficiencyRating: 'A' });
+ * await appendToElement(container, svgString);
+ * ```
+ *
+ */
 export async function appendToElement(container: HTMLElement, svgString: string): Promise<void> {
   container.innerHTML = ''
 
@@ -29,7 +50,25 @@ export async function appendToElement(container: HTMLElement, svgString: string)
   container.appendChild(svg)
 }
 
-export async function downloadFile(svgString: string, filename = 'label.svg'): Promise<void> {
+/**
+ * Downloads an SVG string as a file to the user's device.
+ *
+ * @param {string} svgString - The SVG markup as a string to be downloaded.
+ * @param {string} [filename='label.svg'] - The filename for the downloaded file.
+ *
+ * @returns {Promise<void>} A Promise that resolves when the download has been initiated.
+ *
+ * @throws {Error} May throw if blob creation fails or download cannot be initiated.
+ *
+ * @example
+ * ```typescript
+ * // Download with default filename
+ * const svgString = await createEnergyLabel('arrow', { efficiencyRating: 'A' });
+ * await downloadFile(svgString); // Downloads as 'label.svg'
+ * ```
+ *
+ */
+export async function downloadFile(svgString: string, filename: string = 'label.svg'): Promise<void> {
   const blob = new Blob([svgString], { type: 'image/svg+xml' })
   const url = URL.createObjectURL(blob)
 
