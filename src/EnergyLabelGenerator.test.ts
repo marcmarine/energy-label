@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import EnergyLabel from './EnergyLabel'
+import EnergyLabel from './EnergyLabelGenerator'
 import { WineStorageAppliancesData } from './defintions'
 
 describe('EnergyLabel', () => {

@@ -3,7 +3,7 @@ import type { Template } from './templates/Template'
 import type { TemplateName, TemplatesData } from './defintions'
 import { SVGOptimizer } from './utils'
 
-export default class EnergyLabel<T extends TemplateName = 'arrow'> {
+export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
   private templateFactory: Template
   private data: Partial<TemplatesData[T]>
 

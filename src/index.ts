@@ -1,4 +1,4 @@
-import EnergyLabel from './EnergyLabel'
+import EnergyLabel from './EnergyLabelGenerator'
 import { appendToElement, downloadFile } from './utils'
 import type { TemplateName, TemplatesData } from './defintions'
 
