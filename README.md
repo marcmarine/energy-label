@@ -7,7 +7,7 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
 ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label/beta)
 
-![Energy label example of wine refrigerator](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
+![Example of an energy label for smartphones](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
 
 > [!IMPORTANT]
 > This library is in the early stages of development, so breaking changes are possible.
@@ -41,7 +41,7 @@ import fs from 'node:fs'
 
 const label = new EnergyLabel('smartphones')
 
-label.generateLabel().then(string => {
+label.generate().then(string => {
   fs.writeFileSync('example.svg', string)
 })
 ```
@@ -53,7 +53,7 @@ label.generateLabel().then(string => {
 Import the library and create an energy label instance with your product data:
 
 ```js
-import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
+import { createEnergyLabel, appendTo, download } from 'energy-label'
 
 const label = createEnergyLabel('smartphones', {
   flagOrigin: 'EU',
@@ -73,8 +73,8 @@ const label = createEnergyLabel('smartphones', {
 Render the label inside an HTML element:
 
 ```js
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.appendToElement(document.querySelector('#energy-label'), svgString)
+label.generate().then(svgString => {
+  appendTo(document.querySelector('#energy-label'), svgString)
 })
 ```
 
@@ -89,8 +89,10 @@ Make sure the container element exists in your HTML:
 You can also download the label directly as an SVG file:
 
 ```js
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.downloadFile(svgString)
+label.generate().then(svgString => {
+  download(svgString)
+  // Or with a custom filename:
+  // download(svgString, 'my-energy-label.svg')
 })
 ```
 
@@ -100,7 +102,7 @@ This example uses React with hooks to generate and render an energy label in the
 
 ```tsx
 import { useEffect, useRef } from 'react'
-import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
+import { createEnergyLabel, appendTo } from 'energy-label'
 
 export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -121,8 +123,8 @@ export function EnergyLabel() {
     })
 
     if (containerRef.current) {
-      label.generateLabel().then(svg => {
-        LabelDOMRenderer.appendToElement(containerRef.current!, svg)
+      label.generate().then(svg => {
+        appendTo(containerRef.current!, svg)
       })
     }
   }, [])
