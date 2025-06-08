@@ -24,7 +24,7 @@ export default function Page() {
     } as Record<string, string | number>
   }, [])
   const [options, setOptions] = useState<Record<string, string | number>>(generateOptions())
-  const { loading, renderTo, download } = useEnergyLabel(template, options)
+  const { loading, renderTo, download } = useEnergyLabel(template, { flagOrigin, ...options })
 
   useEffect(() => {
     if (labelContainerRef.current) {
