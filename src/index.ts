@@ -1,5 +1,5 @@
 import EnergyLabelGenerator from './EnergyLabelGenerator'
-import { appendToElement, downloadFile } from './utils'
+import { appendTo, download } from './utils'
 import type { TemplateName, TemplatesData } from './defintions'
 
 /**
@@ -38,10 +38,7 @@ export function createEnergyLabel<T extends TemplateName>(template?: T, data?: P
   return new EnergyLabelGenerator(template, data).generate()
 }
 
-export const LabelDOMRenderer = {
-  appendToElement,
-  downloadFile
-}
+export { appendTo, download }
 
 export * from './defintions'
 

@@ -25,22 +25,24 @@ export class SVGOptimizer {
  * @param {HTMLElement} container - The DOM element where the SVG will be appended.
  * @param {string} svgString - The SVG markup as a string to be inserted.
  *
- * @returns {Promise<void>} A Promise that resolves when the SVG has been successfully appended.
+ * @returns {void} This function does not return a value.
  *
- * @throws {Error} May throw if the SVG string is invalid or DOM manipulation fails.
+ * @throws {Error} May throw if the SVG string is malformed and cannot be parsed.
  *
  * @example
  * ```typescript
- * // Get container element
- * const container = document.getElementById('energy-label');
+ * import EnergyLabelGenerator, { appendTo } from 'energy-label'
  *
- * // Generate SVG and append to container
- * const svgString = await createEnergyLabel('arrow', { efficiencyRating: 'A' });
- * await appendToElement(container, svgString);
+ * const element = document.getElementById('energy-label')
+ *
+ * const generator = new EnergyLabelGenerator('arrow', { efficiencyRating: 'A' })
+ * const svgString = await generator.generate()
+ *
+ * appendTo(element, svgString)
  * ```
- *
+ * @group DOM Utilities
  */
-export async function appendToElement(container: HTMLElement, svgString: string): Promise<void> {
+export function appendTo(container: HTMLElement, svgString: string): void {
   container.innerHTML = ''
 
   const parser = new DOMParser()
@@ -56,19 +58,26 @@ export async function appendToElement(container: HTMLElement, svgString: string)
  * @param {string} svgString - The SVG markup as a string to be downloaded.
  * @param {string} [filename='label.svg'] - The filename for the downloaded file.
  *
- * @returns {Promise<void>} A Promise that resolves when the download has been initiated.
+ * @returns {void} This function does not return a value.
  *
- * @throws {Error} May throw if blob creation fails or download cannot be initiated.
+ * @throws {Error} May throw if blob creation fails.
  *
  * @example
  * ```typescript
- * // Download with default filename
- * const svgString = await createEnergyLabel('arrow', { efficiencyRating: 'A' });
- * await downloadFile(svgString); // Downloads as 'label.svg'
- * ```
+ * import EnergyLabelGenerator, { download } from 'energy-label'
  *
+ * const element = document.getElementById('energy-label')
+ *
+ * const generator = new EnergyLabelGenerator('arrow', { efficiencyRating: 'A' })
+ * const svgString = await generator.generate()
+ *
+ * download(svgString)
+ * // Or with a custom filename:
+ * download(svgString, 'my-energy-label.svg')
+ * ```
+ * @group DOM Utilities
  */
-export async function downloadFile(svgString: string, filename: string = 'label.svg'): Promise<void> {
+export function download(svgString: string, filename: string = 'label.svg'): void {
   const blob = new Blob([svgString], { type: 'image/svg+xml' })
   const url = URL.createObjectURL(blob)
 
