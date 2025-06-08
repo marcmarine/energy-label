@@ -1,9 +1,9 @@
-# Energy Label ⚡ Generator
+# Energy ⚡ Label Generator
 
 A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG files in Node.js.
 
 [![NPM Version (with dist tag)](https://img.shields.io/npm/v/energy-label/beta)](https://www.npmjs.com/package/energy-label/v/beta)
-[![GitHub License](https://img.shields.io/github/license/marcmarine/energy-label)](LICENSE)
+[![GitHub License](https://img.shields.io/github/license/marcmarine/energy-label)](https://github.com/marcmarine/energy-label/blob/main/LICENSE)
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
 ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label/beta)
 
