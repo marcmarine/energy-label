@@ -120,19 +120,19 @@ export default function Page() {
               <CodeBlock
                 language="js"
                 text={`// Import the energy label factory function and DOM utilities.
-import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
+import { createEnergyLabel, appendTo, download } from 'energy-label'
 
 // Create an energy label instance for ${regulationName} with product data.
 const label = createEnergyLabel(${`'${template}'`}, ${JSON.stringify({ ...(template !== 'arrow' && { flagOrigin }), ...getCurrentRegulationOptions() }, null, 2)})
 
 // Display the energy label in the DOM element with ID 'energy-label'.
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.appendToElement(document.querySelector('#energy-label'), svgString)
+label.generate().then(svgString => {
+  appendTo(document.querySelector('#energy-label'), svgString)
 })
 
 // Download the energy label as an SVG file (default: "label.svg").
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.downloadFile(svgString)
+label.generate().then(svgString => {
+  download(svgString)
 })`}
               />
               <a href={GITHUB_BETA_URL} className="va-link self-end">
