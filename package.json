@@ -1,6 +1,6 @@
 {
   "name": "energy-label",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Generate EU-compliant energy labels in SVG format.",
   "repository": {
     "type": "git",

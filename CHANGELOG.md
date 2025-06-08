@@ -1,3 +1,10 @@
+# [1.0.0-beta.7](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-06-08)
+
+
+### Features
+
+* Add label orientation to `ArrowTemplate` ([b0d4995](https://github.com/marcmarine/energy-label/commit/b0d4995c655115f33bc7e700fab1a3fa3d8ce420))
+
 # [1.0.0-beta.6](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-06-01)
 
 
