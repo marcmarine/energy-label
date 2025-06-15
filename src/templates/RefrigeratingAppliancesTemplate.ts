@@ -134,11 +134,11 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
       mmToPx(133.5)
     )}
 <text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${chillVolume}</tspan><tspan font-size="12pt"> L</tspan>
+  <tspan font-size="16pt" font-weight="bold" >${frozenVolume}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
 <text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${frozenVolume}</tspan><tspan font-size="12pt"> L</tspan>
+  <tspan font-size="16pt" font-weight="bold" >${chillVolume}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
