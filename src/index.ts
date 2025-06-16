@@ -10,7 +10,7 @@ import type { TemplateName, TemplatesData } from './defintions'
  * @param {T} [template='arrow'] - The template name to use for generating the label.
  * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
  *
- * @returns {Promise<string>} A Promise that resolves to an optimized SVG string.
+ * @returns {EnergyLabelGenerator} A Promise that resolves to an optimized SVG string.
  *
  * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
  *
@@ -34,8 +34,8 @@ import type { TemplateName, TemplatesData } from './defintions'
  * ```
  *
  */
-export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): Promise<string> {
-  return new EnergyLabelGenerator(template, data).generate()
+export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
+  return new EnergyLabelGenerator(template, data)
 }
 
 export { appendTo, download }
