@@ -6,11 +6,15 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 [![GitHub License](https://img.shields.io/github/license/marcmarine/energy-label)](LICENSE)
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
 ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label/beta)
+[![TypeDoc](https://img.shields.io/badge/view-docs-cyan.svg)](https://docs.label.energy)
+[![Studio](https://img.shields.io/badge/view-playground-fuchsia.svg)](https://studio.label.energy)
+
+<details close>
+<summary>🖼️ <strong>Example</strong></summary>
 
 ![Example of an energy label for smartphones](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
 
-> [!IMPORTANT]
-> This library is in the early stages of development, so breaking changes are possible.
+</details>
 
 ## Features
 
@@ -29,20 +33,25 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 npm install energy-label@beta
 ```
 
-## Usage
+See our [documentation](https://docs.label.energy) for more installation methods.
+
+## Basic Usage
+
+> [!WARNING]
+> This library is in the early stages of development, so breaking changes are possible.
 
 ### Node.js
 
 You can generate an energy label and save it as an SVG file using Node.js:
 
 ```js
-import EnergyLabel from 'energy-label'
+import { EnergyLabelGenerator } from 'energy-label'
 import fs from 'node:fs'
 
-const label = new EnergyLabel('smartphones')
+const label = new EnergyLabelGenerator('smartphones')
 
-label.generateLabel().then(string => {
-  fs.writeFileSync('example.svg', string)
+label.generate().then(svgString => {
+  fs.writeFileSync('example.svg', svgString)
 })
 ```
 
@@ -53,9 +62,9 @@ label.generateLabel().then(string => {
 Import the library and create an energy label instance with your product data:
 
 ```js
-import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
+import { EnergyLabel, appendTo, download } from 'energy-label'
 
-const label = createEnergyLabel('smartphones', {
+const label = EnergyLabel('smartphones', {
   flagOrigin: 'EU',
   supplierName: 'Sultana',
   modelName: '92COU8944VK',
@@ -73,15 +82,15 @@ const label = createEnergyLabel('smartphones', {
 Render the label inside an HTML element:
 
 ```js
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.appendToElement(document.querySelector('#energy-label'), svgString)
+label.generate().then(svgString => {
+  appendTo(document.getElementById('label-container'), svgString)
 })
 ```
 
 Make sure the container element exists in your HTML:
 
 ```html
-<div id="energy-label"></div>
+<div id="label-container"></div>
 ```
 
 #### Download the Label as an SVG File
@@ -89,18 +98,20 @@ Make sure the container element exists in your HTML:
 You can also download the label directly as an SVG file:
 
 ```js
-label.generateLabel().then(svgString => {
-  LabelDOMRenderer.downloadFile(svgString)
+label.generate().then(svgString => {
+  download(svgString)
+  // Or with a custom filename:
+  // download(svgString, 'my-energy-label.svg')
 })
 ```
 
 ### React
 
-This example uses React with hooks to generate and render an energy label in the DOM.
+This example uses React to generate and render an energy label in the DOM.
 
 ```tsx
 import { useEffect, useRef } from 'react'
-import { createEnergyLabel, LabelDOMRenderer } from 'energy-label'
+import { EnergyLabel as createEnergyLabel, appendTo } from 'energy-label'
 
 export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -121,8 +132,8 @@ export function EnergyLabel() {
     })
 
     if (containerRef.current) {
-      label.generateLabel().then(svg => {
-        LabelDOMRenderer.appendToElement(containerRef.current!, svg)
+      label.generate().then(svgString => {
+        appendTo(containerRef.current!, svgString)
       })
     }
   }, [])
