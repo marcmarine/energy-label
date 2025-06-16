@@ -10,9 +10,12 @@ import { SVGOptimizer } from './utils'
  *
  * @example
  * ```typescript
+ * import { EnergyLabelGenerator } from 'energy-label'
+ *
  * // Create with default arrow template
- * const label = new EnergyLabel();
- * const svg = await label.generate();
+ * const label = new EnergyLabelGenerator()
+ *
+ * const svgString = await label.generate()
  * ```
  */
 export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
@@ -35,7 +38,7 @@ export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
    *
    * @example
    * ```typescript
-   * const label = new EnergyLabel('smartphones', {
+   * const label = new EnergyLabelGenerator('smartphones', {
    *   flagOrigin: 'EU',
    *   supplierName: 'Sultana',
    *   modelName: '92COU8944VK',
@@ -47,7 +50,7 @@ export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
    *   repairabilityClass: 'E',
    *   batteryEnduranceInCycles: '3900',
    *   ingressProtectionRating: 'IP14'
-   * });
+   * })
    * ```
    */
   constructor(template: T = 'arrow' as T, data: Partial<TemplatesData[T]> = {}) {

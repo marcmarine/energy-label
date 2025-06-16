@@ -16,8 +16,7 @@ import type { TemplateName, TemplatesData } from './defintions'
  *
  * @example
  * ```typescript
- * // Generate with specific template
- * const arrowSvg = await createEnergyLabel('smartphones', {
+ * const label = EnergyLabel('smartphones', {
  *   flagOrigin: 'EU',
  *   supplierName: 'Sultana',
  *   modelName: '92COU8944VK',
@@ -29,17 +28,17 @@ import type { TemplateName, TemplatesData } from './defintions'
  *   repairabilityClass: 'E',
  *   batteryEnduranceInCycles: '3900',
  *   ingressProtectionRating: 'IP14'
- * });
+ * })
  *
+ * // Generate with specific template
+ * const svgString = await label.generate()
  * ```
  *
  */
-export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
+export function EnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
   return new EnergyLabelGenerator(template, data)
 }
 
-export { appendTo, download }
+export { EnergyLabelGenerator, appendTo, download }
 
 export * from './defintions'
-
-export default EnergyLabelGenerator

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import EnergyLabel from './EnergyLabelGenerator'
+import EnergyLabelGenerator from './EnergyLabelGenerator'
 import { WineStorageAppliancesData } from './defintions'
 
 describe('EnergyLabel', () => {
@@ -15,14 +15,14 @@ describe('EnergyLabel', () => {
   }
 
   it('should to return a default label with default values', async () => {
-    const generator = new EnergyLabel()
+    const generator = new EnergyLabelGenerator()
     const label = await generator.generate()
 
     expect(label).toEqual(expect.stringMatching(/>A</))
   })
 
   it('should to return the SVG string with correct data', async () => {
-    const generatror = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
+    const generatror = new EnergyLabelGenerator('refrigerating-appliances', TEST_LABEL_DATA)
     const label = await generatror.generate()
 
     // EPREL Registration Number isn't displayed in the SVG.
