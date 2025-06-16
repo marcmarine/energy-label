@@ -1,3 +1,10 @@
+# [1.0.0-beta.8](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-06-16)
+
+
+### Bug Fixes
+
+* **template:** Swap chill and frozen volume display ([3530522](https://github.com/marcmarine/energy-label/commit/3530522138e6f8360f849ca03350b48df56516ea))
+
 # [1.0.0-beta.7](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-06-08)
 
 
