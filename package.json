@@ -19,6 +19,7 @@
     "build:docs": "bunx typedoc",
     "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",
+    "build": "bun build:lib && bun build:types",
     "dev": "bun build:lib -- --watch"
   },
   "bugs": "https://github.com/marcmarine/energy-label/issues/new",
