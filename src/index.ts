@@ -1,6 +1,9 @@
+/**
+ * @module energy-label
+ */
+import type { TemplateName, TemplatesData } from './defintions'
 import EnergyLabelGenerator from './EnergyLabelGenerator'
 import { appendTo, download } from './utils'
-import type { TemplateName, TemplatesData } from './defintions'
 
 /**
  * Creates an energy label SVG in a single operation.
@@ -35,10 +38,10 @@ import type { TemplateName, TemplatesData } from './defintions'
  * ```
  *
  */
-export function EnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
+function EnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
   return new EnergyLabelGenerator(template, data)
 }
 
-export { EnergyLabelGenerator, appendTo, download }
-
 export * from './defintions'
+
+export { EnergyLabelGenerator, EnergyLabel, appendTo, download }

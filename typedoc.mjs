@@ -4,6 +4,7 @@ const config = {
   theme: 'varvara-css',
   includeVersion: true,
   entryPoints: ['src/index.ts'],
+  router: 'structure-dir',
   out: 'docs_html',
   name: 'EnergyLabel Documentation',
   projectDocuments: ['docs/**/*.md'],
@@ -12,6 +13,9 @@ const config = {
     'GitHub repository': 'https://github.com/marcmarine/energy-label/tree/beta',
     'Figma files': 'https://www.figma.com/community/file/1487367561346990079/energy-label-designs',
     'Studio (beta) ✨': 'https://studio.label.energy'
+  },
+  headings: {
+    readme: false
   },
   navigation: {
     includeGroups: true
