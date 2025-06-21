@@ -19,25 +19,26 @@ export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const label = createEnergyLabel('smartphones', {
-      flagOrigin: 'EU',
-      supplierName: 'Sultana',
-      modelName: '92COU8944VK',
-      eprelRegistrationNumber: '3712289',
-      efficiencyRating: 'D',
-      batteryEnduranceHours: 74,
-      batteryEnduranceMinutes: 47,
-      fallReliabilityClass: 'C',
-      repairabilityClass: 'E',
-      batteryEnduranceInCycles: '3900',
-      ingressProtectionRating: 'IP14'
-    })
+    ;(async () => {
+      if (!containerRef.current) return
 
-    if (containerRef.current) {
-      label.generate().then(svg => {
-        appendTo(containerRef.current!, svg)
+      const label = createEnergyLabel('smartphones', {
+        flagOrigin: 'EU',
+        supplierName: 'Sultana',
+        modelName: '92COU8944VK',
+        eprelRegistrationNumber: '3712289',
+        efficiencyRating: 'D',
+        batteryEnduranceHours: 74,
+        batteryEnduranceMinutes: 47,
+        fallReliabilityClass: 'C',
+        repairabilityClass: 'E',
+        batteryEnduranceInCycles: '3900',
+        ingressProtectionRating: 'IP14'
       })
-    }
+
+      const svgString = await label.generate()
+      appendTo(containerRef.current, svgString)
+    })()
   }, [])
 
   return (

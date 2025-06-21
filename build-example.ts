@@ -3,6 +3,5 @@ import fs from 'node:fs'
 
 const label = new EnergyLabelGenerator('smartphones')
 
-label.generate().then(string => {
-  fs.writeFileSync('example.svg', string)
-})
+const svgString = await label.generate()
+fs.writeFileSync('smartphone-label.svg', svgString)

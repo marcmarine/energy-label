@@ -45,52 +45,40 @@ See our [documentation](https://docs.label.energy) for more installation methods
 You can generate an energy label and save it as an SVG file using Node.js:
 
 ```js
-import { EnergyLabelGenerator } from './dist/index.js'
+import { EnergyLabelGenerator } from 'energy-label'
 import fs from 'node:fs'
 
 const label = new EnergyLabelGenerator('smartphones')
 
-label.generate().then(string => {
-  fs.writeFileSync('example.svg', string)
-})
+const svgString = await label.generate()
+fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
 ### Browser
 
 #### Create and Display an Energy Label
 
-Import the library and create an energy label instance with your product data:
-
-```js
-import { EnergyLabel, appendTo, download } from 'energy-label'
-
-const label = EnergyLabel('smartphones', {
-  flagOrigin: 'EU',
-  supplierName: 'Sultana',
-  modelName: '92COU8944VK',
-  eprelRegistrationNumber: '3712289',
-  efficiencyRating: 'D',
-  batteryEnduranceHours: 74,
-  batteryEnduranceMinutes: 47,
-  fallReliabilityClass: 'C',
-  repairabilityClass: 'E',
-  batteryEnduranceInCycles: '3900',
-  ingressProtectionRating: 'IP14'
-})
-```
-
-Render the label inside an HTML element:
-
-```js
-label.generate().then(svgString => {
-  appendTo(document.querySelector('#energy-label'), svgString)
-})
-```
-
-Make sure the container element exists in your HTML:
+Display energy labels directly in web pages using HTML and JavaScript.
 
 ```html
-<div id="energy-label"></div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Energy Label</title>
+  </head>
+  <body>
+    <div id="label-container"></div>
+
+    <script type="module">
+      import { EnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
+
+      const label = EnergyLabel('smartphones')
+
+      const svgString = await label.generate()
+      appendTo(document.getElementById('label-container'), svgString)
+    </script>
+  </body>
+</html>
 ```
 
 #### Download the Label as an SVG File
@@ -111,31 +99,32 @@ This example uses React to generate and render an energy label in the DOM.
 
 ```tsx
 import { useEffect, useRef } from 'react'
-import { EnergyLabel, appendTo } from 'energy-label'
+import { EnergyLabel as createEnergyLabel, appendTo } from 'energy-label'
 
 export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const label = EnergyLabel('smartphones', {
-      flagOrigin: 'EU',
-      supplierName: 'Sultana',
-      modelName: '92COU8944VK',
-      eprelRegistrationNumber: '3712289',
-      efficiencyRating: 'D',
-      batteryEnduranceHours: 74,
-      batteryEnduranceMinutes: 47,
-      fallReliabilityClass: 'C',
-      repairabilityClass: 'E',
-      batteryEnduranceInCycles: '3900',
-      ingressProtectionRating: 'IP14'
-    })
+    ;(async () => {
+      if (!containerRef.current) return
 
-    if (containerRef.current) {
-      label.generate().then(svg => {
-        appendTo(containerRef.current!, svg)
+      const label = createEnergyLabel('smartphones', {
+        flagOrigin: 'EU',
+        supplierName: 'Sultana',
+        modelName: '92COU8944VK',
+        eprelRegistrationNumber: '3712289',
+        efficiencyRating: 'D',
+        batteryEnduranceHours: 74,
+        batteryEnduranceMinutes: 47,
+        fallReliabilityClass: 'C',
+        repairabilityClass: 'E',
+        batteryEnduranceInCycles: '3900',
+        ingressProtectionRating: 'IP14'
       })
-    }
+
+      const svgString = await label.generate()
+      appendTo(containerRef.current, svgString)
+    })()
   }, [])
 
   return (
