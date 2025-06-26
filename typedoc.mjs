@@ -4,7 +4,7 @@ const config = {
   theme: 'varvara-css',
   includeVersion: true,
   entryPoints: ['src/index.ts'],
-  router: 'structure-dir',
+  router: 'kind-dir',
   out: 'docs_html',
   name: 'EnergyLabel Documentation',
   projectDocuments: ['docs/**/*.md'],
