@@ -89,8 +89,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
     <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
-      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours || 'X'}</tspan><tspan font-size="13pt">h </tspan>
-      <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes || 'Y'}</tspan><tspan font-size="9pt">min</tspan>
+      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours ?? 'X'}</tspan><tspan font-size="13pt">h </tspan>
+      <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes ?? 'Y'}</tspan><tspan font-size="9pt">min</tspan>
     </text>
   </g>
 </g>
