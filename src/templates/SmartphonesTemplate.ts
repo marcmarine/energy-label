@@ -114,11 +114,11 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 </g>
 `
 
-    const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: string) => `
+    const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: number | 'XY') => `
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
   <text x="${mmToPx(0)}" y="${mmToPx(16)}" fill="black" font-family="Verdana" text-anchor="middle">
-    <tspan font-size="12pt" font-weight="bold">${batteryEnduranceInCycles}</tspan><tspan font-size="10pt">x</tspan>
+    <tspan font-size="12pt" font-weight="bold">${batteryEnduranceInCycles}00</tspan><tspan font-size="10pt">x</tspan>
   </text>
 </g>
 `
@@ -210,7 +210,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     return `<g transform="translate(0, ${mmToPx(89)})">
   ${fallReliabilityClassIcon(mmToPx(10.67), mmToPx(3), fallReliabilityClass ?? 'B')}
   ${repairabilityClassIcon(mmToPx(41.6), mmToPx(3), repairabilityClass ?? 'D')}
-  ${batteryEnduranceCyclesIcon(mmToPx(18), mmToPx(25), batteryEnduranceInCycles ?? 'XY00')}
+  ${batteryEnduranceCyclesIcon(mmToPx(18), mmToPx(25), batteryEnduranceInCycles ?? 'XY')}
   ${ingressProtectionIcon(mmToPx(50), mmToPx(25), ingressProtectionRating ?? 'IPXY')}
 </g>
 <text transform="translate(${mmToPx(68 - 1.3 - 2)} ${mmToPx(136 - 2)}) rotate(90)" fill="black" font-family="Verdana" font-size="5pt" text-anchor="end">
@@ -224,6 +224,6 @@ export interface SmartphonesAndTabletsData extends EnergyLabelBaseData, QRCodeDa
   batteryEnduranceMinutes: number
   fallReliabilityClass: string
   repairabilityClass: string
-  batteryEnduranceInCycles: string
+  batteryEnduranceInCycles: number
   ingressProtectionRating: string
 }
