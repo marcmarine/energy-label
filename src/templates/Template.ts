@@ -1,3 +1,5 @@
+import { PRODUCT_GROUPS } from '../constants'
+import type { ProductName } from '../defintions'
 import { QRCodeGenerator } from '../utils'
 import type { ArrowData } from './ArrowTemplate'
 import { TemplateCommon } from './TemplateCommon'
@@ -38,8 +40,15 @@ export abstract class Template<T = ArrowData> {
   protected abstract getWidth(): number
   protected abstract getHeight(): number
 
-  protected async generateQRCodeDataUrl(registrationNumber: string): Promise<string> {
-    const url = `${TemplateCommon.EPREL_BASE_URL}/${registrationNumber}`
+  protected buildEprelUrl(product: ProductName, registrationNumber: string): string {
+    const productGroup = PRODUCT_GROUPS[product]
+
+    return `${TemplateCommon.EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${registrationNumber}?navigatingfrom=energy-label`
+  }
+
+  protected async generateQRCodeDataUrl(product: ProductName, registrationNumber: string): Promise<string> {
+    const url = this.buildEprelUrl(product, registrationNumber)
+
     const options = { margin: 0, width: 512 }
     return await QRCodeGenerator.generate(url, options)
   }

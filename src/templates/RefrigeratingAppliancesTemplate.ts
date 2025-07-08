@@ -22,7 +22,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
   protected async createHeader() {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
 
-    const generatedQrCodeImage = await this.generateQRCodeDataUrl(eprelRegistrationNumber as string)
+    const generatedQrCodeImage = await this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber as string)
 
     return `${TemplateCommon.flag(mmToPx(3), mmToPx(3), mmToPx(21), flagOrigin)}
 ${TemplateCommon.logo(mmToPx(26), mmToPx(5), mmToPx(10))}

@@ -1,4 +1,4 @@
-import type { TemplateName } from './defintions'
+import type { ProductName } from './defintions'
 
 type GroupInformation = {
   urlCode: string
@@ -6,7 +6,7 @@ type GroupInformation = {
   regulation: string
 }
 
-export const PRODUCT_GROUPS: Record<Exclude<TemplateName, 'arrow'>, GroupInformation> = {
+export const PRODUCT_GROUPS: Record<ProductName, GroupInformation> = {
   smartphones: {
     urlCode: 'smartphonestablets20231669',
     name: 'Smartphones and slate tablets',

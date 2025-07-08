@@ -80,9 +80,9 @@ describe('Template', () => {
       const mockGenerate = vi.mocked(QRCodeGenerator.generate)
       mockGenerate.mockResolvedValue(mockDataUrl)
 
-      const result = await template['generateQRCodeDataUrl']('ABC123')
+      const result = await template['generateQRCodeDataUrl']('smartphones', 'ABC123')
 
-      expect(mockGenerate).toHaveBeenCalledWith('test-url/ABC123', { margin: 0, width: 512 })
+      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123?navigatingfrom=energy-label', { margin: 0, width: 512 })
       expect(result).toBe(mockDataUrl)
     })
   })

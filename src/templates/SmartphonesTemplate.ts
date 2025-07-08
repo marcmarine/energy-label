@@ -22,7 +22,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected async createHeader(): Promise<string> {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
 
-    const generatedQrCodeImage = await this.generateQRCodeDataUrl(eprelRegistrationNumber as string)
+    const generatedQrCodeImage = await this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber as string)
 
     return `${TemplateCommon.flag(mmToPx(2), mmToPx(2), mmToPx(15), flagOrigin!)}
     ${TemplateCommon.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}

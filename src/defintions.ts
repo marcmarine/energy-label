@@ -30,3 +30,5 @@ export interface TemplatesData {
 }
 
 export type TemplatesDataValues = Partial<TemplatesData[TemplateName] & QRCodeDataUrlData>
+
+export type ProductName = Exclude<TemplateName, 'arrow'>
