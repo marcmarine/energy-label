@@ -1,3 +1,20 @@
+# [1.0.0-beta.9](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-07-08)
+
+
+### Bug Fixes
+
+* Redefine SVG structure for the UK flag ([200b037](https://github.com/marcmarine/energy-label/commit/200b037d66dbe9f67688e2a7e521ed5fadc98bdc))
+* **template:** Improve handling of battery endurance values ([bfa7026](https://github.com/marcmarine/energy-label/commit/bfa70263fc877d8b1668fef806710defb4062b5d))
+* **template:** Refine battery endurance type for data consistency ([653d8ee](https://github.com/marcmarine/energy-label/commit/653d8eedb4179744954bee74e9e16ff759dd2112))
+* Update QR code generation with product-specific URLs ([54318c1](https://github.com/marcmarine/energy-label/commit/54318c12c17a52aad4866dad29a023922b229358))
+
+
+### Features
+
+* Add `PRODUCT_GROUPS` constant and exports it ([0a732d8](https://github.com/marcmarine/energy-label/commit/0a732d8f90d68de0ee6d8e1bb8f3778701d2be79))
+* Align data interfaces with EPREL Public API ([240e649](https://github.com/marcmarine/energy-label/commit/240e649010ecf7f81516206562da4908a630cd47))
+* Make API more intuitive and update documentation ([7f4fce6](https://github.com/marcmarine/energy-label/commit/7f4fce67784a2caf629198b84e4ab0ba04cee18a))
+
 # [1.0.0-beta.8](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-06-16)
 
 
