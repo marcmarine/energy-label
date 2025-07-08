@@ -63,7 +63,7 @@ import fs from 'node:fs'
 const label = new EnergyLabel('smartphones')
 
 // Generate the SVG and save it
-const svgString = await label.generate()
+const svgString = await label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
@@ -93,11 +93,11 @@ Create an `index.html` file:
     <div id="label-container"></div>
 
     <script type="module">
-      import { EnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
+      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
 
-      const label = EnergyLabel('smartphones')
+      const label = createEnergyLabel('smartphones')
 
-      const svgString = await label.generate()
+      const svgString = await label.toString()
       appendTo(document.getElementById('label-container'), svgString)
     </script>
   </body>

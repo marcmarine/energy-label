@@ -67,7 +67,7 @@ npm run build
 The library includes TypeScript definitions. No extra packages needed.
 
 ```typescript
-import { EnergyLabel, type SmartphonesAndTabletsData } from 'energy-label'
+import { createEnergyLabel, type SmartphonesAndTabletsData } from 'energy-label'
 
 const labelData: SmartphonesAndTabletsData = {
   flagOrigin: 'EU',
@@ -76,7 +76,7 @@ const labelData: SmartphonesAndTabletsData = {
   energyClass: 'B'
 }
 
-const label = EnergyLabel('smartphones', labelData)
+const label = createEnergyLabel('smartphones', labelData)
 ```
 
 ## Next Steps

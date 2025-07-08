@@ -45,12 +45,12 @@ See our [documentation](https://docs.label.energy) for more installation methods
 You can generate an energy label and save it as an SVG file using Node.js:
 
 ```js
-import { EnergyLabelGenerator } from 'energy-label'
+import { EnergyLabel } from 'energy-label'
 import fs from 'node:fs'
 
-const label = new EnergyLabelGenerator('smartphones')
+const label = new EnergyLabel('smartphones')
 
-const svgString = await label.generate()
+const svgString = await label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
@@ -70,11 +70,11 @@ Display energy labels directly in web pages using HTML and JavaScript.
     <div id="label-container"></div>
 
     <script type="module">
-      import { EnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
+      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
 
-      const label = EnergyLabel('smartphones')
+      const label = createEnergyLabel('smartphones')
 
-      const svgString = await label.generate()
+      const svgString = await label.toString()
       appendTo(document.getElementById('label-container'), svgString)
     </script>
   </body>
@@ -86,7 +86,7 @@ Display energy labels directly in web pages using HTML and JavaScript.
 You can also download the label directly as an SVG file:
 
 ```js
-label.generate().then(svgString => {
+label.toString().then(svgString => {
   download(svgString)
   // Or with a custom filename:
   // download(svgString, 'my-energy-label.svg')
@@ -99,7 +99,7 @@ This example uses React to generate and render an energy label in the DOM.
 
 ```tsx
 import { useEffect, useRef } from 'react'
-import { EnergyLabel as createEnergyLabel, appendTo } from 'energy-label'
+import { createEnergyLabel, appendTo } from 'energy-label'
 
 export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -121,7 +121,7 @@ export function EnergyLabel() {
         ingressProtectionRating: 'IP14'
       })
 
-      const svgString = await label.generate()
+      const svgString = await label.toString()
       appendTo(containerRef.current, svgString)
     })()
   }, [])

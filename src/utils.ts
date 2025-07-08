@@ -41,12 +41,12 @@ export class SVGOptimizer {
  *
  * @example
  * ```typescript
- * import EnergyLabelGenerator, { appendTo } from 'energy-label'
+ * import EnergyLabel, { appendTo } from 'energy-label'
  *
  * const element = document.getElementById('energy-label')
  *
- * const generator = new EnergyLabelGenerator('arrow', { efficiencyRating: 'A' })
- * const svgString = await generator.generate()
+ * const label = new EnergyLabel('arrow', { efficiencyRating: 'A' })
+ * const svgString = await label.toString()
  *
  * appendTo(element, svgString)
  * ```
@@ -74,12 +74,12 @@ export function appendTo(container: HTMLElement, svgString: string): void {
  *
  * @example
  * ```typescript
- * import EnergyLabelGenerator, { download } from 'energy-label'
+ * import EnergyLabel, { download } from 'energy-label'
  *
  * const element = document.getElementById('energy-label')
  *
- * const generator = new EnergyLabelGenerator('arrow', { efficiencyRating: 'A' })
- * const svgString = await generator.generate()
+ * const label = new EnergyLabel('arrow', { efficiencyRating: 'A' })
+ * const svgString = await label.toString()
  *
  * download(svgString)
  * // Or with a custom filename:

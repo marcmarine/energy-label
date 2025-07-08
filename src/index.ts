@@ -2,7 +2,7 @@
  * @module energy-label
  */
 import type { TemplateName, TemplatesData } from './defintions'
-import EnergyLabelGenerator from './EnergyLabelGenerator'
+import EnergyLabel from './EnergyLabel'
 import { appendTo, download } from './utils'
 
 /**
@@ -13,13 +13,13 @@ import { appendTo, download } from './utils'
  * @param {T} [template='arrow'] - The template name to use for generating the label.
  * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
  *
- * @returns {EnergyLabelGenerator} A Promise that resolves to an optimized SVG string.
+ * @returns {EnergyLabel} A Promise that resolves to an optimized SVG string.
  *
  * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
  *
  * @example
  * ```typescript
- * const label = EnergyLabel('smartphones', {
+ * const label = createEnergyLabel('smartphones', {
  *   flagOrigin: 'EU',
  *   supplierOrTrademark: 'Sultana',
  *   modelIdentifier: '92COU8944VK',
@@ -33,14 +33,14 @@ import { appendTo, download } from './utils'
  * })
  *
  * // Generate with specific template
- * const svgString = await label.generate()
+ * const svgString = await label.toString()
  * ```
  *
  */
-function EnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabelGenerator {
-  return new EnergyLabelGenerator(template, data)
+function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabel {
+  return new EnergyLabel(template, data)
 }
 
 export * from './defintions'
 
-export { EnergyLabelGenerator, EnergyLabel, appendTo, download }
+export { EnergyLabel, createEnergyLabel, appendTo, download }

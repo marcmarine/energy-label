@@ -4,7 +4,7 @@ import type { SmartphonesAndTabletsData } from './templates/SmartphonesTemplate'
 
 export type FlagOriginData = 'EU' | 'UK'
 
-export interface EfficiencyRatingData {
+export interface EnergyClassData {
   energyClass: string
 }
 
@@ -12,7 +12,7 @@ export interface QRCodeDataUrlData {
   qrCodeDataUrl: string
 }
 
-export interface EnergyLabelBaseData extends EfficiencyRatingData {
+export interface EnergyLabelBaseData extends EnergyClassData {
   flagOrigin: FlagOriginData
   supplierOrTrademark: string
   modelIdentifier: string

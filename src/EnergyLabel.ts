@@ -10,15 +10,15 @@ import { SVGOptimizer } from './utils'
  *
  * @example
  * ```typescript
- * import { EnergyLabelGenerator } from 'energy-label'
+ * import { EnergyLabel } from 'energy-label'
  *
  * // Create with default arrow template
- * const label = new EnergyLabelGenerator()
+ * const label = new EnergyLabel()
  *
- * const svgString = await label.generate()
+ * const svgString = await label.toString()
  * ```
  */
-export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
+export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   /**
    * Template factory instance used to generate the energy label.
    * @private
@@ -38,7 +38,7 @@ export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
    *
    * @example
    * ```typescript
-   * const label = new EnergyLabelGenerator('smartphones', {
+   * const label = new EnergyLabel('smartphones', {
    *   flagOrigin: 'EU',
    *   supplierOrTrademark: 'Sultana',
    *   modelIdentifier: '92COU8944VK',
@@ -65,7 +65,7 @@ export default class EnergyLabelGenerator<T extends TemplateName = 'arrow'> {
    * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
    *
    */
-  async generate(): Promise<string> {
+  async toString(): Promise<string> {
     let templateOptions = this.data
 
     const result = await this.templateFactory.generate(templateOptions)

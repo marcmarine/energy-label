@@ -1,7 +1,7 @@
-import { EnergyLabelGenerator } from './dist/index.js'
+import { EnergyLabel } from './dist/index.js'
 import fs from 'node:fs'
 
-const label = new EnergyLabelGenerator('smartphones')
+const label = new EnergyLabel('smartphones')
 
-const svgString = await label.generate()
+const svgString = await label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)

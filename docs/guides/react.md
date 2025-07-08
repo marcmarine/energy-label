@@ -13,7 +13,7 @@ Create a simple React component that renders an energy label:
 
 ```tsx
 import { useEffect, useRef } from 'react'
-import { EnergyLabel as createEnergyLabel, appendTo } from 'energy-label'
+import { createEnergyLabel, appendTo } from 'energy-label'
 
 export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -35,7 +35,7 @@ export function EnergyLabel() {
         ingressProtectionRating: 'IP14'
       })
 
-      const svgString = await label.generate()
+      const svgString = await label.toString()
       appendTo(containerRef.current, svgString)
     })()
   }, [])
@@ -55,7 +55,7 @@ For more complex applications, create a custom hook to manage energy labels:
 
 ```tsx
 import { useCallback, useEffect, useState } from 'react'
-import { EnergyLabel, type TemplateName, type TemplatesData, appendTo, download } from 'energy-label'
+import { createEnergyLabel, type TemplateName, type TemplatesData, appendTo, download } from 'energy-label'
 
 export function useEnergyLabel<T extends TemplateName>(template: T, data: Partial<TemplatesData[T]>) {
   const [svg, setSvg] = useState<string>('')
@@ -64,8 +64,8 @@ export function useEnergyLabel<T extends TemplateName>(template: T, data: Partia
 
   useEffect(() => {
     setLoading(true)
-    EnergyLabel(template, data)
-      .generate()
+    createEnergyLabel(template, data)
+      .toString()
       .then(setSvg)
       .catch(setError)
       .finally(() => setLoading(false))
