@@ -1,5 +1,5 @@
 import { Template } from './Template'
-import { mmToPx } from '../utils'
+import { minutesToHoursAndMinutes, mmToPx } from '../utils'
 import { TemplateCommon } from './TemplateCommon'
 import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
 
@@ -20,7 +20,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   }
 
   protected async createHeader(): Promise<string> {
-    const { flagOrigin, eprelRegistrationNumber, supplierName, modelName } = this.data ?? {}
+    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
 
     const generatedQrCodeImage = await this.generateQRCodeDataUrl(eprelRegistrationNumber as string)
 
@@ -28,16 +28,16 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     ${TemplateCommon.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}
     ${TemplateCommon.qrCodeImage(mmToPx(56), mmToPx(2), mmToPx(10), generatedQrCodeImage)}
     <text id="supplier-name" fill="black" font-family="Verdana" font-size="7pt" font-weight="bold">
-      <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${supplierName || "Supplier's Name"}</tspan>
+      <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${supplierOrTrademark || "Supplier's Name"}</tspan>
     </text>
     <text id="model-identifier" fill="black" font-family="Verdana" font-size="7pt" text-anchor="end">
-      <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${modelName || 'Model Identifier'}</tspan>
+      <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${modelIdentifier || 'Model Identifier'}</tspan>
     </text>
     <path d="M${mmToPx(2)} ${mmToPx(19)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
   }
 
   protected createEfficiencyScale(): string {
-    const efficiencyRating = this.data?.efficiencyRating ?? 'A'
+    const efficiencyRating = this.data?.energyClass ?? 'A'
     const widthsInMm = [17, 20, 23, 26, 29, 32, 35]
 
     return `<g transform="translate(${mmToPx(2)}, ${mmToPx(22)})">${Object.keys(TemplateCommon.EFFICIENCY_SCALE_COLORS)
@@ -68,9 +68,10 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   }
 
   protected createConsumption(): string {
-    const { batteryEnduranceHours, batteryEnduranceMinutes } = this.data ?? {}
+    const { batteryEnduranceInCycles } = this.data ?? {}
+    const { hours, minutes } = minutesToHoursAndMinutes(batteryEnduranceInCycles)
 
-    const digits = `${batteryEnduranceHours ?? 'X'}${batteryEnduranceMinutes ?? 'Y'}`.length
+    const digits = `${hours}${minutes}`.length
 
     const symbolBateryEndurance = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
   <path d="M15.1756 5.49085V29.4003C15.1756 30.2848 14.5349 31 13.7425 31H2.43314C1.64207 31 1 30.2848 1 29.4003V5.49085C1 4.60781 1.64207 3.8912 2.43314 3.8912H13.7425C14.5349 3.8912 15.1756 4.60781 15.1756 5.49085ZM4.96213 3.8912V1.95181C4.96213 1.42639 5.34412 0.999999 5.81551 0.999999H10.142C10.6134 0.999999 10.9941 1.42639 10.9941 1.95181V3.8912" fill="white"/>
@@ -89,8 +90,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
     <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
-      <tspan font-weight="bold" font-size="20pt">${batteryEnduranceHours ?? 'X'}</tspan><tspan font-size="13pt">h </tspan>
-      <tspan font-weight="bold" font-size="13pt">${batteryEnduranceMinutes ?? 'Y'}</tspan><tspan font-size="9pt">min</tspan>
+      <tspan font-weight="bold" font-size="20pt">${hours}</tspan><tspan font-size="13pt">h </tspan>
+      <tspan font-weight="bold" font-size="13pt">${minutes}</tspan><tspan font-size="9pt">min</tspan>
     </text>
   </g>
 </g>
@@ -98,11 +99,11 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   }
 
   protected createFeatures(): string {
-    const { fallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = this.data ?? {}
+    const { repeatedFreeFallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = this.data ?? {}
 
-    const fallReliabilityClassIcon = (x: number, y: number, fallReliabilityClass: string = 'B') => `
+    const fallReliabilityClassIcon = (x: number, y: number, repeatedFreeFallReliabilityClass: string = 'B') => `
 <g transform="translate(${x}, ${y})">
-  ${aToEScale(fallReliabilityClass)}
+  ${aToEScale(repeatedFreeFallReliabilityClass)}
   ${symbolFreeFall(18, 9)}
 </g>
 `
@@ -208,7 +209,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 `
 
     return `<g transform="translate(0, ${mmToPx(89)})">
-  ${fallReliabilityClassIcon(mmToPx(10.67), mmToPx(3), fallReliabilityClass)}
+  ${fallReliabilityClassIcon(mmToPx(10.67), mmToPx(3), repeatedFreeFallReliabilityClass)}
   ${repairabilityClassIcon(mmToPx(41.6), mmToPx(3), repairabilityClass)}
   ${batteryEnduranceCyclesIcon(mmToPx(18), mmToPx(25), batteryEnduranceInCycles)}
   ${ingressProtectionIcon(mmToPx(50), mmToPx(25), ingressProtectionRating)}
@@ -220,9 +221,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 }
 
 export interface SmartphonesAndTabletsData extends EnergyLabelBaseData, QRCodeDataUrlData {
-  batteryEnduranceHours: number
-  batteryEnduranceMinutes: number
-  fallReliabilityClass: string
+  batteryEndurancePerCycle: number
+  repeatedFreeFallReliabilityClass: string
   repairabilityClass: string
   batteryEnduranceInCycles: number
   ingressProtectionRating: string

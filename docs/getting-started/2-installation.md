@@ -71,9 +71,9 @@ import { EnergyLabel, type SmartphonesAndTabletsData } from 'energy-label'
 
 const labelData: SmartphonesAndTabletsData = {
   flagOrigin: 'EU',
-  supplierName: 'Sultana',
-  modelName: '92COU8944VK',
-  efficiencyRating: 'B'
+  supplierOrTrademark: 'Sultana',
+  modelIdentifier: '92COU8944VK',
+  energyClass: 'B'
 }
 
 const label = EnergyLabel('smartphones', labelData)

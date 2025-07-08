@@ -4,14 +4,14 @@ import { WineStorageAppliancesData } from './defintions'
 
 describe('EnergyLabel', () => {
   const TEST_LABEL_DATA: Partial<WineStorageAppliancesData> = {
-    supplierName: 'Watermelon',
-    modelName: '123A',
-    efficiencyRating: 'A',
-    annualEnergyConsumption: 321,
-    bottleCapacity: 12,
+    supplierOrTrademark: 'Watermelon',
+    modelIdentifier: '123A',
+    energyClass: 'A',
+    consolidatedEnergyConsAnnual: 321,
+    capBottles: 12,
     eprelRegistrationNumber: '1234567',
-    noiseEmissions: 12,
-    noiseEmissionsClass: 'A'
+    noise: 12,
+    noiseClass: 'A'
   }
 
   it('should to return a default label with default values', async () => {

@@ -12,7 +12,7 @@ export class ArrowTemplate extends Template<ArrowData> {
   }
 
   protected createEfficiencyScale(): string {
-    const efficiencyRating = this.data?.efficiencyRating ?? 'A'
+    const efficiencyRating = this.data?.energyClass ?? 'A'
     const orientation = this.data?.labelOrientation ?? 'LEFT'
 
     return `

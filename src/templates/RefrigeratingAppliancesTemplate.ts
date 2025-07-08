@@ -20,7 +20,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
   }
 
   protected async createHeader() {
-    const { flagOrigin, eprelRegistrationNumber, supplierName, modelName } = this.data ?? {}
+    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
 
     const generatedQrCodeImage = await this.generateQRCodeDataUrl(eprelRegistrationNumber as string)
 
@@ -28,16 +28,16 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
 ${TemplateCommon.logo(mmToPx(26), mmToPx(5), mmToPx(10))}
 ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeImage)}
 <text id="supplier-name" fill="black" font-family="Verdana" font-size="12" font-weight="bold">
-  <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${supplierName || "Supplier's Name"}</tspan>
+  <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${supplierOrTrademark || "Supplier's Name"}</tspan>
 </text>
 <text id="model-identifier" fill="black" font-family="Verdana" font-size="12" text-anchor="end">
-  <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${modelName || 'Model Identifier'}</tspan>
+  <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${modelIdentifier || 'Model Identifier'}</tspan>
 </text>
 <path d="M${mmToPx(3)} ${mmToPx(27)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />`
   }
 
   protected createEfficiencyScale(): string {
-    const efficiencyRating = this.data?.efficiencyRating ?? 'A'
+    const efficiencyRating = this.data?.energyClass ?? 'A'
     const widthsInMm = [19, 25, 29, 32, 36, 40, 44]
 
     return `
@@ -71,16 +71,16 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
   }
 
   protected createConsumption(): string {
-    const annualEnergyConsumption = this.data?.annualEnergyConsumption ?? 'XYZ'
+    const consolidatedEnergyConsAnnual = this.data?.consolidatedEnergyConsAnnual ?? 'XYZ'
 
     return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="28pt" font-weight="bold">${annualEnergyConsumption}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
+  <tspan font-size="28pt" font-weight="bold">${consolidatedEnergyConsAnnual}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
 </text>
 <path d="M${mmToPx(3)} ${mmToPx(123.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />`
   }
 
   protected createFeatures(): string {
-    const { bottleCapacity, noiseEmissions, noiseEmissionsClass, chillVolume, frozenVolume } = this.data ?? {}
+    const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet } = this.data ?? {}
 
     const symbolWineStorage = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
   <path
@@ -129,28 +129,25 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
   <path d="M4.31961 15.675H24.1266M3.94615 7.87679L1 15.4V53.91H27.46V15.1799L24.5138 7.87679H3.94615ZM4.31961 1V7.87679H24.1266V1H4.31961Z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
 </g>`
 
-    const fridgesAndFreezers = (chillVolume: number | 'XYZ' = 'XYZ', frozenVolume: number | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolFreeze(
-      mmToPx(25.5 - 12 / 2),
-      mmToPx(133.5)
-    )}
+    const fridgesAndFreezers = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | 'XYZ' = 'XYZ', noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
 <text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${frozenVolume}</tspan><tspan font-size="12pt"> L</tspan>
+  <tspan font-size="16pt" font-weight="bold" >${capFreezeNet}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
 <text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${chillVolume}</tspan><tspan font-size="12pt"> L</tspan>
+  <tspan font-size="16pt" font-weight="bold" >${capRefrNet}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
-  <tspan font-size="12pt" font-weight="bold">${noiseEmissions}</tspan><tspan font-size="9pt">dB</tspan>
+  <tspan font-size="12pt" font-weight="bold">${noise}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
 <text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" font-weight="${cls === noiseEmissionsClass ? 'bold' : 'normal'}">${cls}</tspan>`).join('')}
+  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" font-weight="${cls === noiseClass ? 'bold' : 'normal'}">${cls}</tspan>`).join('')}
 </text>`
 
-    const wineStorage = (bottleCapacity: number | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
+    const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
 <text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${bottleCapacity}</tspan>
+  <tspan font-size="16pt" font-weight="bold" >${capBottles}</tspan>
 </text>
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
@@ -160,7 +157,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" font-weight="${cls === noiseEmissionsClass ? 'bold' : 'normal'}">${cls}</tspan>`).join('')}
 </text>`
 
-    return `${Boolean(bottleCapacity) ? wineStorage(bottleCapacity, noiseEmissions, noiseEmissionsClass) : fridgesAndFreezers(chillVolume, frozenVolume, noiseEmissions, noiseEmissionsClass)}
+    return `${Boolean(capBottles) ? wineStorage(capBottles, noise, noiseClass) : fridgesAndFreezers(capRefrNet, capFreezeNet, noise, noiseClass)}
 <text transform="translate(${mmToPx(96 - 3 - 2)} ${mmToPx(192 - 3)}) rotate(90)" fill="black" font-family="Verdana" font-size="6pt" text-anchor="end">
   2019/2016
 </text>`
@@ -168,15 +165,15 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 }
 
 export interface RefrigeratingAppliancesData extends EnergyLabelBaseData, QRCodeDataUrlData {
-  annualEnergyConsumption: number
-  noiseEmissions: number
-  noiseEmissionsClass: string
+  consolidatedEnergyConsAnnual: number
+  noise: number
+  noiseClass: string
 }
 export interface WineStorageAppliancesData extends RefrigeratingAppliancesData {
-  bottleCapacity: number
+  capBottles: number | null
 }
 
 export interface HouseholdFridgesAndFreezersData extends RefrigeratingAppliancesData {
-  chillVolume: number
-  frozenVolume: number
+  capFreezeNet: number
+  capRefrNet: number
 }

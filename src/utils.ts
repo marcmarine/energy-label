@@ -7,6 +7,16 @@ export const mmToPx = (mm: number): number => {
   return Number(result.toFixed(2))
 }
 
+export function minutesToHoursAndMinutes(totalMinutes?: number) {
+  if (typeof totalMinutes !== 'number' || isNaN(totalMinutes) || totalMinutes < 0) {
+    return { hours: 'X', minutes: 'Y' }
+  }
+
+  const hours = Math.floor(totalMinutes / 60)
+  const minutes = totalMinutes % 60
+
+  return { hours, minutes }
+}
 export class QRCodeGenerator {
   static async generate(content: string, options = { margin: 0, width: 512 }): Promise<string> {
     return await QRCode.toDataURL(content, options)

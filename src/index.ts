@@ -21,13 +21,12 @@ import { appendTo, download } from './utils'
  * ```typescript
  * const label = EnergyLabel('smartphones', {
  *   flagOrigin: 'EU',
- *   supplierName: 'Sultana',
- *   modelName: '92COU8944VK',
+ *   supplierOrTrademark: 'Sultana',
+ *   modelIdentifier: '92COU8944VK',
  *   eprelRegistrationNumber: '3712289',
- *   efficiencyRating: 'D',
- *   batteryEnduranceHours: 74,
- *   batteryEnduranceMinutes: 47,
- *   fallReliabilityClass: 'C',
+ *   energyClass: 'D',
+ *   batteryEndurancePerCycle: 4020,
+ *   repeatedFreeFallReliabilityClass: 'C',
  *   repairabilityClass: 'E',
  *   batteryEnduranceInCycles: '3900',
  *   ingressProtectionRating: 'IP14'
