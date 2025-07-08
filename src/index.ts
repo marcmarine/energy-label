@@ -4,6 +4,7 @@
 import type { TemplateName, TemplatesData } from './defintions'
 import EnergyLabel from './EnergyLabel'
 import { appendTo, download } from './utils'
+import { PRODUCT_GROUPS } from './constants'
 
 /**
  * Creates an energy label SVG in a single operation.
@@ -43,4 +44,4 @@ function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<
 
 export * from './defintions'
 
-export { EnergyLabel, createEnergyLabel, appendTo, download }
+export { EnergyLabel, createEnergyLabel, appendTo, download, PRODUCT_GROUPS }
