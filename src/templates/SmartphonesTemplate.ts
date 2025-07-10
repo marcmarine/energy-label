@@ -68,8 +68,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   }
 
   protected createConsumption(): string {
-    const { batteryEnduranceInCycles } = this.data ?? {}
-    const { hours, minutes } = minutesToHoursAndMinutes(batteryEnduranceInCycles)
+    const { batteryEndurancePerCycle } = this.data ?? {}
+    const { hours, minutes } = minutesToHoursAndMinutes(batteryEndurancePerCycle)
 
     const digits = `${hours}${minutes}`.length
 
