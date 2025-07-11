@@ -50,7 +50,7 @@ import fs from 'node:fs'
 
 const label = new EnergyLabel('smartphones')
 
-const svgString = await label.toString()
+const svgString = label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
@@ -74,7 +74,7 @@ Display energy labels directly in web pages using HTML and JavaScript.
 
       const label = createEnergyLabel('smartphones')
 
-      const svgString = await label.toString()
+      const svgString = label.toString()
       appendTo(document.getElementById('label-container'), svgString)
     </script>
   </body>
@@ -86,11 +86,11 @@ Display energy labels directly in web pages using HTML and JavaScript.
 You can also download the label directly as an SVG file:
 
 ```js
-label.toString().then(svgString => {
-  download(svgString)
-  // Or with a custom filename:
-  // download(svgString, 'my-energy-label.svg')
-})
+const svgString = label.toString()
+
+download(svgString)
+// Or with a custom filename:
+// download(svgString, 'my-energy-label.svg')
 ```
 
 ### React
@@ -121,7 +121,7 @@ export function EnergyLabel() {
         ingressProtectionRating: 'IP14'
       })
 
-      const svgString = await label.toString()
+      const svgString = label.toString()
       appendTo(containerRef.current, svgString)
     })()
   }, [])

@@ -16,14 +16,14 @@ describe('EnergyLabel', () => {
 
   it('should to return a default label with default values', async () => {
     const label = new EnergyLabel()
-    const svg = await label.toString()
+    const svg = label.toString()
 
     expect(svg).toEqual(expect.stringMatching(/>A</))
   })
 
   it('should to return the SVG string with correct data', async () => {
     const label = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
-    const svg = await label.toString()
+    const svg = label.toString()
 
     // EPREL Registration Number isn't displayed in the SVG.
     const { eprelRegistrationNumber, ...rest } = TEST_LABEL_DATA

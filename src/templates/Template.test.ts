@@ -30,7 +30,7 @@ class TestTemplate extends Template<{ name: string; model: string }> {
     return '<g id="background"></g>'
   }
 
-  protected async createHeader(): Promise<string> {
+  protected createHeader(): string {
     return `<g id="header">${this.data?.name || 'Default'}</g>`
   }
 
@@ -52,10 +52,10 @@ describe('Template', () => {
   })
 
   describe('generate', () => {
-    it('should include all template sections', async () => {
+    it('should include all template sections', () => {
       const testData = { name: 'Test Product', model: 'Test Model' }
 
-      const result = await template.generate(testData)
+      const result = template.generate(testData)
 
       expect(result).toContain('id="background"')
       expect(result).toContain('id="header"')
@@ -65,8 +65,8 @@ describe('Template', () => {
       expect(result).toContain('Test Product')
     })
 
-    it('should handle empty data correctly', async () => {
-      const result = await template.generate({})
+    it('should handle empty data correctly', () => {
+      const result = template.generate({})
 
       expect(result).toContain('Default')
       expect(result).toMatch(/<svg[^>]*>.*<\/svg>/s)
@@ -78,11 +78,11 @@ describe('Template', () => {
       const mockDataUrl = 'data:image/png;base64,mockQRCode'
       const { QRCodeGenerator } = await import('../utils')
       const mockGenerate = vi.mocked(QRCodeGenerator.generate)
-      mockGenerate.mockResolvedValue(mockDataUrl)
+      mockGenerate.mockReturnValue(mockDataUrl)
 
-      const result = await template['generateQRCodeDataUrl']('smartphones', 'ABC123')
+      const result = template['generateQRCodeDataUrl']('smartphones', 'ABC123')
 
-      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123?navigatingfrom=energy-label', { margin: 0, width: 512 })
+      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123?navigatingfrom=energy-label')
       expect(result).toBe(mockDataUrl)
     })
   })

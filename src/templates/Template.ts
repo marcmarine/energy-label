@@ -7,11 +7,11 @@ import { TemplateCommon } from './TemplateCommon'
 export abstract class Template<T = ArrowData> {
   protected data?: Partial<T>
 
-  async generate(data: Partial<T>): Promise<string> {
+  generate(data: Partial<T>): string {
     this.data = data
 
     const background = this.createBackground()
-    const header = await this.createHeader()
+    const header = this.createHeader()
     const efficiencyScale = this.createEfficiencyScale()
     const consumption = this.createConsumption()
     const features = this.createFeatures()
@@ -23,7 +23,7 @@ export abstract class Template<T = ArrowData> {
     return ''
   }
 
-  protected async createHeader(): Promise<string> {
+  protected createHeader(): string {
     return ''
   }
 
@@ -46,11 +46,10 @@ export abstract class Template<T = ArrowData> {
     return `${TemplateCommon.EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${registrationNumber}?navigatingfrom=energy-label`
   }
 
-  protected async generateQRCodeDataUrl(product: ProductName, registrationNumber: string): Promise<string> {
+  protected generateQRCodeDataUrl(product: ProductName, registrationNumber: string) {
     const url = this.buildEprelUrl(product, registrationNumber)
 
-    const options = { margin: 0, width: 512 }
-    return await QRCodeGenerator.generate(url, options)
+    return QRCodeGenerator.generate(url)
   }
 
   protected render(sections: string[]): string {

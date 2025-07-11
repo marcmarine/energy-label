@@ -35,7 +35,7 @@ export function EnergyLabel() {
         ingressProtectionRating: 'IP14'
       })
 
-      const svgString = await label.toString()
+      const svgString = label.toString()
       appendTo(containerRef.current, svgString)
     })()
   }, [])
@@ -58,34 +58,29 @@ import { useCallback, useEffect, useState } from 'react'
 import { createEnergyLabel, type TemplateName, type TemplatesData, appendTo, download } from 'energy-label'
 
 export function useEnergyLabel<T extends TemplateName>(template: T, data: Partial<TemplatesData[T]>) {
-  const [svg, setSvg] = useState<string>('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const [svgString, setSvgString] = useState<string>('')
 
   useEffect(() => {
-    setLoading(true)
-    createEnergyLabel(template, data)
-      .toString()
-      .then(setSvg)
-      .catch(setError)
-      .finally(() => setLoading(false))
+    const label = createEnergyLabel(template, data)
+
+    setSvgString(label.toString())
   }, [template, data])
 
   const renderTo = useCallback(
     (element: HTMLElement) => {
-      appendTo(element, svg)
+      appendTo(element, svgString)
     },
-    [svg]
+    [svgString]
   )
 
   const handleDownload = useCallback(
     (filename: string) => {
-      download(svg, filename)
+      download(svgString, filename)
     },
-    [svg]
+    [svgString]
   )
 
-  return { svg, loading, error, renderTo, download: handleDownload }
+  return { renderTo, download: handleDownload }
 }
 ```
 

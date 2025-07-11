@@ -3,5 +3,5 @@ import fs from 'node:fs'
 
 const label = new EnergyLabel('smartphones')
 
-const svgString = await label.toString()
+const svgString = label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)

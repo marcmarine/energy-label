@@ -15,7 +15,7 @@ import { SVGOptimizer } from './utils'
  * // Create with default arrow template
  * const label = new EnergyLabel()
  *
- * const svgString = await label.toString()
+ * const svgString = label.toString()
  * ```
  */
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
@@ -60,15 +60,15 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   /**
    * Generates an optimized SVG string representation of the energy label.
    *
-   * @returns {Promise<string>} A Promise that resolves to an optimized SVG string.
+   * @returns {string} An optimized SVG string.
    *
    * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
    *
    */
-  async toString(): Promise<string> {
+  toString(): string {
     let templateOptions = this.data
 
-    const result = await this.templateFactory.generate(templateOptions)
+    const result = this.templateFactory.generate(templateOptions)
 
     return SVGOptimizer.optimize(result)
   }

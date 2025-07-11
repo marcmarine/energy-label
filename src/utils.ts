@@ -1,4 +1,4 @@
-import QRCode from 'qrcode'
+import qrcode from 'qrcode-generator'
 import { optimize } from 'svgo/browser'
 
 export const mmToPx = (mm: number): number => {
@@ -18,13 +18,17 @@ export function minutesToHoursAndMinutes(totalMinutes?: number) {
   return { hours, minutes }
 }
 export class QRCodeGenerator {
-  static async generate(content: string, options = { margin: 0, width: 512 }): Promise<string> {
-    return await QRCode.toDataURL(content, options)
+  static generate(content: string) {
+    const QRCode = qrcode(0, 'L')
+    QRCode.addData(content)
+    QRCode.make()
+
+    return QRCode.createDataURL(2, 0)
   }
 }
 
 export class SVGOptimizer {
-  static async optimize(svgString: string) {
+  static optimize(svgString: string) {
     return optimize(svgString).data
   }
 }
@@ -46,7 +50,7 @@ export class SVGOptimizer {
  * const element = document.getElementById('energy-label')
  *
  * const label = new EnergyLabel('arrow', { efficiencyRating: 'A' })
- * const svgString = await label.toString()
+ * const svgString = label.toString()
  *
  * appendTo(element, svgString)
  * ```
@@ -79,7 +83,7 @@ export function appendTo(container: HTMLElement, svgString: string): void {
  * const element = document.getElementById('energy-label')
  *
  * const label = new EnergyLabel('arrow', { efficiencyRating: 'A' })
- * const svgString = await label.toString()
+ * const svgString = label.toString()
  *
  * download(svgString)
  * // Or with a custom filename:

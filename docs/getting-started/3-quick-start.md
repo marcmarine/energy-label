@@ -63,7 +63,7 @@ import fs from 'node:fs'
 const label = new EnergyLabel('smartphones')
 
 // Generate the SVG and save it
-const svgString = await label.toString()
+const svgString = label.toString()
 fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
@@ -97,7 +97,7 @@ Create an `index.html` file:
 
       const label = createEnergyLabel('smartphones')
 
-      const svgString = await label.toString()
+      const svgString = label.toString()
       appendTo(document.getElementById('label-container'), svgString)
     </script>
   </body>

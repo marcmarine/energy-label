@@ -14,7 +14,7 @@ import { PRODUCT_GROUPS } from './constants'
  * @param {T} [template='arrow'] - The template name to use for generating the label.
  * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
  *
- * @returns {EnergyLabel} A Promise that resolves to an optimized SVG string.
+ * @returns {EnergyLabel} An optimized SVG string.
  *
  * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
  *
@@ -34,7 +34,7 @@ import { PRODUCT_GROUPS } from './constants'
  * })
  *
  * // Generate with specific template
- * const svgString = await label.toString()
+ * const svgString = label.toString()
  * ```
  *
  */
