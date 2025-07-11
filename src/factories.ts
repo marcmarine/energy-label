@@ -1,17 +1,16 @@
-import type { TemplateName, TemplatesData } from './defintions'
+import type { EnergyClass, TemplateName, TemplatesData } from './defintions'
 import EnergyLabel from './EnergyLabel'
+import type { ArrowData } from './templates/ArrowTemplate'
 
 /**
- * Creates an energy label SVG in a single operation.
+ * Creates an `EnergyLabel` instance for generating energy label SVGs.
  *
  * @template {TemplateName} [T='arrow'] - The template name type that determines the label structure.
  *
  * @param {T} [template='arrow'] - The template name to use for generating the label.
  * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
  *
- * @returns {EnergyLabel} An optimized SVG string.
- *
- * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
+ * @returns {EnergyLabel} An `EnergyLabel` instance ready to generate the SVG.
  *
  * @example
  * ```typescript
@@ -35,4 +34,28 @@ import EnergyLabel from './EnergyLabel'
  */
 export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabel {
   return new EnergyLabel(template, data)
+}
+
+/**
+ * Creates an `EnergyLabel` instance configured as an energy class arrow.
+ *
+ * @param {EnergyClass} energyClass - The energy efficiency class to display.
+ * @param {Omit<ArrowData, 'energyClass'>} options - Additional arrow options such as orientation.
+ *
+ * @returns {EnergyLabel<'arrow'> } An `EnergyLabel` instance ready to generate the SVG.
+ *
+ * @example
+ * ```typescript
+ * const label = createClassArrow('B', {
+ *   orientation: 'RIGHT'
+ * })
+ *
+ * const svgString = label.toString()
+ * ```
+ */
+export function createClassArrow(energyClass: EnergyClass, options?: Omit<ArrowData, 'energyClass'>): EnergyLabel<'arrow'> {
+  return new EnergyLabel('arrow', {
+    energyClass,
+    ...options
+  })
 }
