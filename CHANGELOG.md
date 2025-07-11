@@ -1,3 +1,18 @@
+# [1.0.0-beta.10](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-07-11)
+
+
+### Bug Fixes
+
+* Correct incorrect battery endurance variable name ([a21f8cd](https://github.com/marcmarine/energy-label/commit/a21f8cd211c507fdb9f8b14b849d915047608617))
+* Rename mask IDs in flagUK to avoid collision ([80db062](https://github.com/marcmarine/energy-label/commit/80db062e24a4ea5c34b8f127a5ac0de9a341353c))
+
+
+### Features
+
+* Add strict energy class type definitions ([1c98c28](https://github.com/marcmarine/energy-label/commit/1c98c28677d622d7c4d95c16e9c5254cc6ce3738))
+* Introduce createClassArrow function to factories ([7a5f579](https://github.com/marcmarine/energy-label/commit/7a5f579edd004ca5eebf3faa340605e12d3b0664))
+* Remove async from toString calls ([cb7bd25](https://github.com/marcmarine/energy-label/commit/cb7bd250cad0a9af9e44839f25dfa8b0927831ce))
+
 # [1.0.0-beta.9](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-07-08)
 
 
