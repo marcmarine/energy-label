@@ -4,8 +4,10 @@ import type { SmartphonesAndTabletsData } from './templates/SmartphonesTemplate'
 
 export type FlagOriginData = 'EU' | 'UK'
 
+export type EnergyClass = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
+
 export interface EnergyClassData {
-  energyClass: string
+  energyClass: EnergyClass
 }
 
 export interface QRCodeDataUrlData {
