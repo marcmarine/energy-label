@@ -1,5 +1,5 @@
 import qrcode from 'qrcode-generator'
-import { optimize } from 'svgo/browser'
+import { optimize, type Config as SvgoConfig } from 'svgo/browser'
 
 export const mmToPx = (mm: number): number => {
   const result = mm * (96 / 25.4)
@@ -29,7 +29,21 @@ export class QRCodeGenerator {
 
 export class SVGOptimizer {
   static optimize(svgString: string) {
-    return optimize(svgString).data
+    const svgoConfig = {
+      js2svg: { indent: 2, pretty: true },
+      plugins: [
+        {
+          name: 'preset-default',
+          params: {
+            overrides: {
+              cleanupIds: false
+            }
+          }
+        }
+      ]
+    } as SvgoConfig
+
+    return optimize(svgString, svgoConfig).data
   }
 }
 
