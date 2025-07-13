@@ -14,14 +14,14 @@ describe('EnergyLabel', () => {
     noiseClass: 'A'
   }
 
-  it('should to return a default label with default values', async () => {
+  it('should to return a default label with default values', () => {
     const label = new EnergyLabel()
     const svg = label.toString()
 
     expect(svg).toEqual(expect.stringMatching(/>A</))
   })
 
-  it('should to return the SVG string with correct data', async () => {
+  it('should to return the SVG string with correct data', () => {
     const label = new EnergyLabel('refrigerating-appliances', TEST_LABEL_DATA)
     const svg = label.toString()
 

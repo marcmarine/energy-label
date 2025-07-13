@@ -19,7 +19,7 @@ export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    ;(async () => {
+    ;(() => {
       if (!containerRef.current) return
 
       const label = createEnergyLabel('smartphones', {
