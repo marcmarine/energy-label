@@ -129,14 +129,25 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
   <path d="M4.31961 15.675H24.1266M3.94615 7.87679L1 15.4V53.91H27.46V15.1799L24.5138 7.87679H3.94615ZM4.31961 1V7.87679H24.1266V1H4.31961Z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
 </g>`
 
-    const fridgesAndFreezers = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | 'XYZ' = 'XYZ', noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
+    const capacityFreezeUnfrozen = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ') =>
+      capFreezeNet
+        ? `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
 <text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${capFreezeNet}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
 <text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${capRefrNet}</tspan><tspan font-size="12pt"> L</tspan>
-</text>
+</text>`
+        : `${symbolChillCompartment(mmToPx(48 - 7 / 2), mmToPx(133.5))}
+<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+  <tspan font-size="16pt" font-weight="bold" >${capRefrNet}</tspan><tspan font-size="12pt"> L</tspan>
+</text>`
+
+    const fridgesAndFreezers = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ', noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${capacityFreezeUnfrozen(
+      capRefrNet,
+      capFreezeNet
+    )}
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 <text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
   <tspan font-size="12pt" font-weight="bold">${noise}</tspan><tspan font-size="9pt">dB</tspan>
@@ -174,6 +185,6 @@ export interface WineStorageAppliancesData extends RefrigeratingAppliancesData {
 }
 
 export interface HouseholdFridgesAndFreezersData extends RefrigeratingAppliancesData {
-  capFreezeNet: number
+  capFreezeNet: number | null
   capRefrNet: number
 }
