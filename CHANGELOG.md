@@ -1,3 +1,11 @@
+# [1.0.0-beta.11](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-07-16)
+
+
+### Bug Fixes
+
+* Preserve ID attributes on SVG optimization ([e43be13](https://github.com/marcmarine/energy-label/commit/e43be13bc830f6b4524f51d6666834c52072fdd5))
+* **templates:** Allows null capFreezeNet values ([0080adf](https://github.com/marcmarine/energy-label/commit/0080adfca678f34c1d54631bba912f71834b2323))
+
 # [1.0.0-beta.10](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-07-11)
 
 
