@@ -6,13 +6,13 @@ const config = {
   entryPoints: ['src/index.ts'],
   router: 'kind-dir',
   out: 'docs_html',
-  name: 'EnergyLabel Documentation',
+  name: 'EnergyLabel Docs',
   projectDocuments: ['docs/**/*.md'],
   groupOrder: ['Getting Started', 'Guides', 'Classes', 'Functions', 'Interfaces', 'Type Aliases', '*'],
   navigationLinks: {
     'GitHub repository': 'https://github.com/marcmarine/energy-label/tree/beta',
     'Figma files': 'https://www.figma.com/community/file/1487367561346990079/energy-label-designs',
-    'Studio (beta) ✨': 'https://studio.label.energy'
+    'Studio ✨ (beta)': 'https://studio.label.energy'
   },
   headings: {
     readme: false

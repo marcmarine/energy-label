@@ -16,7 +16,7 @@
         "typedoc": "^0.28.5",
         "typescript": "^5.8.2",
         "upgradeps": "^2.0.7",
-        "varvara-typedoc-theme": "^0.3.6",
+        "varvara-typedoc-theme": "^0.3.8",
         "vitest": "^3.0.9",
       },
     },
@@ -1026,9 +1026,9 @@
 
     "validate-npm-package-name": ["validate-npm-package-name@6.0.0", "", {}, "sha512-d7KLgL1LD3U3fgnvWEY1cQXoO/q6EQ1BSz48Sa149V/5zVTAbgmZIpyI8TRi6U9/JNyeYLlTKsEMPtLC27RFUg=="],
 
-    "varvara-css": ["varvara-css@0.7.4", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-tDQz9x9jyKR7XxYQnRcaJZgXmTJBsuGwTf+4UTt9E142YLDaAihtEXnSNEvszJXjFZVTMANCsUouN8bIBK9Srw=="],
+    "varvara-css": ["varvara-css@0.8.0", "", { "peerDependencies": { "typescript": "^5.0.0" } }, "sha512-uWDixKQw2ZN7xwWvUg2hyeycxDo2IvIed6Esx14wGWU9kwTkk8MLrij28rwMFWbvj1kvB0PMKmviNVIXroKjVg=="],
 
-    "varvara-typedoc-theme": ["varvara-typedoc-theme@0.3.6", "", { "dependencies": { "varvara-css": "^0.7.4" }, "peerDependencies": { "typedoc": "^0.28.0", "typescript": "^5.0.0" } }, "sha512-n0SkSldusNpMnTCHDc5yC7ypaH+P5GbzN5DREmBxI/dfdwymPXkkg94qwN+gj3nIIHpwF2FxDp2+TOg/48zfcg=="],
+    "varvara-typedoc-theme": ["varvara-typedoc-theme@0.3.8", "", { "dependencies": { "varvara-css": "^0.8.0" }, "peerDependencies": { "typedoc": "^0.28.0", "typescript": "^5.0.0" } }, "sha512-Rj51pkN27M575zBXVAcIH+V55xVOiUlGM1/6wAo0pa4U1eGEzPv86JkUmjOsPjCFKdcrvNOiQ02x9w/v7XVBmg=="],
 
     "vite": ["vite@6.3.5", "", { "dependencies": { "esbuild": "^0.25.0", "fdir": "^6.4.4", "picomatch": "^4.0.2", "postcss": "^8.5.3", "rollup": "^4.34.9", "tinyglobby": "^0.2.13" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^18.0.0 || ^20.0.0 || >=22.0.0", "jiti": ">=1.21.0", "less": "*", "lightningcss": "^1.21.0", "sass": "*", "sass-embedded": "*", "stylus": "*", "sugarss": "*", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-cZn6NDFE7wdTpINgs++ZJ4N49W2vRp8LCKrn3Ob1kYNtOo21vfDoaV5GzBfLU4MovSAB8uNRm4jgzVQZ+mBzPQ=="],
 
