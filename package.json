@@ -34,7 +34,7 @@
     "typedoc": "^0.28.19",
     "typescript": "^5.9.3",
     "upgradeps": "^2.3.1",
-    "varvara-typedoc-theme": "^0.3.11",
+    "varvara-typedoc-theme": "^0.3.12",
     "vitest": "^3.2.6"
   },
   "dependencies": {
