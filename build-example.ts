@@ -1,7 +1,8 @@
-import { EnergyLabel } from './dist/index.js'
 import fs from 'node:fs'
+import { createClassArrow, EnergyLabel } from './dist/index.js'
 
-const label = new EnergyLabel('smartphones')
+const phoneLabel = new EnergyLabel('smartphones')
+fs.writeFileSync('smartphone-label.svg', phoneLabel.toString())
 
-const svgString = label.toString()
-fs.writeFileSync('smartphone-label.svg', svgString)
+const arrowLabel = createClassArrow('A', { labelOrientation: 'RIGHT' })
+fs.writeFileSync('arrow-example.svg', arrowLabel.toString())

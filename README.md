@@ -9,12 +9,27 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 [![TypeDoc](https://img.shields.io/badge/view-docs-cyan.svg)](https://docs.label.energy)
 [![Studio](https://img.shields.io/badge/view-playground-fuchsia.svg)](https://studio.label.energy)
 
-<details close>
-<summary>🖼️ <strong>Example</strong></summary>
+## Class Arrow
 
-![Example of an energy label for smartphones](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
+![Example of a class arrow](/arrow-example.svg)
 
-</details>
+```js
+import { createClassArrow } from 'energy-label'
+
+const arrowLabel = createClassArrow('A', { labelOrientation: 'RIGHT' })
+const svgString = label.toString()
+```
+
+## Smartphone Label
+
+![Example of an energy label for smartphones](smartphone-label.svg)
+
+```js
+import { createEnergyLabel } from 'energy-label'
+
+const label = createEnergyLabel('smartphones')
+const svgString = label.toString()
+```
 
 ## Features
 
@@ -70,7 +85,10 @@ Display energy labels directly in web pages using HTML and JavaScript.
     <div id="label-container"></div>
 
     <script type="module">
-      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
+      import {
+        createEnergyLabel,
+        appendTo,
+      } from 'https://esm.sh/energy-label@beta'
 
       const label = createEnergyLabel('smartphones')
 
@@ -118,7 +136,7 @@ export function EnergyLabel() {
         repeatedFreeFallReliabilityClass: 'C',
         repairabilityClass: 'E',
         batteryEnduranceInCycles: '3900',
-        ingressProtectionRating: 'IP14'
+        ingressProtectionRating: 'IP14',
       })
 
       const svgString = label.toString()
