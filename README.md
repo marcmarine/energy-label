@@ -9,12 +9,27 @@ A TypeScript library for generating EU-compliant energy labels as SVG files in N
 [![TypeDoc](https://img.shields.io/badge/view-docs-cyan.svg)](https://docs.label.energy)
 [![Studio](https://img.shields.io/badge/view-playground-fuchsia.svg)](https://studio.label.energy)
 
-<details close>
-<summary>🖼️ <strong>Example</strong></summary>
+## Class Arrow
 
-![Example of an energy label for smartphones](https://raw.githubusercontent.com/marcmarine/energy-label/refs/heads/main/example.svg)
+![Example of a class arrow](arrow-example.svg)
 
-</details>
+```js
+import { createClassArrow } from 'energy-label'
+
+const arrowLabel = createClassArrow('A', { labelOrientation: 'RIGHT' })
+const svgString = label.toString()
+```
+
+## Smartphone Label
+
+![Example of an energy label for smartphones](smartphone-label.svg)
+
+```js
+import { createEnergyLabel } from 'energy-label'
+
+const label = createEnergyLabel('smartphones')
+const svgString = label.toString()
+```
 
 ## Features
 
@@ -50,7 +65,7 @@ import fs from 'node:fs'
 
 const label = new EnergyLabelGenerator('smartphones')
 
-label.generate().then(svgString => {
+label.generate().then((svgString) => {
   fs.writeFileSync('example.svg', svgString)
 })
 ```
@@ -75,14 +90,14 @@ const label = EnergyLabel('smartphones', {
   fallReliabilityClass: 'C',
   repairabilityClass: 'E',
   batteryEnduranceInCycles: '3900',
-  ingressProtectionRating: 'IP14'
+  ingressProtectionRating: 'IP14',
 })
 ```
 
 Render the label inside an HTML element:
 
 ```js
-label.generate().then(svgString => {
+label.generate().then((svgString) => {
   appendTo(document.getElementById('label-container'), svgString)
 })
 ```
@@ -90,7 +105,27 @@ label.generate().then(svgString => {
 Make sure the container element exists in your HTML:
 
 ```html
-<div id="label-container"></div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Energy Label</title>
+  </head>
+  <body>
+    <div id="label-container"></div>
+
+    <script type="module">
+      import {
+        createEnergyLabel,
+        appendTo,
+      } from 'https://esm.sh/energy-label@beta'
+
+      const label = createEnergyLabel('smartphones')
+
+      const svgString = label.toString()
+      appendTo(document.getElementById('label-container'), svgString)
+    </script>
+  </body>
+</html>
 ```
 
 #### Download the Label as an SVG File
@@ -98,7 +133,7 @@ Make sure the container element exists in your HTML:
 You can also download the label directly as an SVG file:
 
 ```js
-label.generate().then(svgString => {
+label.generate().then((svgString) => {
   download(svgString)
   // Or with a custom filename:
   // download(svgString, 'my-energy-label.svg')
@@ -117,23 +152,20 @@ export function EnergyLabel() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const label = createEnergyLabel('smartphones', {
-      flagOrigin: 'EU',
-      supplierName: 'Sultana',
-      modelName: '92COU8944VK',
-      eprelRegistrationNumber: '3712289',
-      efficiencyRating: 'D',
-      batteryEnduranceHours: 74,
-      batteryEnduranceMinutes: 47,
-      fallReliabilityClass: 'C',
-      repairabilityClass: 'E',
-      batteryEnduranceInCycles: '3900',
-      ingressProtectionRating: 'IP14'
-    })
+    ;(() => {
+      if (!containerRef.current) return
 
-    if (containerRef.current) {
-      label.generate().then(svgString => {
-        appendTo(containerRef.current!, svgString)
+      const label = createEnergyLabel('smartphones', {
+        flagOrigin: 'EU',
+        supplierOrTrademark: 'Sultana',
+        modelIdentifier: '92COU8944VK',
+        eprelRegistrationNumber: '3712289',
+        energyClass: 'D',
+        batteryEndurancePerCycle: 4020,
+        repeatedFreeFallReliabilityClass: 'C',
+        repairabilityClass: 'E',
+        batteryEnduranceInCycles: '3900',
+        ingressProtectionRating: 'IP14',
       })
     }
   }, [])
