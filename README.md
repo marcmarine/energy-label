@@ -11,7 +11,7 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 
 ## Class Arrow
 
-![Example of a class arrow](/arrow-example.svg)
+![Example of a class arrow](arrow-example.svg)
 
 ```js
 import { createClassArrow } from 'energy-label'
