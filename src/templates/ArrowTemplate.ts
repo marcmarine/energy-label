@@ -1,7 +1,7 @@
-import { TemplateCommon } from './TemplateCommon'
+import { EFFICIENCY_SCALE_COLORS } from './common'
 import { Template } from './Template'
 import { escapeXml } from '../utils'
-import type { EnergyClassData } from '../defintions'
+import type { EnergyClassData } from '../definitions'
 
 export class ArrowTemplate extends Template<ArrowData> {
   protected getWidth(): number {
@@ -12,14 +12,14 @@ export class ArrowTemplate extends Template<ArrowData> {
     return 51
   }
 
-  protected createEfficiencyScale(): string {
-    const energyClass = this.data?.energyClass ?? 'A'
-    const orientation = this.data?.labelOrientation ?? 'LEFT'
+  protected createEfficiencyScale(data: Partial<ArrowData>): string {
+    const energyClass = data.energyClass ?? 'A'
+    const orientation = data.labelOrientation ?? 'LEFT'
 
     return `
     <g ${orientation === 'RIGHT' ? 'transform="scale(-1, 1) translate(-92, 0)"' : ''}>
       <path fill="#fff" d="M90.74.41H23L.5 25 23 49.71h67.74z" />
-      <path fill="${TemplateCommon.EFFICIENCY_SCALE_COLORS[energyClass]}" d="M72 .41H23L.5 25 23 49.71h49V.41Z" />
+      <path fill="${EFFICIENCY_SCALE_COLORS[energyClass]}" d="M72 .41H23L.5 25 23 49.71h49V.41Z" />
       <path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8pt" d="M90.74.41H23L.5 25 23 49.71h67.74z" />
     </g>
     <text font-size="29pt" font-weight="bold" fill="#fff" font-family="Calibri" text-anchor="middle" stroke="#000" stroke-width="0.8"><tspan x="46" y="37">${escapeXml(energyClass)}</tspan></text>

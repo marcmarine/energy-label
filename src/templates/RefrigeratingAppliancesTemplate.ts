@@ -1,7 +1,7 @@
 import { escapeXml, mmToPx } from '../utils'
-import { TemplateCommon } from './TemplateCommon'
+import { efficiencyScale, header, separator } from './common'
 import { Template } from './Template'
-import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
+import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
 
 export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData> {
   protected getWidth(): number {
@@ -19,11 +19,11 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
     return `<rect width="${width}" height="${height}" fill="#fff" />`
   }
 
-  protected createHeader(): string {
-    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
+  protected createHeader(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
+    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = data
     const qrCodeDataUrl = this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber as string)
 
-    return TemplateCommon.header(
+    return header(
       {
         flag: { x: 3, y: 3, width: 21 },
         logo: { x: 26, y: 5, width: 10 },
@@ -38,8 +38,8 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
     )
   }
 
-  protected createEfficiencyScale(): string {
-    const scale = TemplateCommon.efficiencyScale(
+  protected createEfficiencyScale(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
+    const scale = efficiencyScale(
       {
         x: 3,
         y: 31,
@@ -50,24 +50,24 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
         letter: { x: 3, fontSize: '19pt', offsetY: 14 },
         indicator: { x: 67, tipWidth: 8, width: 23, height: 12, letterX: 79, letterY: 9.5, fontSize: '33pt' }
       },
-      this.data?.energyClass
+      data.energyClass
     )
 
-    return `${scale}${TemplateCommon.separator(3, 93, 103.5)}`
+    return `${scale}${separator(3, 93, 103.5)}`
   }
 
-  protected createConsumption(): string {
-    const consolidatedEnergyConsAnnual = this.data?.consolidatedEnergyConsAnnual ?? 'XYZ'
+  protected createConsumption(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
+    const consolidatedEnergyConsAnnual = data.consolidatedEnergyConsAnnual ?? 'XYZ'
 
     return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="28pt" font-weight="bold">${escapeXml(consolidatedEnergyConsAnnual)}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
 </text>
-${TemplateCommon.separator(3, 93, 123.5)}`
+${separator(3, 93, 123.5)}`
   }
 
-  protected createFeatures(): string {
+  protected createFeatures(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
     // Reading both variants as optional fields; which one applies is decided by `capBottles` below.
-    const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet }: Partial<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> = this.data ?? {}
+    const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet }: Partial<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> = data
 
     const symbolWineStorage = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
   <path d="M10.666 2.653h.212c.226 0 .413.34.413.745v.758c0 .418-.187.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 15 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.332 6.7.111 9.958-.653v10.925s-1.476 1.398-7.18 1.398C3.009 51.202 1 49.882 1 49.882V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.226c-.226 0-.413-.34-.413-.745V3.41c0-.418.187-.745.413-.745h.332v-.261c.014-.31.151-.602.383-.812s.538-.323.853-.312h2.66c.315-.01.621.101.853.312.232.21.37.502.383.812v.274zm18 0h.212c.227 0 .413.34.413.745v.758c0 .418-.186.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 33 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.333 6.7.112 9.958-.653v10.925s-1.476 1.398-7.18 1.398c-4.812-.078-6.82-1.398-6.82-1.398V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.226c-.227 0-.413-.34-.413-.745V3.41c0-.418.2-.745.413-.745h.332v-.261c.014-.31.151-.602.383-.812s.538-.323.853-.312h2.66c.315-.01.621.101.853.312.232.21.37.502.383.812v.274zm19 0h.212c.227 0 .413.34.413.745v.758c0 .418-.186.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 52 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.333 6.7.112 9.958-.653v10.925s-1.476 1.398-7.18 1.398c-4.812-.078-6.82-1.398-6.82-1.398V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.213c-.226 0-.412-.34-.412-.745V3.41c0-.418.2-.745.412-.745h.332v-.261a1.17 1.17 0 0 1 .383-.812 1.2 1.2 0 0 1 .854-.312h2.659c.315-.01.622.101.853.312.232.21.37.502.383.812v.274zM15 23.28v17m18-17v17m19-17v17" stroke="#000" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round"/>

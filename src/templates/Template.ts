@@ -1,19 +1,15 @@
 import { PRODUCT_GROUPS } from '../constants'
-import type { ProductName } from '../defintions'
+import type { ProductName } from '../definitions'
 import { QRCodeGenerator } from '../utils'
-import { TemplateCommon } from './TemplateCommon'
+import { EPREL_BASE_URL } from './common'
 
 export abstract class Template<T> {
-  protected data?: Partial<T>
-
   generate(data: Partial<T>): string {
-    this.data = data
-
     const background = this.createBackground()
-    const header = this.createHeader()
-    const efficiencyScale = this.createEfficiencyScale()
-    const consumption = this.createConsumption()
-    const features = this.createFeatures()
+    const header = this.createHeader(data)
+    const efficiencyScale = this.createEfficiencyScale(data)
+    const consumption = this.createConsumption(data)
+    const features = this.createFeatures(data)
 
     return this.render([background, header, efficiencyScale, consumption, features])
   }
@@ -22,17 +18,17 @@ export abstract class Template<T> {
     return ''
   }
 
-  protected createHeader(): string {
+  protected createHeader(_data: Partial<T>): string {
     return ''
   }
 
-  protected abstract createEfficiencyScale(): string
+  protected abstract createEfficiencyScale(data: Partial<T>): string
 
-  protected createConsumption(): string {
+  protected createConsumption(_data: Partial<T>): string {
     return ''
   }
 
-  protected createFeatures(): string {
+  protected createFeatures(_data: Partial<T>): string {
     return ''
   }
 
@@ -42,7 +38,7 @@ export abstract class Template<T> {
   protected buildEprelUrl(product: ProductName, registrationNumber: string): string {
     const productGroup = PRODUCT_GROUPS[product]
 
-    return `${TemplateCommon.EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${encodeURIComponent(registrationNumber)}?navigatingfrom=energy-label`
+    return `${EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${encodeURIComponent(registrationNumber)}?navigatingfrom=energy-label`
   }
 
   protected generateQRCodeDataUrl(product: ProductName, registrationNumber: string) {

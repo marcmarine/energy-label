@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { templateFactory } from '.'
-import type { TemplateName } from '../defintions'
+import type { TemplateName } from '../definitions'
 
 describe('templateFactory', () => {
   it('should throw on an unknown template name', () => {

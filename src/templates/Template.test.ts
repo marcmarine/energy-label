@@ -7,10 +7,8 @@ vi.mock('../utils', () => ({
   }
 }))
 
-vi.mock('./TemplateCommon', () => ({
-  TemplateCommon: {
-    EPREL_BASE_URL: 'test-url'
-  }
+vi.mock('./common', () => ({
+  EPREL_BASE_URL: 'test-url'
 }))
 
 class TestTemplate extends Template<{ name: string; model: string }> {
@@ -30,8 +28,8 @@ class TestTemplate extends Template<{ name: string; model: string }> {
     return '<g id="background"></g>'
   }
 
-  protected createHeader(): string {
-    return `<g id="header">${this.data?.name || 'Default'}</g>`
+  protected createHeader(data: Partial<{ name: string; model: string }>): string {
+    return `<g id="header">${data.name || 'Default'}</g>`
   }
 
   protected createConsumption(): string {

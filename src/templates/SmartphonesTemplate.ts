@@ -1,7 +1,7 @@
 import { Template } from './Template'
 import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
-import { TemplateCommon } from './TemplateCommon'
-import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
+import { efficiencyScale, header, separator } from './common'
+import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected getWidth(): number {
@@ -19,11 +19,11 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     return `<rect width="${width}" height="${height}" fill="#fff" />`
   }
 
-  protected createHeader(): string {
-    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
+  protected createHeader(data: Partial<SmartphonesAndTabletsData>): string {
+    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = data
     const qrCodeDataUrl = this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber as string)
 
-    return TemplateCommon.header(
+    return header(
       {
         flag: { x: 2, y: 2, width: 15 },
         logo: { x: 18.5, y: 3.5, width: 7 },
@@ -38,8 +38,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     )
   }
 
-  protected createEfficiencyScale(): string {
-    const scale = TemplateCommon.efficiencyScale(
+  protected createEfficiencyScale(data: Partial<SmartphonesAndTabletsData>): string {
+    const scale = efficiencyScale(
       {
         x: 2,
         y: 22,
@@ -50,14 +50,14 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
         letter: { x: 2, fontSize: '11pt', offsetY: 11 },
         indicator: { x: 48, tipWidth: 5.5, width: 16, height: 8, letterX: 58, letterY: 6.2, fontSize: '20pt', textAnchor: 'middle' }
       },
-      this.data?.energyClass
+      data.energyClass
     )
 
-    return `${scale}${TemplateCommon.separator(2, 66, 73)}`
+    return `${scale}${separator(2, 66, 73)}`
   }
 
-  protected createConsumption(): string {
-    const { batteryEndurancePerCycle } = this.data ?? {}
+  protected createConsumption(data: Partial<SmartphonesAndTabletsData>): string {
+    const { batteryEndurancePerCycle } = data
     const { hours, minutes } = minutesToHoursAndMinutes(batteryEndurancePerCycle)
 
     const digits = `${hours}${minutes}`.length
@@ -82,11 +82,11 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     </text>
   </g>
 </g>
-${TemplateCommon.separator(2, 66, 88)}`
+${separator(2, 66, 88)}`
   }
 
-  protected createFeatures(): string {
-    const { repeatedFreeFallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = this.data ?? {}
+  protected createFeatures(data: Partial<SmartphonesAndTabletsData>): string {
+    const { repeatedFreeFallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = data
 
     const fallReliabilityClassIcon = (x: number, y: number, repeatedFreeFallReliabilityClass: string = 'B') => `
 <g transform="translate(${x}, ${y})">

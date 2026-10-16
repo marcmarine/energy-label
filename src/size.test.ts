@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
-import type { TemplateName, TemplatesData } from './defintions'
+import type { TemplateName, TemplatesData } from './definitions'
 
 /**
  * Size budgets, in bytes, based on what the labels weighed when SVGO optimized them at runtime.

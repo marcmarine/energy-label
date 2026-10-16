@@ -1,4 +1,4 @@
-import type { EnergyClass, TemplateName, TemplatesData } from './defintions'
+import type { EnergyClass, TemplateName, TemplatesData } from './definitions'
 import EnergyLabel from './EnergyLabel'
 import type { ArrowData } from './templates/ArrowTemplate'
 

@@ -4,7 +4,7 @@ import { createEnergyLabel } from './factories'
 import { templateFactory } from './templates'
 import type { Template } from './templates/Template'
 import type { ArrowData } from './templates/ArrowTemplate'
-import type { HouseholdFridgesAndFreezersData, SmartphonesAndTabletsData, WineStorageAppliancesData } from './defintions'
+import type { HouseholdFridgesAndFreezersData, SmartphonesAndTabletsData, WineStorageAppliancesData } from './definitions'
 
 describe('Types', () => {
   it('createEnergyLabel keeps the template name', () => {

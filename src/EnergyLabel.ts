@@ -1,6 +1,6 @@
 import { templateFactory } from './templates'
 import type { Template } from './templates/Template'
-import type { TemplateName, TemplatesData } from './defintions'
+import type { TemplateName, TemplatesData } from './definitions'
 
 /**
  * Energy label generator class that creates SVG energy efficiency labels using configurable templates and data.

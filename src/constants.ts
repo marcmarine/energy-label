@@ -1,4 +1,4 @@
-import type { ProductName } from './defintions'
+import type { ProductName } from './definitions'
 
 type GroupInformation = {
   urlCode: string

@@ -1,7 +1,7 @@
 import { optimize } from 'svgo'
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
-import type { WineStorageAppliancesData } from './defintions'
+import type { WineStorageAppliancesData } from './definitions'
 
 describe('EnergyLabel', () => {
   const TEST_LABEL_DATA: Partial<WineStorageAppliancesData> = {
@@ -63,11 +63,11 @@ describe('EnergyLabel', () => {
 
   it('should use unique ids across UK labels on the same page', () => {
     const svgs = [1, 2].map(() => new EnergyLabel('smartphones', { flagOrigin: 'UK' }).toString())
-    const references = svgs.map(svg => [...svg.matchAll(/url\(#([^)]+)\)/g)].map(match => match[1]))
+    svgs.forEach(svg => {
+      const references = [...svg.matchAll(/url\(#([^)]+)\)/g)].map(match => match[1])
 
-    svgs.forEach((svg, index) => {
-      expect(references[index]!.length).toBeGreaterThan(0)
-      references[index]!.forEach(reference => expect(svg).toContain(`id="${reference}"`))
+      expect(references.length).toBeGreaterThan(0)
+      references.forEach(reference => expect(svg).toContain(`id="${reference}"`))
     })
 
     const ids = svgs.flatMap(svg => [...svg.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]))

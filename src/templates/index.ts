@@ -2,7 +2,7 @@ import { ArrowTemplate } from './ArrowTemplate'
 import { RefrigeratingAppliancesTemplate } from './RefrigeratingAppliancesTemplate'
 import { SmartphonesTemplate } from './SmartphonesTemplate'
 import type { Template } from './Template'
-import type { TemplateName, TemplatesData } from '../defintions'
+import type { TemplateName, TemplatesData } from '../definitions'
 
 const templates: { [K in TemplateName]: () => Template<TemplatesData[K]> } = {
   arrow: () => new ArrowTemplate(),
