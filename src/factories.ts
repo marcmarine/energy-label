@@ -47,7 +47,7 @@ export function createEnergyLabel<T extends TemplateName = 'arrow'>(template?: T
  * @example
  * ```typescript
  * const label = createClassArrow('B', {
- *   orientation: 'RIGHT'
+ *   labelOrientation: 'RIGHT'
  * })
  *
  * const svgString = label.toString()
