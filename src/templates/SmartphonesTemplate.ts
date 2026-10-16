@@ -21,50 +21,39 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 
   protected createHeader(): string {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
+    const qrCodeDataUrl = this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber as string)
 
-    const generatedQrCodeImage = this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber as string)
-
-    return `${TemplateCommon.flag(mmToPx(2), mmToPx(2), mmToPx(15), flagOrigin!)}
-    ${TemplateCommon.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}
-    ${TemplateCommon.qrCodeImage(mmToPx(56), mmToPx(2), mmToPx(10), generatedQrCodeImage)}
-    <text fill="black" font-family="Verdana" font-size="7pt" font-weight="bold">
-      <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${escapeXml(supplierOrTrademark || "Supplier's Name")}</tspan>
-    </text>
-    <text fill="black" font-family="Verdana" font-size="7pt" text-anchor="end">
-      <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${escapeXml(modelIdentifier || 'Model Identifier')}</tspan>
-    </text>
-    <path d="M${mmToPx(2)} ${mmToPx(19)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
+    return TemplateCommon.header(
+      {
+        flag: { x: 2, y: 2, width: 15 },
+        logo: { x: 18.5, y: 3.5, width: 7 },
+        qrCode: { x: 56, y: 2, width: 10 },
+        left: 2,
+        right: 66,
+        textY: 18,
+        fontSize: '7pt',
+        separatorY: 19
+      },
+      { flagOrigin, qrCodeDataUrl, supplierOrTrademark, modelIdentifier }
+    )
   }
 
   protected createEfficiencyScale(): string {
-    const efficiencyRating = this.data?.energyClass ?? 'A'
-    const widthsInMm = [17, 20, 23, 26, 29, 32, 35]
+    const scale = TemplateCommon.efficiencyScale(
+      {
+        x: 2,
+        y: 22,
+        barWidths: [14, 17, 20, 23, 26, 29, 32],
+        barHeight: 6,
+        barGap: 1,
+        tipWidth: 3,
+        letter: { x: 2, fontSize: '11pt', offsetY: 11 },
+        indicator: { x: 48, tipWidth: 5.5, width: 16, height: 8, letterX: 58, letterY: 6.2, fontSize: '20pt', textAnchor: 'middle' }
+      },
+      this.data?.energyClass
+    )
 
-    return `<g transform="translate(${mmToPx(2)}, ${mmToPx(22)})">${Object.keys(TemplateCommon.EFFICIENCY_SCALE_COLORS)
-      .map(
-        (cls, index) => `
-          <path 
-            d="M0,${Number(index * mmToPx(6 + 1)).toFixed(4)} H${Number(mmToPx(widthsInMm[index]!) - mmToPx(3)).toFixed(4)} L${mmToPx(widthsInMm[index]!)},${Number(index * mmToPx(6 + 1) + mmToPx(3)).toFixed(
-          2
-        )} L${Number(mmToPx(widthsInMm[index]!) - mmToPx(3)).toFixed(4)},${Number(index * mmToPx(6 + 1) + mmToPx(6)).toFixed(4)} H0 Z" 
-            fill="${TemplateCommon.EFFICIENCY_SCALE_COLORS[cls]}"
-          />
-          <text x="${mmToPx(2)}" y="${Number(index * mmToPx(6 + 1) + mmToPx(6 + 1)).toFixed(4)}" transform="translate(0, -11)" font-family="Calibri" font-size="11pt" font-weight="bold" fill="white">${cls}</text>
-          ${
-            cls === efficiencyRating
-              ? `<g transform="translate(0, ${mmToPx(-1)})">
-                <g transform="translate(0,${Number(index * mmToPx(6 + 1)).toFixed(4)})">
-                  <polygon points="${mmToPx(48)},${mmToPx(4)} ${mmToPx(53.5)},0 ${mmToPx(64)},0 ${mmToPx(64)},${mmToPx(8)} ${mmToPx(53.5)},${mmToPx(8)}" fill="black" />
-                  <text x="${mmToPx(58)}" y="${mmToPx(6.2)}" font-size="20pt" font-weight="bold" fill="white" font-family="Calibri" text-anchor="middle">${cls}</text>
-                </g>
-              </g>`
-              : ''
-          }
-        `
-      )
-      .join('')}
-  </g>
-<path d="M${mmToPx(2)} ${mmToPx(73)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
+    return `${scale}${TemplateCommon.separator(2, 66, 73)}`
   }
 
   protected createConsumption(): string {
@@ -95,7 +84,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     </text>
   </g>
 </g>
-<path d="M${mmToPx(2)} ${mmToPx(88)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
+${TemplateCommon.separator(2, 66, 88)}`
   }
 
   protected createFeatures(): string {

@@ -19,55 +19,41 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
     return `<rect width="${width}" height="${height}" fill="white" />`
   }
 
-  protected createHeader() {
+  protected createHeader(): string {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = this.data ?? {}
+    const qrCodeDataUrl = this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber as string)
 
-    const generatedQrCodeImage = this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber as string)
-
-    return `${TemplateCommon.flag(mmToPx(3), mmToPx(3), mmToPx(21), flagOrigin)}
-${TemplateCommon.logo(mmToPx(26), mmToPx(5), mmToPx(10))}
-${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeImage)}
-<text fill="black" font-family="Verdana" font-size="12" font-weight="bold">
-  <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${escapeXml(supplierOrTrademark || "Supplier's Name")}</tspan>
-</text>
-<text fill="black" font-family="Verdana" font-size="12" text-anchor="end">
-  <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${escapeXml(modelIdentifier || 'Model Identifier')}</tspan>
-</text>
-<path d="M${mmToPx(3)} ${mmToPx(27)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />`
+    return TemplateCommon.header(
+      {
+        flag: { x: 3, y: 3, width: 21 },
+        logo: { x: 26, y: 5, width: 10 },
+        qrCode: { x: 79, y: 3, width: 14 },
+        left: 3,
+        right: 93,
+        textY: 25,
+        fontSize: '12',
+        separatorY: 27
+      },
+      { flagOrigin, qrCodeDataUrl, supplierOrTrademark, modelIdentifier }
+    )
   }
 
   protected createEfficiencyScale(): string {
-    const efficiencyRating = this.data?.energyClass ?? 'A'
-    const widthsInMm = [19, 25, 29, 32, 36, 40, 44]
+    const scale = TemplateCommon.efficiencyScale(
+      {
+        x: 3,
+        y: 31,
+        barWidths: [19, 25, 29, 32, 36, 40, 44],
+        barHeight: 8.5,
+        barGap: 1.5,
+        tipWidth: 4,
+        letter: { x: 3, fontSize: '19pt', offsetY: 14 },
+        indicator: { x: 67, tipWidth: 8, width: 23, height: 12, letterX: 79, letterY: 9.5, fontSize: '33pt' }
+      },
+      this.data?.energyClass
+    )
 
-    return `
-    <g transform="translate(${mmToPx(3)}, ${mmToPx(31)})">
-      ${Object.keys(TemplateCommon.EFFICIENCY_SCALE_COLORS)
-        .map(
-          (cls, index) => `
-          <path 
-            d="M0,${index * mmToPx(8.5 + 1.5)} H${mmToPx(widthsInMm[index])} L${mmToPx(widthsInMm[index]) + mmToPx(4)},${index * mmToPx(8.5 + 1.5) + mmToPx(4.25)} L${mmToPx(widthsInMm[index])},${
-            index * mmToPx(8.5 + 1.5) + mmToPx(8.5)
-          } H0 Z" 
-            fill="${TemplateCommon.EFFICIENCY_SCALE_COLORS[cls]}" 
-          />
-          <text x="${mmToPx(3)}" y="${index * mmToPx(8.5 + 1.5) + mmToPx(8.5 + 1.5)}" transform="translate(0, -14)" font-family="Calibri" font-size="19pt" font-weight="bold" fill="white">${cls}</text>
-          ${
-            cls === efficiencyRating
-              ? `<g transform="translate(0,${mmToPx(-6 + 8.5 / 2)})">
-                <g transform="translate(0,${index * mmToPx(8.5 + 1.5)})">
-                  <polygon points="${mmToPx(67)},${mmToPx(6)} ${mmToPx(75)},0 ${mmToPx(90)},0 ${mmToPx(90)},${mmToPx(12)} ${mmToPx(75)},${mmToPx(12)}" fill="black" />
-                  <text x="${mmToPx(79)}" y="${mmToPx(9.5)}" font-size="33pt" font-weight="bold" fill="white" font-family="Calibri">${cls}</text>
-                </g>
-              </g>`
-              : ''
-          }
-        `
-        )
-        .join('')}
-    </g>
-    <path d="M${mmToPx(3)} ${mmToPx(103.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />
-  `
+    return `${scale}${TemplateCommon.separator(3, 93, 103.5)}`
   }
 
   protected createConsumption(): string {
@@ -76,7 +62,7 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
     return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="black" font-family="Verdana" text-anchor="middle">
   <tspan font-size="28pt" font-weight="bold">${escapeXml(consolidatedEnergyConsAnnual)}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
 </text>
-<path d="M${mmToPx(3)} ${mmToPx(123.5)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />`
+${TemplateCommon.separator(3, 93, 123.5)}`
   }
 
   protected createFeatures(): string {

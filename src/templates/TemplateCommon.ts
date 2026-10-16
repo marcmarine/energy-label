@@ -1,5 +1,63 @@
-import type { FlagOriginData } from '../defintions'
-import { uniqueId } from '../utils'
+import type { EnergyClass, FlagOriginData } from '../defintions'
+import { escapeXml, mmToPx, uniqueId } from '../utils'
+
+/** Position and width of a header element, in millimetres. */
+interface Box {
+  x: number
+  y: number
+  width: number
+}
+
+/** Layout of the label header, in millimetres unless noted. */
+export interface HeaderLayout {
+  flag: Box
+  logo: Box
+  qrCode: Box
+  /** Left and right edges of the supplier/model line and the separator below it. */
+  left: number
+  right: number
+  textY: number
+  /** SVG font-size value, units included. */
+  fontSize: string
+  separatorY: number
+}
+
+export interface HeaderData {
+  flagOrigin?: FlagOriginData
+  qrCodeDataUrl: string
+  supplierOrTrademark?: string
+  modelIdentifier?: string
+}
+
+/** Layout of the A–G efficiency scale, in millimetres unless noted. */
+export interface EfficiencyScaleLayout {
+  x: number
+  y: number
+  /** Width of each bar body, from A to G, without its arrow tip. */
+  barWidths: number[]
+  barHeight: number
+  barGap: number
+  tipWidth: number
+  letter: {
+    x: number
+    /** SVG font-size value, units included. */
+    fontSize: string
+    /** Upward shift of the letter from the bottom of its row, in pixels. */
+    offsetY: number
+  }
+  /** Black arrow pointing at the selected class. */
+  indicator: {
+    x: number
+    tipWidth: number
+    width: number
+    height: number
+    letterX: number
+    letterY: number
+    /** SVG font-size value, units included. */
+    fontSize: string
+    textAnchor?: 'middle'
+  }
+}
 
 export class TemplateCommon {
   static EFFICIENCY_SCALE_COLORS: Record<string, string> = {
@@ -39,5 +97,52 @@ export class TemplateCommon {
 
   static qrCodeImage(x: number, y: number, width: number, qrCodeDataUrl?: string) {
     return `<image href="${qrCodeDataUrl}" x="${x}" y="${y}" width="${width}" />`
+  }
+
+  static separator(x1: number, x2: number, y: number) {
+    return `<path d="M${mmToPx(x1)} ${mmToPx(y)}H${mmToPx(x2)}" stroke="black" stroke-width="0.5pt" />`
+  }
+
+  static header(layout: HeaderLayout, data: HeaderData) {
+    const { flag, logo, qrCode, left, right, textY, fontSize, separatorY } = layout
+
+    return `${TemplateCommon.flag(mmToPx(flag.x), mmToPx(flag.y), mmToPx(flag.width), data.flagOrigin)}
+${TemplateCommon.logo(mmToPx(logo.x), mmToPx(logo.y), mmToPx(logo.width))}
+${TemplateCommon.qrCodeImage(mmToPx(qrCode.x), mmToPx(qrCode.y), mmToPx(qrCode.width), data.qrCodeDataUrl)}
+<text fill="black" font-family="Verdana" font-size="${fontSize}" font-weight="bold">
+  <tspan x="${mmToPx(left)}" y="${mmToPx(textY)}">${escapeXml(data.supplierOrTrademark || "Supplier's Name")}</tspan>
+</text>
+<text fill="black" font-family="Verdana" font-size="${fontSize}" text-anchor="end">
+  <tspan x="${mmToPx(right)}" y="${mmToPx(textY)}">${escapeXml(data.modelIdentifier || 'Model Identifier')}</tspan>
+</text>
+${TemplateCommon.separator(left, right, separatorY)}`
+  }
+
+  static efficiencyScale(layout: EfficiencyScaleLayout, selectedClass: EnergyClass = 'A') {
+    const { barWidths, barHeight, barGap, tipWidth, letter, indicator } = layout
+    const rowStep = mmToPx(barHeight + barGap)
+
+    const rows = Object.entries(TemplateCommon.EFFICIENCY_SCALE_COLORS).map(([cls, color], index) => {
+      const rowY = index * rowStep
+      const bodyEnd = mmToPx(barWidths[index])
+
+      const bar = `<path d="M0,${rowY} H${bodyEnd} L${bodyEnd + mmToPx(tipWidth)},${rowY + mmToPx(barHeight / 2)} L${bodyEnd},${rowY + mmToPx(barHeight)} H0 Z" fill="${color}" />`
+      const label = `<text x="${mmToPx(letter.x)}" y="${rowY + rowStep}" transform="translate(0, -${letter.offsetY})" font-family="Calibri" font-size="${letter.fontSize}" font-weight="bold" fill="white">${cls}</text>`
+
+      if (cls !== selectedClass) {
+        return bar + label
+      }
+
+      const { x, tipWidth: indicatorTip, width, height, letterX, letterY, fontSize, textAnchor } = indicator
+
+      return `${bar}${label}<g transform="translate(0, ${mmToPx((barHeight - height) / 2)})">
+  <g transform="translate(0, ${rowY})">
+    <polygon points="${mmToPx(x)},${mmToPx(height / 2)} ${mmToPx(x + indicatorTip)},0 ${mmToPx(x + width)},0 ${mmToPx(x + width)},${mmToPx(height)} ${mmToPx(x + indicatorTip)},${mmToPx(height)}" fill="black" />
+    <text x="${mmToPx(letterX)}" y="${mmToPx(letterY)}" font-size="${fontSize}" font-weight="bold" fill="white" font-family="Calibri"${textAnchor ? ` text-anchor="${textAnchor}"` : ''}>${cls}</text>
+  </g>
+</g>`
+    })
+
+    return `<g transform="translate(${mmToPx(layout.x)}, ${mmToPx(layout.y)})">${rows.join('')}</g>`
   }
 }
