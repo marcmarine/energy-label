@@ -43,7 +43,7 @@ export abstract class Template<T = ArrowData> {
   protected buildEprelUrl(product: ProductName, registrationNumber: string): string {
     const productGroup = PRODUCT_GROUPS[product]
 
-    return `${TemplateCommon.EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${registrationNumber}?navigatingfrom=energy-label`
+    return `${TemplateCommon.EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${encodeURIComponent(registrationNumber)}?navigatingfrom=energy-label`
   }
 
   protected generateQRCodeDataUrl(product: ProductName, registrationNumber: string) {

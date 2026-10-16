@@ -1,5 +1,5 @@
 import { Template } from './Template'
-import { minutesToHoursAndMinutes, mmToPx } from '../utils'
+import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
 import { TemplateCommon } from './TemplateCommon'
 import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
 
@@ -28,10 +28,10 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     ${TemplateCommon.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}
     ${TemplateCommon.qrCodeImage(mmToPx(56), mmToPx(2), mmToPx(10), generatedQrCodeImage)}
     <text id="supplier-name" fill="black" font-family="Verdana" font-size="7pt" font-weight="bold">
-      <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${supplierOrTrademark || "Supplier's Name"}</tspan>
+      <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${escapeXml(supplierOrTrademark || "Supplier's Name")}</tspan>
     </text>
     <text id="model-identifier" fill="black" font-family="Verdana" font-size="7pt" text-anchor="end">
-      <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${modelIdentifier || 'Model Identifier'}</tspan>
+      <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${escapeXml(modelIdentifier || 'Model Identifier')}</tspan>
     </text>
     <path d="M${mmToPx(2)} ${mmToPx(19)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
   }
@@ -90,8 +90,8 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
     <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
-      <tspan font-weight="bold" font-size="20pt">${hours}</tspan><tspan font-size="13pt">h </tspan>
-      <tspan font-weight="bold" font-size="13pt">${minutes}</tspan><tspan font-size="9pt">min</tspan>
+      <tspan font-weight="bold" font-size="20pt">${escapeXml(hours)}</tspan><tspan font-size="13pt">h </tspan>
+      <tspan font-weight="bold" font-size="13pt">${escapeXml(minutes)}</tspan><tspan font-size="9pt">min</tspan>
     </text>
   </g>
 </g>
@@ -119,7 +119,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
   <text x="${mmToPx(0)}" y="${mmToPx(16)}" fill="black" font-family="Verdana" text-anchor="middle">
-    <tspan font-size="12pt" font-weight="bold">${batteryEnduranceInCycles}00</tspan><tspan font-size="10pt">x</tspan>
+    <tspan font-size="12pt" font-weight="bold">${escapeXml(batteryEnduranceInCycles)}00</tspan><tspan font-size="10pt">x</tspan>
   </text>
 </g>
 `
@@ -127,7 +127,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: string = 'IPXY') => `<g transform="translate(${x}, ${y})">
   ${symbolIngressProtection(-24.64, mmToPx(2))}
   <text x="${mmToPx(0)}" y="${mmToPx(16)}" fill="black" font-family="Verdana" text-anchor="middle">
-    <tspan font-size="12pt" font-weight="bold">${ingressProtectionRating}</tspan>
+    <tspan font-size="12pt" font-weight="bold">${escapeXml(ingressProtectionRating)}</tspan>
   </text>
 </g>
 `

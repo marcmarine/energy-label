@@ -33,4 +33,17 @@ describe('EnergyLabel', () => {
       expect(svg).toMatch(regExp)
     })
   })
+
+  it('should escape user-provided text', () => {
+    const label = new EnergyLabel('smartphones', {
+      supplierOrTrademark: 'Smith & Co',
+      modelIdentifier: '<Acme>',
+      ingressProtectionRating: '"IP68"'
+    })
+    const svg = label.toString()
+
+    expect(svg).toContain('Smith &amp; Co')
+    expect(svg).toContain('&lt;Acme&gt;')
+    expect(svg).not.toContain('<Acme>')
+  })
 })

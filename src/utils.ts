@@ -7,6 +7,20 @@ export const mmToPx = (mm: number): number => {
   return Number(result.toFixed(2))
 }
 
+const XML_ESCAPES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;'
+}
+
+/**
+ * Escapes a value so it can be safely interpolated into SVG text or double-quoted attribute content.
+ */
+export function escapeXml(value: unknown): string {
+  return String(value).replace(/[&<>"]/g, char => XML_ESCAPES[char]!)
+}
+
 export function minutesToHoursAndMinutes(totalMinutes?: number) {
   if (typeof totalMinutes !== 'number' || isNaN(totalMinutes) || totalMinutes < 0) {
     return { hours: 'X', minutes: 'Y' }
