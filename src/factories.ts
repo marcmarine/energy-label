@@ -10,7 +10,7 @@ import type { ArrowData } from './templates/ArrowTemplate'
  * @param {T} [template='arrow'] - The template name to use for generating the label.
  * @param {Partial<TemplatesData[T]>} [data={}] - Partial template data to customize the energy label.
  *
- * @returns {EnergyLabel} An `EnergyLabel` instance ready to generate the SVG.
+ * @returns {EnergyLabel<T>} An `EnergyLabel` instance ready to generate the SVG.
  *
  * @example
  * ```typescript
@@ -32,7 +32,7 @@ import type { ArrowData } from './templates/ArrowTemplate'
  * ```
  *
  */
-export function createEnergyLabel<T extends TemplateName>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabel {
+export function createEnergyLabel<T extends TemplateName = 'arrow'>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabel<T> {
   return new EnergyLabel(template, data)
 }
 

@@ -3,7 +3,7 @@ import { TemplateCommon } from './TemplateCommon'
 import { Template } from './Template'
 import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../defintions'
 
-export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> {
+export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData> {
   protected getWidth(): number {
     return mmToPx(96)
   }
@@ -80,7 +80,8 @@ ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeI
   }
 
   protected createFeatures(): string {
-    const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet } = this.data ?? {}
+    // Reading both variants as optional fields; which one applies is decided by `capBottles` below.
+    const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet }: Partial<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> = this.data ?? {}
 
     const symbolWineStorage = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
   <path

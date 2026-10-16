@@ -20,10 +20,10 @@ import { SVGOptimizer } from './utils'
  */
 export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   /**
-   * Template factory instance used to generate the energy label.
+   * Template instance used to generate the energy label.
    * @private
    */
-  private templateFactory: Template
+  private template: Template<TemplatesData[T]>
   /**
    * Partial template data used to customize the energy label.
    * @private
@@ -53,7 +53,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
    * ```
    */
   constructor(template: T = 'arrow' as T, data: Partial<TemplatesData[T]> = {}) {
-    this.templateFactory = templateFactory(template)
+    this.template = templateFactory(template)
     this.data = data
   }
 
@@ -68,7 +68,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   toString(): string {
     let templateOptions = this.data
 
-    const result = this.templateFactory.generate(templateOptions)
+    const result = this.template.generate(templateOptions)
 
     return SVGOptimizer.optimize(result)
   }

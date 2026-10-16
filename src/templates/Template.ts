@@ -1,10 +1,9 @@
 import { PRODUCT_GROUPS } from '../constants'
 import type { ProductName } from '../defintions'
 import { QRCodeGenerator } from '../utils'
-import type { ArrowData } from './ArrowTemplate'
 import { TemplateCommon } from './TemplateCommon'
 
-export abstract class Template<T = ArrowData> {
+export abstract class Template<T> {
   protected data?: Partial<T>
 
   generate(data: Partial<T>): string {
