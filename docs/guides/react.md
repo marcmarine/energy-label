@@ -31,7 +31,7 @@ export function EnergyLabel() {
         batteryEndurancePerCycle: 4020,
         repeatedFreeFallReliabilityClass: 'C',
         repairabilityClass: 'E',
-        batteryEnduranceInCycles: '3900',
+        batteryEnduranceInCycles: 3900,
         ingressProtectionRating: 'IP14'
       })
 
