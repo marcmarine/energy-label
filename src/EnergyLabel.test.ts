@@ -46,4 +46,17 @@ describe('EnergyLabel', () => {
     expect(svg).toContain('&lt;Acme&gt;')
     expect(svg).not.toContain('<Acme>')
   })
+
+  it('should use unique ids across UK labels on the same page', () => {
+    const svgs = [1, 2].map(() => new EnergyLabel('smartphones', { flagOrigin: 'UK' }).toString())
+    const references = svgs.map(svg => [...svg.matchAll(/url\(#([^)]+)\)/g)].map(match => match[1]))
+
+    svgs.forEach((svg, index) => {
+      expect(references[index]!.length).toBeGreaterThan(0)
+      references[index]!.forEach(reference => expect(svg).toContain(`id="${reference}"`))
+    })
+
+    const ids = svgs.flatMap(svg => [...svg.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]))
+    expect(new Set(ids).size).toBe(ids.length)
+  })
 })

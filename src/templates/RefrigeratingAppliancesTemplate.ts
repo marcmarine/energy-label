@@ -27,10 +27,10 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
     return `${TemplateCommon.flag(mmToPx(3), mmToPx(3), mmToPx(21), flagOrigin)}
 ${TemplateCommon.logo(mmToPx(26), mmToPx(5), mmToPx(10))}
 ${TemplateCommon.qrCodeImage(mmToPx(79), mmToPx(3), mmToPx(14), generatedQrCodeImage)}
-<text id="supplier-name" fill="black" font-family="Verdana" font-size="12" font-weight="bold">
+<text fill="black" font-family="Verdana" font-size="12" font-weight="bold">
   <tspan x="${mmToPx(3)}" y="${mmToPx(25)}">${escapeXml(supplierOrTrademark || "Supplier's Name")}</tspan>
 </text>
-<text id="model-identifier" fill="black" font-family="Verdana" font-size="12" text-anchor="end">
+<text fill="black" font-family="Verdana" font-size="12" text-anchor="end">
   <tspan x="${mmToPx(93)}" y="${mmToPx(25)}">${escapeXml(modelIdentifier || 'Model Identifier')}</tspan>
 </text>
 <path d="M${mmToPx(3)} ${mmToPx(27)}H${mmToPx(93)}" stroke="black" stroke-width="0.5pt" />`

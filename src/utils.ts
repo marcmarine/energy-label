@@ -21,6 +21,15 @@ export function escapeXml(value: unknown): string {
   return String(value).replace(/[&<>"]/g, char => XML_ESCAPES[char]!)
 }
 
+let idCounter = 0
+
+/**
+ * Returns an id that is unique within the current runtime, so several labels can share a page.
+ */
+export function uniqueId(prefix: string): string {
+  return `${prefix}-${++idCounter}`
+}
+
 export function minutesToHoursAndMinutes(totalMinutes?: number) {
   if (typeof totalMinutes !== 'number' || isNaN(totalMinutes) || totalMinutes < 0) {
     return { hours: 'X', minutes: 'Y' }

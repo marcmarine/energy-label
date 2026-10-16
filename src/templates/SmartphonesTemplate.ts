@@ -27,10 +27,10 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     return `${TemplateCommon.flag(mmToPx(2), mmToPx(2), mmToPx(15), flagOrigin!)}
     ${TemplateCommon.logo(mmToPx(18.5), mmToPx(3.5), mmToPx(7))}
     ${TemplateCommon.qrCodeImage(mmToPx(56), mmToPx(2), mmToPx(10), generatedQrCodeImage)}
-    <text id="supplier-name" fill="black" font-family="Verdana" font-size="7pt" font-weight="bold">
+    <text fill="black" font-family="Verdana" font-size="7pt" font-weight="bold">
       <tspan x="${mmToPx(2)}" y="${mmToPx(18)}">${escapeXml(supplierOrTrademark || "Supplier's Name")}</tspan>
     </text>
-    <text id="model-identifier" fill="black" font-family="Verdana" font-size="7pt" text-anchor="end">
+    <text fill="black" font-family="Verdana" font-size="7pt" text-anchor="end">
       <tspan x="${mmToPx(66)}" y="${mmToPx(18)}">${escapeXml(modelIdentifier || 'Model Identifier')}</tspan>
     </text>
     <path d="M${mmToPx(2)} ${mmToPx(19)}H${mmToPx(66)}" stroke="black" stroke-width="0.5pt" />`
@@ -89,7 +89,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     return `<g transform="translate(0, ${mmToPx(73)})">
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
-    <text id="model-identifier" x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
+    <text x="${mmToPx(10)}" y="${mmToPx(10)}" fill="black" font-family="Verdana">
       <tspan font-weight="bold" font-size="20pt">${escapeXml(hours)}</tspan><tspan font-size="13pt">h </tspan>
       <tspan font-weight="bold" font-size="13pt">${escapeXml(minutes)}</tspan><tspan font-size="9pt">min</tspan>
     </text>
