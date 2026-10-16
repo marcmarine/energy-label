@@ -15,6 +15,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
+    "test:types": "tsc --noEmit -p tsconfig.test.json",
     "build:example": "bun build-example.ts",
     "build:docs": "bunx typedoc",
     "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
