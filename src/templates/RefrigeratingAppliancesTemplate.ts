@@ -16,7 +16,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
     const width = this.getWidth()
     const height = this.getHeight()
 
-    return `<rect width="${width}" height="${height}" fill="white" />`
+    return `<rect width="${width}" height="${height}" fill="#fff" />`
   }
 
   protected createHeader(): string {
@@ -59,7 +59,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
   protected createConsumption(): string {
     const consolidatedEnergyConsAnnual = this.data?.consolidatedEnergyConsAnnual ?? 'XYZ'
 
-    return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+    return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="28pt" font-weight="bold">${escapeXml(consolidatedEnergyConsAnnual)}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
 </text>
 ${TemplateCommon.separator(3, 93, 123.5)}`
@@ -70,64 +70,33 @@ ${TemplateCommon.separator(3, 93, 123.5)}`
     const { capBottles, noise, noiseClass, capRefrNet, capFreezeNet }: Partial<WineStorageAppliancesData & HouseholdFridgesAndFreezersData> = this.data ?? {}
 
     const symbolWineStorage = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
-  <path
-    d="M10.6657 2.65309H10.8784C11.1045 2.65309 11.2906 2.99288 11.2906 3.39799V4.15598C11.2906 4.57416 11.1045 4.90084 10.8784 4.90084H10.6524V12.964C10.6524 14.5845 11.0114 14.7151 11.0114 14.7151C12.1166 14.951 13.1097 15.5436 13.8326 16.3985C14.5554 17.2535 14.9664 18.3216 15 19.4328V23.6016C15 23.6016 13.7635 24.4902 5.04179 24.4902V39.6102C8.37499 39.9423 11.7413 39.7214 15 38.9568V49.8819C15 49.8819 13.5242 51.2802 7.82052 51.2802C3.0076 51.2018 1 49.8819 1 49.8819V19.4459C1.03362 18.3347 1.44458 17.2666 2.16742 16.4116C2.89026 15.5567 3.88339 14.9641 4.9886 14.7282C4.9886 14.7282 5.34758 14.5975 5.34758 12.9771V4.91392H5.12156C4.89553 4.91392 4.7094 4.57413 4.7094 4.16902V3.41107C4.7094 2.99289 4.89553 2.66617 5.12156 2.66617H5.45394V2.40479C5.46777 2.0951 5.60543 1.80331 5.83697 1.59285C6.06851 1.38239 6.37522 1.2703 6.69041 1.28094H9.34948C9.66466 1.2703 9.97138 1.38239 10.2029 1.59285C10.4345 1.80331 10.5721 2.0951 10.5859 2.40479V2.67925L10.6657 2.65309Z"
-    stroke="black"
-    stroke-width="1.2pt"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M28.6657 2.65309H28.8785C29.1045 2.65309 29.2906 2.99288 29.2906 3.39799V4.15598C29.2906 4.57416 29.1045 4.90084 28.8785 4.90084H28.6524V12.964C28.6524 14.5845 29.0114 14.7151 29.0114 14.7151C30.1166 14.951 31.1097 15.5436 31.8326 16.3985C32.5554 17.2535 32.9664 18.3216 33 19.4328V23.6016C33 23.6016 31.7635 24.4902 23.0418 24.4902V39.6102C26.375 39.9426 29.7413 39.7217 33 38.9568V49.8819C33 49.8819 31.5242 51.2802 25.8205 51.2802C21.0076 51.2018 19 49.8819 19 49.8819V19.4459C19.0336 18.3347 19.4446 17.2666 20.1674 16.4116C20.8903 15.5567 21.8834 14.9641 22.9886 14.7282C22.9886 14.7282 23.3476 14.5975 23.3476 12.9771V4.91392H23.1216C22.8955 4.91392 22.7094 4.57413 22.7094 4.16902V3.41107C22.7094 2.99289 22.9088 2.66617 23.1216 2.66617H23.4539V2.40479C23.4678 2.0951 23.6054 1.80331 23.837 1.59285C24.0685 1.38239 24.3752 1.2703 24.6904 1.28094H27.3495C27.6647 1.2703 27.9714 1.38239 28.2029 1.59285C28.4345 1.80331 28.5721 2.0951 28.586 2.40479V2.67925L28.6657 2.65309Z"
-    stroke="black"
-    stroke-width="1.2pt"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path
-    d="M47.6657 2.65309H47.8784C48.1045 2.65309 48.2906 2.99288 48.2906 3.39799V4.15598C48.2906 4.57416 48.1045 4.90084 47.8784 4.90084H47.6524V12.964C47.6524 14.5845 48.0114 14.7151 48.0114 14.7151C49.1166 14.951 50.1097 15.5436 50.8326 16.3985C51.5554 17.2535 51.9664 18.3216 52 19.4328V23.6016C52 23.6016 50.7635 24.4902 42.0418 24.4902V39.6102C45.375 39.9426 48.7413 39.7217 52 38.9568V49.8819C52 49.8819 50.5242 51.2802 44.8205 51.2802C40.0076 51.2018 38 49.8819 38 49.8819V19.4459C38.0336 18.3347 38.4446 17.2666 39.1674 16.4116C39.8903 15.5567 40.8834 14.9641 41.9886 14.7282C41.9886 14.7282 42.3476 14.5975 42.3476 12.9771V4.91392H42.1349C41.9088 4.91392 41.7227 4.57413 41.7227 4.16902V3.41107C41.7227 2.99289 41.9221 2.66617 42.1349 2.66617H42.4672V2.40479C42.4811 2.0951 42.6187 1.80331 42.8503 1.59285C43.0818 1.38239 43.3885 1.2703 43.7037 1.28094H46.3628C46.6779 1.2703 46.9847 1.38239 47.2162 1.59285C47.4477 1.80331 47.5854 2.0951 47.5992 2.40479V2.67925L47.6657 2.65309Z"
-    stroke="black"
-    stroke-width="1.2pt"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
-  <path d="M15 23.2802V40.2802" stroke="black" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M33 23.2802V40.2802" stroke="black" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M52 23.2802V40.2802" stroke="black" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M10.666 2.653h.212c.226 0 .413.34.413.745v.758c0 .418-.187.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 15 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.332 6.7.111 9.958-.653v10.925s-1.476 1.398-7.18 1.398C3.009 51.202 1 49.882 1 49.882V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.226c-.226 0-.413-.34-.413-.745V3.41c0-.418.187-.745.413-.745h.332v-.261c.014-.31.151-.602.383-.812s.538-.323.853-.312h2.66c.315-.01.621.101.853.312.232.21.37.502.383.812v.274zm18 0h.212c.227 0 .413.34.413.745v.758c0 .418-.186.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 33 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.333 6.7.112 9.958-.653v10.925s-1.476 1.398-7.18 1.398c-4.812-.078-6.82-1.398-6.82-1.398V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.226c-.227 0-.413-.34-.413-.745V3.41c0-.418.2-.745.413-.745h.332v-.261c.014-.31.151-.602.383-.812s.538-.323.853-.312h2.66c.315-.01.621.101.853.312.232.21.37.502.383.812v.274zm19 0h.212c.227 0 .413.34.413.745v.758c0 .418-.186.745-.413.745h-.226v8.063c0 1.62.36 1.751.36 1.751a5.08 5.08 0 0 1 2.82 1.683A4.93 4.93 0 0 1 52 19.434v4.169s-1.236.888-9.958.888v15.12c3.333.333 6.7.112 9.958-.653v10.925s-1.476 1.398-7.18 1.398c-4.812-.078-6.82-1.398-6.82-1.398V19.446a4.93 4.93 0 0 1 1.167-3.034 5.08 5.08 0 0 1 2.822-1.684s.359-.13.359-1.75V4.913h-.213c-.226 0-.412-.34-.412-.745V3.41c0-.418.2-.745.412-.745h.332v-.261a1.17 1.17 0 0 1 .383-.812 1.2 1.2 0 0 1 .854-.312h2.659c.315-.01.622.101.853.312.232.21.37.502.383.812v.274zM15 23.28v17m18-17v17m19-17v17" stroke="#000" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round"/>
 </g>`
 
     const symbolAcousticalNoise = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
-  <path d="M68.6381 45.8273C70.9479 40.3119 72.0396 34.3628 71.8383 28.3866C71.6371 22.4105 70.1477 16.5483 67.4721 11.2007M77.1015 49.5088C79.9471 42.735 81.2928 35.4256 81.0463 28.0825C80.7998 20.7394 78.9669 13.5367 75.6735 6.96903M59.952 42.7223C61.8093 38.2791 62.6876 33.4878 62.5271 28.6747C62.3666 23.8615 61.171 19.1394 59.0218 14.8298M49.3531 0.876961V58.7189L26.6879 44.8578H1.07501V15.0394H26.6748L49.34 0.876961H49.3531Z" stroke="black" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M68.638 45.827a41.53 41.53 0 0 0-1.166-34.626m9.63 38.308a50.91 50.91 0 0 0-1.428-42.54M59.952 42.722a33.53 33.53 0 0 0-.93-27.892M49.353.877v57.842L26.688 44.858H1.075V15.039h25.6L49.34.877z" stroke="#000" stroke-width="1.2pt" stroke-linecap="round" stroke-linejoin="round"/>
 </g>`
 
     const symbolFreeze = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
-  <path d="M23.675 1V53.91" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M15.9785 4.93251L23.5507 12.7837L31.3854 4.67126" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M31.3854 49.3725L23.7994 41.5212L15.9785 49.6337" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M1.80139 14.3788L46.0598 40.82" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M1.22107 23.2612L11.543 20.3875L8.68267 9.27751" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M46.1289 31.6487L35.807 34.5225L38.6673 45.6325" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M1.80139 40.655L46.0598 14.2138" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M8.90377 45.6325L11.6673 34.88L1 31.91" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M38.4462 9.53875L35.6826 20.2912L46.35 23.2612" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23.675 1v52.91M15.979 4.933l7.572 7.85 7.834-8.112m0 44.702L23.8 41.52l-7.82 8.113M1.801 14.379 46.06 40.82M1.221 23.261l10.322-2.873-2.86-11.11m37.446 22.371-10.322 2.874 2.86 11.11M1.801 40.655 46.06 14.214M8.904 45.633l2.763-10.753L1 31.91M38.446 9.539 35.683 20.29l10.667 2.97" stroke="#231F20" stroke-width="1.59792" stroke-linecap="round" stroke-linejoin="round"/>
 </g>`
 
     const symbolChillCompartment = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
-  <path d="M4.31961 15.675H24.1266M3.94615 7.87679L1 15.4V53.91H27.46V15.1799L24.5138 7.87679H3.94615ZM4.31961 1V7.87679H24.1266V1H4.31961Z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
+  <path d="M4.32 15.675h19.807M3.947 7.877 1 15.4v38.51h26.46V15.18l-2.946-7.303zM4.32 1v6.877h19.807V1z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
 </g>`
 
     const capacityFreezeUnfrozen = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ') =>
       capFreezeNet
         ? `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
-<text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capFreezeNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>`
         : `${symbolChillCompartment(mmToPx(48 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>`
 
@@ -136,27 +105,27 @@ ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
       capFreezeNet
     )}
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
-<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
+<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="Verdana" text-anchor="end">
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noise)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
-<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" font-weight="${cls === noiseClass ? 'bold' : 'normal'}">${cls}</tspan>`).join('')}
+<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" ${cls === noiseClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
-<text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="black" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capBottles)}</tspan>
 </text>
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
-<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="black" font-family="Verdana" text-anchor="end">
+<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="Verdana" text-anchor="end">
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noiseEmissions)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
-<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="black" font-family="Verdana" text-anchor="middle">
-  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" font-weight="${cls === noiseEmissionsClass ? 'bold' : 'normal'}">${cls}</tspan>`).join('')}
+<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" ${cls === noiseEmissionsClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     return `${Boolean(capBottles) ? wineStorage(capBottles, noise, noiseClass) : fridgesAndFreezers(capRefrNet, capFreezeNet, noise, noiseClass)}
-<text transform="translate(${mmToPx(96 - 3 - 2)} ${mmToPx(192 - 3)}) rotate(90)" fill="black" font-family="Verdana" font-size="6pt" text-anchor="end">
+<text transform="translate(${mmToPx(96 - 3 - 2)} ${mmToPx(192 - 3)}) rotate(90)" fill="#000" font-family="Verdana" font-size="6pt" text-anchor="end">
   2019/2016
 </text>`
   }
