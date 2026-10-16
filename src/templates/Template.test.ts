@@ -103,5 +103,13 @@ describe('Template', () => {
         expect(result).toContain(section)
       })
     })
+
+    it('should remove template indentation but keep text content as is', () => {
+      const sections = ['<text\n    fill="black"  >\n  <tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan>\n</text>\n<g >\n  <path d="M0 0\n H1" />\n</g>']
+
+      const result = template['render'](sections)
+
+      expect(result).toContain('<text fill="black"><tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan></text><g><path d="M0 0 H1"/></g>')
+    })
   })
 })

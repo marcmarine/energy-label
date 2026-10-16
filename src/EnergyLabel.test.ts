@@ -1,3 +1,4 @@
+import { optimize } from 'svgo'
 import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
 import type { WineStorageAppliancesData } from './defintions'
@@ -34,6 +35,12 @@ describe('EnergyLabel', () => {
     })
   })
 
+  it.each(['arrow', 'smartphones', 'refrigerating-appliances'] as const)('should generate well-formed SVG for %s', template => {
+    const svg = new EnergyLabel(template).toString()
+
+    expect(() => optimize(svg)).not.toThrow()
+  })
+
   it('should escape user-provided text', () => {
     const label = new EnergyLabel('smartphones', {
       supplierOrTrademark: 'Smith & Co',
@@ -42,9 +49,16 @@ describe('EnergyLabel', () => {
     })
     const svg = label.toString()
 
+    expect(() => optimize(svg)).not.toThrow()
     expect(svg).toContain('Smith &amp; Co')
     expect(svg).toContain('&lt;Acme&gt;')
     expect(svg).not.toContain('<Acme>')
+  })
+
+  it('should keep the spacing of user-provided text', () => {
+    const svg = new EnergyLabel('smartphones', { supplierOrTrademark: 'Smith  Co' }).toString()
+
+    expect(svg).toContain('>Smith  Co<')
   })
 
   it('should use unique ids across UK labels on the same page', () => {

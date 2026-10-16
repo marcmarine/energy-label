@@ -1,5 +1,4 @@
 import qrcode from 'qrcode-generator'
-import { optimize, type Config as SvgoConfig } from 'svgo/browser'
 
 export const mmToPx = (mm: number): number => {
   const result = mm * (96 / 25.4)
@@ -18,7 +17,7 @@ const XML_ESCAPES: Record<string, string> = {
  * Escapes a value so it can be safely interpolated into SVG text or double-quoted attribute content.
  */
 export function escapeXml(value: unknown): string {
-  return String(value).replace(/[&<>"]/g, char => XML_ESCAPES[char]!)
+  return String(value).replace(/[&<>"]/g, char => XML_ESCAPES[char] ?? char)
 }
 
 let idCounter = 0
@@ -47,26 +46,6 @@ export class QRCodeGenerator {
     QRCode.make()
 
     return QRCode.createDataURL(2, 0)
-  }
-}
-
-export class SVGOptimizer {
-  static optimize(svgString: string) {
-    const svgoConfig = {
-      js2svg: { indent: 2, pretty: true },
-      plugins: [
-        {
-          name: 'preset-default',
-          params: {
-            overrides: {
-              cleanupIds: false
-            }
-          }
-        }
-      ]
-    } as SvgoConfig
-
-    return optimize(svgString, svgoConfig).data
   }
 }
 

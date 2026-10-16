@@ -1,10 +1,9 @@
 import { templateFactory } from './templates'
 import type { Template } from './templates/Template'
 import type { TemplateName, TemplatesData } from './defintions'
-import { SVGOptimizer } from './utils'
 
 /**
- * Energy label generator class that creates optimized SVG energy efficiency labels using configurable templates and data.
+ * Energy label generator class that creates SVG energy efficiency labels using configurable templates and data.
  *
  * @template {TemplateName} [T='arrow'] - The template name type, defaults to 'arrow'.
  *
@@ -58,18 +57,14 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
   }
 
   /**
-   * Generates an optimized SVG string representation of the energy label.
+   * Generates the SVG string representation of the energy label.
    *
-   * @returns {string} An optimized SVG string.
+   * @returns {string} A compact SVG string.
    *
-   * @throws {Error} May throw if template generation fails or SVG optimization encounters issues.
+   * @throws {Error} May throw if template generation fails.
    *
    */
   toString(): string {
-    let templateOptions = this.data
-
-    const result = this.template.generate(templateOptions)
-
-    return SVGOptimizer.optimize(result)
+    return this.template.generate(this.data)
   }
 }
