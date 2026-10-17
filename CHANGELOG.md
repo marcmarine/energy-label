@@ -1,3 +1,22 @@
+# [1.0.0-beta.12](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2026-10-17)
+
+
+### Bug Fixes
+
+* Add fallback font stacks to SVG templates ([fa35528](https://github.com/marcmarine/energy-label/commit/fa355283fd535756a5c63c14102f62ae33451d1a))
+* Display battery cycle count as numeric data ([dc0a765](https://github.com/marcmarine/energy-label/commit/dc0a7659d87f2f8275f2fdbfbdb1685cb0297f2c))
+* Ensure unique SVG IDs across labels ([d27b753](https://github.com/marcmarine/energy-label/commit/d27b753dfb1bfb395a3730f79614a773776b46ee))
+* Escape user input in SVG labels and URLs ([3a1e0c2](https://github.com/marcmarine/energy-label/commit/3a1e0c2b746d2bef38f76b1f719781ac605e6cf5))
+* Link QR codes to product groups without registration numbers ([dedaf18](https://github.com/marcmarine/energy-label/commit/dedaf184e21752e0c83baec8989dc7b5bdbfdc62))
+* Move SVGO to dev dependencies ([a1e0d92](https://github.com/marcmarine/energy-label/commit/a1e0d92110bd1fd924ecd453966213d3248e321e))
+* Simplify arrow efficiency label rendering ([3e54bfa](https://github.com/marcmarine/energy-label/commit/3e54bfa08763a1647cc3e8e9cc2c87c5edfe4630))
+* Type template factories by name ([230a6e0](https://github.com/marcmarine/energy-label/commit/230a6e085aa0586f6e12fa84d1ec356aa553fce8))
+
+
+### Performance Improvements
+
+* Optimize SVG template markup ([e674382](https://github.com/marcmarine/energy-label/commit/e6743828a2bdc73c93ab4e802083526378cd080c))
+
 # [1.0.0-beta.11](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-07-16)
 
 
