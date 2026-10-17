@@ -1,5 +1,5 @@
 import { escapeXml, mmToPx } from '../utils'
-import { efficiencyScale, header, separator } from './common'
+import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import { Template } from './Template'
 import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
 
@@ -59,7 +59,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
   protected createConsumption(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
     const consolidatedEnergyConsAnnual = data.consolidatedEnergyConsAnnual ?? 'XYZ'
 
-    return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+    return `<text x="${mmToPx(48)}" y="${mmToPx(117.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="28pt" font-weight="bold">${escapeXml(consolidatedEnergyConsAnnual)}</tspan> <tspan font-size="18pt">kWh/annum</tspan>
 </text>
 ${separator(3, 93, 123.5)}`
@@ -88,15 +88,15 @@ ${separator(3, 93, 123.5)}`
     const capacityFreezeUnfrozen = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ') =>
       capFreezeNet
         ? `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
-<text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capFreezeNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>
 ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>`
         : `${symbolChillCompartment(mmToPx(48 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
 </text>`
 
@@ -105,27 +105,27 @@ ${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
       capFreezeNet
     )}
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
-<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="Verdana" text-anchor="end">
+<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="end">
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noise)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
-<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" ${cls === noiseClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
-<text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capBottles)}</tspan>
 </text>
 ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
-<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="Verdana" text-anchor="end">
+<text x="${mmToPx(49.3)}" y="${mmToPx(171)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="end">
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noiseEmissions)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
-<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="Verdana" text-anchor="middle">
+<text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" ${cls === noiseEmissionsClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     return `${Boolean(capBottles) ? wineStorage(capBottles, noise, noiseClass) : fridgesAndFreezers(capRefrNet, capFreezeNet, noise, noiseClass)}
-<text transform="translate(${mmToPx(96 - 3 - 2)} ${mmToPx(192 - 3)}) rotate(90)" fill="#000" font-family="Verdana" font-size="6pt" text-anchor="end">
+<text transform="translate(${mmToPx(96 - 3 - 2)} ${mmToPx(192 - 3)}) rotate(90)" fill="#000" font-family="${FONT_TEXT}" font-size="6pt" text-anchor="end">
   2019/2016
 </text>`
   }

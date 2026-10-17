@@ -1,6 +1,6 @@
 import { Template } from './Template'
 import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
-import { efficiencyScale, header, separator } from './common'
+import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
@@ -76,7 +76,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
     return `<g transform="translate(0, ${mmToPx(73)})">
   <g transform="translate(${mmToPx(digits === 2 ? 19 : digits === 3 ? 17 : 15)}, 0)">
     ${symbolBateryEndurance(0, mmToPx(3))}
-    <text x="${mmToPx(10)}" y="${mmToPx(10)}" fill="#000" font-family="Verdana">
+    <text x="${mmToPx(10)}" y="${mmToPx(10)}" fill="#000" font-family="${FONT_TEXT}">
       <tspan font-weight="bold" font-size="20pt">${escapeXml(hours)}</tspan><tspan font-size="13pt">h </tspan>
       <tspan font-weight="bold" font-size="13pt">${escapeXml(minutes)}</tspan><tspan font-size="9pt">min</tspan>
     </text>
@@ -105,7 +105,7 @@ ${separator(2, 66, 88)}`
     const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: number | 'XY00' = 'XY00') => `
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
-  <text y="${mmToPx(16)}" fill="#000" font-family="Verdana" text-anchor="middle">
+  <text y="${mmToPx(16)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
     <tspan font-size="12pt" font-weight="bold">${escapeXml(batteryEnduranceInCycles)}</tspan><tspan font-size="10pt">x</tspan>
   </text>
 </g>
@@ -113,13 +113,13 @@ ${separator(2, 66, 88)}`
 
     const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: string = 'IPXY') => `<g transform="translate(${x}, ${y})">
   ${symbolIngressProtection(-24.64, mmToPx(2))}
-  <text y="${mmToPx(16)}" fill="#000" font-family="Verdana" text-anchor="middle">
+  <text y="${mmToPx(16)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
     <tspan font-size="12pt" font-weight="bold">${escapeXml(ingressProtectionRating)}</tspan>
   </text>
 </g>
 `
 
-    const aToEScale = (selectedClass: string) => `<text fill="#000" font-family="Verdana">
+    const aToEScale = (selectedClass: string) => `<text fill="#000" font-family="${FONT_TEXT}">
   ${['A', 'B', 'C', 'D', 'E']
     .map(
       (cls, index) =>
@@ -169,7 +169,7 @@ ${separator(2, 66, 88)}`
   ${batteryEnduranceCyclesIcon(mmToPx(18), mmToPx(25), batteryEnduranceInCycles)}
   ${ingressProtectionIcon(mmToPx(50), mmToPx(25), ingressProtectionRating)}
 </g>
-<text transform="translate(${mmToPx(68 - 1.3 - 2)} ${mmToPx(136 - 2)}) rotate(90)" fill="#000" font-family="Verdana" font-size="5pt" text-anchor="end">
+<text transform="translate(${mmToPx(68 - 1.3 - 2)} ${mmToPx(136 - 2)}) rotate(90)" fill="#000" font-family="${FONT_TEXT}" font-size="5pt" text-anchor="end">
   2023/1669
 </text>`
   }

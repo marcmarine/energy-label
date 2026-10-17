@@ -3,16 +3,17 @@ import EnergyLabel from './EnergyLabel'
 import type { TemplateName, TemplatesData } from './definitions'
 
 /**
- * Size budgets, in bytes, based on what the labels weighed when SVGO optimized them at runtime.
+ * Size budgets, in bytes, based on what the labels weighed when SVGO optimized them at runtime,
+ * plus the fallback font stacks (`FONT_TEXT`, `FONT_CLASS`).
  * If one fails, optimize the new or changed markup (e.g. `bunx svgo icon.svg -o -`) before raising the budget.
  */
 const BASE = { flagOrigin: 'UK', supplierOrTrademark: 'Supplier', modelIdentifier: 'Model', eprelRegistrationNumber: '1234567', energyClass: 'A' } as const
 
 const BUDGETS: { name: string; template: TemplateName; data: Partial<TemplatesData[TemplateName]>; maxBytes: number }[] = [
-  { name: 'arrow', template: 'arrow', data: { energyClass: 'A' }, maxBytes: 2_200 },
-  { name: 'smartphones', template: 'smartphones', data: { ...BASE, batteryEndurancePerCycle: 4020 }, maxBytes: 14_600 },
-  { name: 'wine storage', template: 'refrigerating-appliances', data: { ...BASE, capBottles: 12, noise: 30 }, maxBytes: 9_400 },
-  { name: 'fridges and freezers', template: 'refrigerating-appliances', data: { ...BASE, capRefrNet: 200, capFreezeNet: 80, noise: 30 }, maxBytes: 8_300 }
+  { name: 'arrow', template: 'arrow', data: { energyClass: 'A' }, maxBytes: 2_250 },
+  { name: 'smartphones', template: 'smartphones', data: { ...BASE, batteryEndurancePerCycle: 4020 }, maxBytes: 15_200 },
+  { name: 'wine storage', template: 'refrigerating-appliances', data: { ...BASE, capBottles: 12, noise: 30 }, maxBytes: 9_950 },
+  { name: 'fridges and freezers', template: 'refrigerating-appliances', data: { ...BASE, capRefrNet: 200, capFreezeNet: 80, noise: 30 }, maxBytes: 8_900 }
 ]
 
 describe('Output size', () => {

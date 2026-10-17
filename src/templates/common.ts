@@ -71,6 +71,14 @@ export const EFFICIENCY_SCALE_COLORS: Record<string, string> = {
 
 export const EPREL_BASE_URL = 'https://eprel.ec.europa.eu'
 
+/**
+ * Font stacks for the `font-family` attribute. The regulations use Verdana and Calibri, which are not
+ * installed everywhere (e.g. Linux or server-side rasterizers), so free lookalikes come next:
+ * Carlito is metric-compatible with Calibri, DejaVu Sans is close to Verdana.
+ */
+export const FONT_TEXT = "Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', sans-serif"
+export const FONT_CLASS = 'Calibri, Carlito, sans-serif'
+
 export function flagUK(x: number, y: number, width: number) {
   const scale = Number(width / 100).toPrecision(3)
   const id = uniqueId('flag-uk')
@@ -108,10 +116,10 @@ export function header(layout: HeaderLayout, data: HeaderData) {
   return `${flag(mmToPx(layout.flag.x), mmToPx(layout.flag.y), mmToPx(layout.flag.width), data.flagOrigin)}
 ${logo(mmToPx(layout.logo.x), mmToPx(layout.logo.y), mmToPx(layout.logo.width))}
 ${qrCodeImage(mmToPx(layout.qrCode.x), mmToPx(layout.qrCode.y), mmToPx(layout.qrCode.width), data.qrCodeDataUrl)}
-<text fill="#000" font-family="Verdana" font-size="${fontSize}" font-weight="bold">
+<text fill="#000" font-family="${FONT_TEXT}" font-size="${fontSize}" font-weight="bold">
 <tspan x="${mmToPx(left)}" y="${mmToPx(textY)}">${escapeXml(data.supplierOrTrademark || "Supplier's Name")}</tspan>
 </text>
-<text fill="#000" font-family="Verdana" font-size="${fontSize}" text-anchor="end">
+<text fill="#000" font-family="${FONT_TEXT}" font-size="${fontSize}" text-anchor="end">
 <tspan x="${mmToPx(right)}" y="${mmToPx(textY)}">${escapeXml(data.modelIdentifier || 'Model Identifier')}</tspan>
 </text>
 ${separator(left, right, separatorY)}`
@@ -128,7 +136,7 @@ export function efficiencyScale(layout: EfficiencyScaleLayout, selectedClass: En
     const bodyEnd = mmToPx(barWidths[index])
 
     const bar = `<path d="M0,${rowY} H${bodyEnd} L${mmToPx(barWidths[index] + tipWidth)},${mmToPx(rowTop + barHeight / 2)} L${bodyEnd},${mmToPx(rowTop + barHeight)} H0 Z" fill="${color}" />`
-    const label = `<text x="${mmToPx(letter.x)}" y="${Number((mmToPx(rowTop + rowStep) - letter.offsetY).toFixed(2))}" font-family="Calibri" font-size="${letter.fontSize}" font-weight="bold" fill="#fff">${cls}</text>`
+    const label = `<text x="${mmToPx(letter.x)}" y="${Number((mmToPx(rowTop + rowStep) - letter.offsetY).toFixed(2))}" font-family="${FONT_CLASS}" font-size="${letter.fontSize}" font-weight="bold" fill="#fff">${cls}</text>`
 
     if (cls !== selectedClass) {
       return bar + label
@@ -139,7 +147,7 @@ export function efficiencyScale(layout: EfficiencyScaleLayout, selectedClass: En
     return `${bar}${label}<g transform="translate(0, ${mmToPx((barHeight - height) / 2)})">
 <g transform="translate(0, ${rowY})">
   <polygon points="${mmToPx(x)},${mmToPx(height / 2)} ${mmToPx(x + indicatorTip)},0 ${mmToPx(x + width)},0 ${mmToPx(x + width)},${mmToPx(height)} ${mmToPx(x + indicatorTip)},${mmToPx(height)}" fill="#000" />
-  <text x="${mmToPx(letterX)}" y="${mmToPx(letterY)}" font-size="${fontSize}" font-weight="bold" fill="#fff" font-family="Calibri"${textAnchor ? ` text-anchor="${textAnchor}"` : ''}>${cls}</text>
+  <text x="${mmToPx(letterX)}" y="${mmToPx(letterY)}" font-size="${fontSize}" font-weight="bold" fill="#fff" font-family="${FONT_CLASS}"${textAnchor ? ` text-anchor="${textAnchor}"` : ''}>${cls}</text>
 </g>
 </g>`
   })
