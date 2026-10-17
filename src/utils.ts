@@ -61,7 +61,7 @@ export class QRCodeGenerator {
  *
  * @example
  * ```typescript
- * import EnergyLabel, { appendTo } from 'energy-label'
+ * import { appendTo, EnergyLabel } from 'energy-label'
  *
  * const element = document.getElementById('energy-label')
  *
@@ -94,9 +94,7 @@ export function appendTo(container: HTMLElement, svgString: string): void {
  *
  * @example
  * ```typescript
- * import EnergyLabel, { download } from 'energy-label'
- *
- * const element = document.getElementById('energy-label')
+ * import { download, EnergyLabel } from 'energy-label'
  *
  * const label = new EnergyLabel('arrow', { energyClass: 'A' })
  * const svgString = label.toString()
