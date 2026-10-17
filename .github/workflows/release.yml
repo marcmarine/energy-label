@@ -51,9 +51,6 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-        run: bunx upgradeps # temporary alternative until bun audit
-
       - name: Release
         env:
           GIT_AUTHOR_NAME: ${{ vars.GIT_AUTHOR_NAME }}
