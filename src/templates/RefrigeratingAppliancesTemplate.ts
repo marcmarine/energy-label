@@ -21,7 +21,7 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
 
   protected createHeader(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = data
-    const qrCodeDataUrl = this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber as string)
+    const qrCodeDataUrl = this.generateQRCodeDataUrl('refrigerating-appliances', eprelRegistrationNumber)
 
     return header(
       {

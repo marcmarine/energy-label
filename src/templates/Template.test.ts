@@ -83,6 +83,15 @@ describe('Template', () => {
       expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123?navigatingfrom=energy-label')
       expect(result).toBe(mockDataUrl)
     })
+
+    it.each([undefined, ''])('should link to the product group when the registration number is %o', async registrationNumber => {
+      const { QRCodeGenerator } = await import('../utils')
+      const mockGenerate = vi.mocked(QRCodeGenerator.generate)
+
+      template['generateQRCodeDataUrl']('smartphones', registrationNumber)
+
+      expect(mockGenerate).toHaveBeenLastCalledWith('test-url/screen/product/smartphonestablets20231669?navigatingfrom=energy-label')
+    })
   })
 
   describe('render', () => {

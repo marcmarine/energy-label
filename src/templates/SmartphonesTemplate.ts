@@ -21,7 +21,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
 
   protected createHeader(data: Partial<SmartphonesAndTabletsData>): string {
     const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = data
-    const qrCodeDataUrl = this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber as string)
+    const qrCodeDataUrl = this.generateQRCodeDataUrl('smartphones', eprelRegistrationNumber)
 
     return header(
       {

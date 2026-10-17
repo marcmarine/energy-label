@@ -35,13 +35,17 @@ export abstract class Template<T> {
   protected abstract getWidth(): number
   protected abstract getHeight(): number
 
-  protected buildEprelUrl(product: ProductName, registrationNumber: string): string {
-    const productGroup = PRODUCT_GROUPS[product]
+  /**
+   * Links to the product page in EPREL or, without a registration number, to its product group page.
+   */
+  protected buildEprelUrl(product: ProductName, registrationNumber?: string): string {
+    const groupUrl = `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
+    const url = registrationNumber ? `${groupUrl}/${encodeURIComponent(registrationNumber)}` : groupUrl
 
-    return `${EPREL_BASE_URL}/screen/product/${productGroup.urlCode}/${encodeURIComponent(registrationNumber)}?navigatingfrom=energy-label`
+    return `${url}?navigatingfrom=energy-label`
   }
 
-  protected generateQRCodeDataUrl(product: ProductName, registrationNumber: string) {
+  protected generateQRCodeDataUrl(product: ProductName, registrationNumber?: string) {
     const url = this.buildEprelUrl(product, registrationNumber)
 
     return QRCodeGenerator.generate(url)
