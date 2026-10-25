@@ -46,7 +46,7 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
    *   batteryEndurancePerCycle: 4020,
    *   repeatedFreeFallReliabilityClass: 'C',
    *   repairabilityClass: 'E',
-   *   batteryEnduranceInCycles: 3900,
+   *   batteryEnduranceInCycles: 39,
    *   ingressProtectionRating: 'IP14'
    * })
    * ```

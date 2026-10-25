@@ -102,11 +102,12 @@ ${separator(2, 66, 88)}`
 </g>
 `
 
-    const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles: number | 'XY00' = 'XY00') => `
+    // EPREL declares the cycles in hundreds (10 for 1000), and the label shows the full number.
+    const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles?: number) => `
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
   <text y="${mmToPx(16)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-    <tspan font-size="12pt" font-weight="bold">${escapeXml(batteryEnduranceInCycles)}</tspan><tspan font-size="10pt">x</tspan>
+    <tspan font-size="12pt" font-weight="bold">${typeof batteryEnduranceInCycles === 'number' ? batteryEnduranceInCycles * 100 : 'XY00'}</tspan><tspan font-size="10pt">x</tspan>
   </text>
 </g>
 `
@@ -179,7 +180,7 @@ export interface SmartphonesAndTabletsData extends EnergyLabelBaseData {
   batteryEndurancePerCycle: number
   repeatedFreeFallReliabilityClass: string
   repairabilityClass: string
-  /** Total number of full charge cycles, as declared in EPREL (e.g. `1000`). */
+  /** Battery endurance in hundreds of full charge cycles, as declared in EPREL (e.g. `10` for 1000 cycles). */
   batteryEnduranceInCycles: number
   ingressProtectionRating: string
 }
