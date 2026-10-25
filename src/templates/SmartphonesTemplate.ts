@@ -1,7 +1,7 @@
 import { Template } from './Template'
 import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
-import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
+import type { EnergyLabelBaseData } from '../definitions'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected getWidth(): number {
@@ -175,7 +175,7 @@ ${separator(2, 66, 88)}`
   }
 }
 
-export interface SmartphonesAndTabletsData extends EnergyLabelBaseData, QRCodeDataUrlData {
+export interface SmartphonesAndTabletsData extends EnergyLabelBaseData {
   batteryEndurancePerCycle: number
   repeatedFreeFallReliabilityClass: string
   repairabilityClass: string

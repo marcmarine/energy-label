@@ -10,10 +10,6 @@ export interface EnergyClassData {
   energyClass: EnergyClass
 }
 
-export interface QRCodeDataUrlData {
-  qrCodeDataUrl: string
-}
-
 export interface EnergyLabelBaseData extends EnergyClassData {
   flagOrigin: FlagOriginData
   supplierOrTrademark: string
@@ -21,7 +17,7 @@ export interface EnergyLabelBaseData extends EnergyClassData {
   eprelRegistrationNumber: string
 }
 
-export type { WineStorageAppliancesData, HouseholdFridgesAndFreezersData, SmartphonesAndTabletsData }
+export type { ArrowData, WineStorageAppliancesData, HouseholdFridgesAndFreezersData, SmartphonesAndTabletsData }
 
 export type TemplateName = keyof TemplatesData
 
@@ -30,7 +26,5 @@ export interface TemplatesData {
   'refrigerating-appliances': WineStorageAppliancesData | HouseholdFridgesAndFreezersData
   smartphones: SmartphonesAndTabletsData
 }
-
-export type TemplatesDataValues = Partial<TemplatesData[TemplateName] & QRCodeDataUrlData>
 
 export type ProductName = Exclude<TemplateName, 'arrow'>

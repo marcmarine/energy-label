@@ -18,7 +18,7 @@
     "test:types": "tsc --noEmit -p tsconfig.test.json",
     "build:example": "bun build-example.ts",
     "build:docs": "bunx typedoc",
-    "build:types": "dts-bundle-generator -o dist/index.d.ts src/index.ts",
+    "build:types": "dts-bundle-generator --export-referenced-types=false -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",
     "build": "bun build:lib && bun build:types",
     "dev": "bun build:lib -- --watch"

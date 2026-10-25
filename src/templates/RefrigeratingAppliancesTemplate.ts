@@ -1,7 +1,7 @@
 import { escapeXml, mmToPx } from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import { Template } from './Template'
-import type { EnergyLabelBaseData, QRCodeDataUrlData } from '../definitions'
+import type { EnergyLabelBaseData } from '../definitions'
 
 export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData> {
   protected getWidth(): number {
@@ -131,7 +131,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   }
 }
 
-export interface RefrigeratingAppliancesData extends EnergyLabelBaseData, QRCodeDataUrlData {
+export interface RefrigeratingAppliancesData extends EnergyLabelBaseData {
   consolidatedEnergyConsAnnual: number
   noise: number
   noiseClass: string

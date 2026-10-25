@@ -17,4 +17,11 @@ describe('Types', () => {
     expectTypeOf(templateFactory('smartphones')).toEqualTypeOf<Template<SmartphonesAndTabletsData>>()
     expectTypeOf(templateFactory('refrigerating-appliances')).toEqualTypeOf<Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>>()
   })
+
+  it('label data does not accept a QR code, which is generated internally', () => {
+    // @ts-expect-error qrCodeDataUrl is not label data
+    createEnergyLabel('smartphones', { qrCodeDataUrl: 'data:image/gif;base64,' })
+    // @ts-expect-error qrCodeDataUrl is not label data
+    createEnergyLabel('refrigerating-appliances', { qrCodeDataUrl: 'data:image/gif;base64,' })
+  })
 })
