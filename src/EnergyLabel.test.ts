@@ -61,16 +61,17 @@ describe('EnergyLabel', () => {
     expect(svg).toContain('>Smith  Co<')
   })
 
-  it('should use unique ids across UK labels on the same page', () => {
-    const svgs = [1, 2].map(() => new EnergyLabel('smartphones', { flagOrigin: 'UK' }).toString())
-    svgs.forEach(svg => {
-      const references = [...svg.matchAll(/url\(#([^)]+)\)/g)].map(match => match[1])
+  it.each(['arrow', 'smartphones', 'refrigerating-appliances'] as const)('should not use ids, so several %s labels can share a page', template => {
+    for (const flagOrigin of ['EU', 'UK'] as const) {
+      const svg = new EnergyLabel(template, { flagOrigin }).toString()
 
-      expect(references.length).toBeGreaterThan(0)
-      references.forEach(reference => expect(svg).toContain(`id="${reference}"`))
-    })
+      expect(svg).not.toMatch(/\bid="|url\(#/)
+    }
+  })
 
-    const ids = svgs.flatMap(svg => [...svg.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]))
-    expect(new Set(ids).size).toBe(ids.length)
+  it('should generate the same markup for the same data, so it can be hydrated', () => {
+    const [first, second] = [1, 2].map(() => new EnergyLabel('smartphones', { flagOrigin: 'UK' }).toString())
+
+    expect(second).toBe(first)
   })
 })

@@ -1,5 +1,5 @@
 import type { EnergyClass, FlagOriginData } from '../definitions'
-import { escapeXml, mmToPx, uniqueId } from '../utils'
+import { escapeXml, mmToPx } from '../utils'
 
 /** Position and width of a header element, in millimetres. */
 interface Box {
@@ -81,9 +81,8 @@ export const FONT_CLASS = 'Calibri, Carlito, sans-serif'
 
 export function flagUK(x: number, y: number, width: number) {
   const scale = Number(width / 100).toPrecision(3)
-  const id = uniqueId('flag-uk')
 
-  return `<g transform="translate(${x}, ${y}) scale(${scale})"><mask id="${id}-outline" width="100" height="67" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:luminance"><path fill="#fff" d="M0 0v67h100V0z"/></mask><g mask="url(#${id}-outline)"><path fill="#034EA2" d="M0 0v67h100V0z"/><path fill="#000" d="m0 0 100 67Zm100 0L0 67Z"/><path fill="#fff" d="M102.3 5.9 61.2 33.5l41 27.6-4.4 12-47.8-32L2.2 73l-4.5-12 41.1-27.6-41-27.6 4.4-12 47.8 32L97.8-6l4.5 12Z"/><mask id="${id}-saltire" width="100" height="67" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:luminance"><path fill="#fff" d="M50 33.5h50V67zm0 0V67H0zm0 0H0V0zm0 0V0h50z"/></mask><g mask="url(#${id}-saltire)"><path fill="#000" d="m0 0 100 67Zm100 0L0 67Z"/><path fill="#DA2E33" d="m101.5 4-44 29.5 44 29.6-3 8L50 38.5 1.5 71.1l-3-8 44-29.6-44-29.6 3-8L50 28.5 98.5-4.1l3 8Z"/></g><path fill="#000" d="M50 0v67ZM0 33.5h100Z"/><path fill="#fff" d="M59.3 0v22.3H100v21.4H59.3V67H40.7V43.7H0V22.3h40.7V0z"/><path fill="#000" d="M50 0v67ZM0 33.5h100Z"/><path fill="#DA2E33" d="M56 0v26.8h44v12.4H56V67H44V39.2H0V26.8h44V0z"/></g></g>`
+  return `<g transform="translate(${x}, ${y}) scale(${scale})"><path fill="#fff" d="M0 0h100v67H0z"/><path fill="#034EA2" d="M100 7.44 77.88 22.3H100Zm0 36.26H76.35L100 59.62ZM88.69 67 59.3 47.33V67ZM40.7 67V47.31L11.19 67ZM0 59.46 23.46 43.7H0ZM0 22.3h22.31L0 7.28ZM11.46 0 40.7 19.57V0ZM59.3 0v19.61L88.78 0Z"/><path fill="#DA2E33" d="M100 0h-7.6L59.3 22.25v.05h7.42ZM0 0v4.91L25.85 22.3h7.43Zm0 67h7.6l33.1-22.25V43.7h-5.92Zm100 0v-4.91L72.66 43.7h-7.44Z"/><path fill="#DA2E33" d="M56 0v26.8h44v12.4H56V67H44V39.2H0V26.8h44V0z"/></g>`
 }
 
 export function flagEU(x: number, y: number, width: number) {
