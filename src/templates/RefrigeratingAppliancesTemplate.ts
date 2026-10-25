@@ -85,22 +85,25 @@ ${separator(3, 93, 123.5)}`
   <path d="M4.32 15.675h19.807M3.947 7.877 1 15.4v38.51h26.46V15.18l-2.946-7.303zM4.32 1v6.877h19.807V1z" stroke="#231F20" stroke-width="1.59792" stroke-linejoin="round"/>
 </g>`
 
-    const capacityFreezeUnfrozen = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ') =>
-      capFreezeNet
-        ? `${symbolFreeze(mmToPx(25.5 - 12 / 2), mmToPx(133.5))}
-<text x="${mmToPx(25.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${escapeXml(capFreezeNet)}</tspan><tspan font-size="12pt"> L</tspan>
-</text>
-${symbolChillCompartment(mmToPx(70.5 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(70.5)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
-</text>`
-        : `${symbolChillCompartment(mmToPx(48 - 7 / 2), mmToPx(133.5))}
-<text x="${mmToPx(96 / 2)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-  <tspan font-size="16pt" font-weight="bold" >${escapeXml(capRefrNet)}</tspan><tspan font-size="12pt"> L</tspan>
-</text>`
+    // null or 0 means the appliance doesn't have that compartment (as EPREL returns it); undefined shows a placeholder.
+    const capacityFreezeUnfrozen = (capRefrNet?: number | null, capFreezeNet?: number | null) => {
+      const compartments = [
+        { capacity: capFreezeNet, symbol: symbolFreeze, symbolWidth: 12 },
+        { capacity: capRefrNet, symbol: symbolChillCompartment, symbolWidth: 7 }
+      ].filter(({ capacity }) => capacity !== null && capacity !== 0)
+      const centers = compartments.length === 1 ? [96 / 2] : [25.5, 70.5]
 
-    const fridgesAndFreezers = (capRefrNet: number | 'XYZ' = 'XYZ', capFreezeNet: number | null | 'XYZ' = 'XYZ', noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${capacityFreezeUnfrozen(
+      return compartments
+        .map(
+          ({ capacity, symbol, symbolWidth }, index) => `${symbol(mmToPx(centers[index] - symbolWidth / 2), mmToPx(133.5))}
+<text x="${mmToPx(centers[index])}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
+  <tspan font-size="16pt" font-weight="bold" >${escapeXml(capacity ?? 'XYZ')}</tspan><tspan font-size="12pt"> L</tspan>
+</text>`
+        )
+        .join('\n')
+    }
+
+    const fridgesAndFreezers = (capRefrNet?: number | null, capFreezeNet?: number | null, noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${capacityFreezeUnfrozen(
       capRefrNet,
       capFreezeNet
     )}
@@ -142,5 +145,5 @@ export interface WineStorageAppliancesData extends RefrigeratingAppliancesData {
 
 export interface HouseholdFridgesAndFreezersData extends RefrigeratingAppliancesData {
   capFreezeNet: number | null
-  capRefrNet: number
+  capRefrNet: number | null
 }

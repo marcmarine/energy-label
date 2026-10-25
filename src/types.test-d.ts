@@ -18,6 +18,11 @@ describe('Types', () => {
     expectTypeOf(templateFactory('refrigerating-appliances')).toEqualTypeOf<Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>>()
   })
 
+  it('capacities accept null for compartments the appliance does not have, as EPREL returns', () => {
+    createEnergyLabel('refrigerating-appliances', { capRefrNet: null, capFreezeNet: 191 })
+    createEnergyLabel('refrigerating-appliances', { capRefrNet: 200, capFreezeNet: null })
+  })
+
   it('label data does not accept a QR code, which is generated internally', () => {
     // @ts-expect-error qrCodeDataUrl is not label data
     createEnergyLabel('smartphones', { qrCodeDataUrl: 'data:image/gif;base64,' })
