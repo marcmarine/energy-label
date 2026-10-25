@@ -2,9 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { Template } from './Template'
 
 vi.mock('../utils', () => ({
-  QRCodeGenerator: {
-    generate: vi.fn()
-  }
+  qrCodePath: vi.fn()
 }))
 
 vi.mock('./common', () => ({
@@ -71,26 +69,26 @@ describe('Template', () => {
     })
   })
 
-  describe('generateQRCodeDataUrl', () => {
-    it('should generate QR code with correct URL and options', async () => {
-      const mockDataUrl = 'data:image/png;base64,mockQRCode'
-      const { QRCodeGenerator } = await import('../utils')
-      const mockGenerate = vi.mocked(QRCodeGenerator.generate)
-      mockGenerate.mockReturnValue(mockDataUrl)
+  describe('generateQRCode', () => {
+    it('should generate the QR code for the product page in EPREL', async () => {
+      const mockQRCode = { size: 21, d: 'm0 .5h7' }
+      const { qrCodePath } = await import('../utils')
+      const mockGenerate = vi.mocked(qrCodePath)
+      mockGenerate.mockReturnValue(mockQRCode)
 
-      const result = template['generateQRCodeDataUrl']('smartphones', 'ABC123')
+      const result = template['generateQRCode']('smartphones', 'ABC123')
 
-      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123?navigatingfrom=energy-label')
-      expect(result).toBe(mockDataUrl)
+      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123')
+      expect(result).toBe(mockQRCode)
     })
 
     it.each([undefined, ''])('should link to the product group when the registration number is %o', async registrationNumber => {
-      const { QRCodeGenerator } = await import('../utils')
-      const mockGenerate = vi.mocked(QRCodeGenerator.generate)
+      const { qrCodePath } = await import('../utils')
+      const mockGenerate = vi.mocked(qrCodePath)
 
-      template['generateQRCodeDataUrl']('smartphones', registrationNumber)
+      template['generateQRCode']('smartphones', registrationNumber)
 
-      expect(mockGenerate).toHaveBeenLastCalledWith('test-url/screen/product/smartphonestablets20231669?navigatingfrom=energy-label')
+      expect(mockGenerate).toHaveBeenLastCalledWith('test-url/screen/product/smartphonestablets20231669')
     })
   })
 

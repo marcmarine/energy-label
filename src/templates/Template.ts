@@ -1,6 +1,6 @@
 import { PRODUCT_GROUPS } from '../constants'
 import type { ProductName } from '../definitions'
-import { QRCodeGenerator } from '../utils'
+import { qrCodePath } from '../utils'
 import { EPREL_BASE_URL } from './common'
 
 export abstract class Template<T> {
@@ -40,15 +40,12 @@ export abstract class Template<T> {
    */
   protected buildEprelUrl(product: ProductName, registrationNumber?: string): string {
     const groupUrl = `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
-    const url = registrationNumber ? `${groupUrl}/${encodeURIComponent(registrationNumber)}` : groupUrl
 
-    return `${url}?navigatingfrom=energy-label`
+    return registrationNumber ? `${groupUrl}/${encodeURIComponent(registrationNumber)}` : groupUrl
   }
 
-  protected generateQRCodeDataUrl(product: ProductName, registrationNumber?: string) {
-    const url = this.buildEprelUrl(product, registrationNumber)
-
-    return QRCodeGenerator.generate(url)
+  protected generateQRCode(product: ProductName, registrationNumber?: string) {
+    return qrCodePath(this.buildEprelUrl(product, registrationNumber))
   }
 
   protected render(sections: string[]): string {

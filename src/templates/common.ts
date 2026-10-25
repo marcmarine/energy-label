@@ -1,5 +1,5 @@
 import type { EnergyClass, FlagOriginData } from '../definitions'
-import { escapeXml, mmToPx } from '../utils'
+import { escapeXml, mmToPx, type QRCodePath } from '../utils'
 
 /** Position and width of a header element, in millimetres. */
 interface Box {
@@ -24,7 +24,7 @@ export interface HeaderLayout {
 
 export interface HeaderData {
   flagOrigin?: FlagOriginData
-  qrCodeDataUrl: string
+  qrCode: QRCodePath
   supplierOrTrademark?: string
   modelIdentifier?: string
 }
@@ -101,8 +101,10 @@ export function logo(x: number, y: number, width: number) {
   return `<g transform="translate(${x}, ${y}) scale(${scale})"><path fill="#034EA2" d="M0 40.48V0h27.62v8.08H8.42v7.73h18.4v7.9H8.42v8.86h19.2v7.9H0Zm58.39-13.22V0h8.28v40.48h-9.89l-16.6-26.91v26.9H31.9V0h9.88l16.6 27.26Zm13.04 13.22V0h27.14v8.08H79.71v7.73h18.1v7.9H79.7v8.86h18.86v7.9H71.43Zm31.43 0V0h19.17c1.93-.03 3.86.19 5.73.66a9.2 9.2 0 0 1 3.95 2.14 8.9 8.9 0 0 1 2.3 3.92c.54 1.93.79 3.94.75 5.94 0 1.23-.08 2.46-.25 3.68-.13 1.06-.35 2.11-.65 3.14a6.1 6.1 0 0 1-1.92 2.7c.8.87 1.4 1.9 1.76 3.03.39 1.25.58 2.55.57 3.86v11.4h-8.59V29.99a3.79 3.79 0 0 0-1.07-3.13 5.55 5.55 0 0 0-3.42-.84h-10.02v14.47h-8.31Zm8.38-22.33h9.4q1.485.03 2.94-.24c.6-.1 1.16-.31 1.67-.61.6-.49.9-1.71.9-3.68.1-1.5-.08-2.99-.54-4.4-.36-.8-1.53-1.22-3.53-1.22h-10.84zm42.15.21h19.6c.2 1.53.3 2.67.33 3.4.03.75 0 1.43 0 1.97v3.32c.05 2.83-.4 5.64-1.32 8.32a7.14 7.14 0 0 1-2.82 3.59 12.4 12.4 0 0 1-5.34 1.72 65 65 0 0 1-7.6.24c-6.44 0-10.86-1.02-13.27-3.07-2.62-2.13-3.92-6.33-3.92-12.6V15.4c0-5.22 1.06-9.08 3.2-11.58a10.2 10.2 0 0 1 4.6-2.85 22.2 22.2 0 0 1 6.91-.97h8.68c3.94.13 6.7 1.18 8.29 3.17a13.2 13.2 0 0 1 2.53 8.5v3.53h-8.44c.16-2.13-.06-4.27-.67-6.32-.2-.4-1.03-.64-2.53-.73a82 82 0 0 0-3.65-.14h-3.7c-3.1 0-4.93.32-5.5.97-.56.64-.88 2.87-.96 6.7v9.76a24 24 0 0 0 .53 5.49v-.12c.22.47.55.87.97 1.18.57.4 1.24.64 1.93.7.82.12 1.65.18 2.48.19h5.03c1.14 0 2.28-.04 3.41-.16a3 3 0 0 0 1.78-.63c.56-.48.85-2.1.85-4.81v-.97h-11.4zM193.68 0l-3.65 11.67 9.97-1.66-14.26 31.42 4.3-22.77-9.56.41L184.52 0z"/></g>`
 }
 
-export function qrCodeImage(x: number, y: number, width: number, qrCodeDataUrl?: string) {
-  return `<image href="${qrCodeDataUrl}" x="${x}" y="${y}" width="${width}" />`
+export function qrCode(x: number, y: number, width: number, qr: QRCodePath) {
+  const scale = Number((width / qr.size).toFixed(4))
+
+  return `<path d="${qr.d}" transform="translate(${x}, ${y}) scale(${scale})" stroke="#000" />`
 }
 
 export function separator(x1: number, x2: number, y: number) {
@@ -114,7 +116,7 @@ export function header(layout: HeaderLayout, data: HeaderData) {
 
   return `${flag(mmToPx(layout.flag.x), mmToPx(layout.flag.y), mmToPx(layout.flag.width), data.flagOrigin)}
 ${logo(mmToPx(layout.logo.x), mmToPx(layout.logo.y), mmToPx(layout.logo.width))}
-${qrCodeImage(mmToPx(layout.qrCode.x), mmToPx(layout.qrCode.y), mmToPx(layout.qrCode.width), data.qrCodeDataUrl)}
+${qrCode(mmToPx(layout.qrCode.x), mmToPx(layout.qrCode.y), mmToPx(layout.qrCode.width), data.qrCode)}
 <text fill="#000" font-family="${FONT_TEXT}" font-size="${fontSize}" font-weight="bold">
 <tspan x="${mmToPx(left)}" y="${mmToPx(textY)}">${escapeXml(data.supplierOrTrademark || "Supplier's Name")}</tspan>
 </text>

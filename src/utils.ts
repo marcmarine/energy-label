@@ -30,14 +30,43 @@ export function minutesToHoursAndMinutes(totalMinutes?: number) {
 
   return { hours, minutes }
 }
-export class QRCodeGenerator {
-  static generate(content: string) {
-    const QRCode = qrcode(0, 'L')
-    QRCode.addData(content)
-    QRCode.make()
+export interface QRCodePath {
+  /** Number of modules per side. */
+  size: number
+  /** Path data in module units, meant to be drawn with a 1-unit stroke. */
+  d: string
+}
 
-    return QRCode.createDataURL(2, 0)
+/**
+ * Encodes `content` as a QR code drawn with vectors, so it stays sharp when the label is scaled or printed.
+ * Each run of consecutive dark modules in a row becomes one horizontal segment.
+ */
+export function qrCodePath(content: string): QRCodePath {
+  const qr = qrcode(0, 'L')
+  qr.addData(content)
+  qr.make()
+
+  const size = qr.getModuleCount()
+  let d = ''
+  let x = 0
+  let y = 0
+
+  for (let row = 0; row < size; row++) {
+    for (let col = 0; col < size; col++) {
+      if (!qr.isDark(row, col)) continue
+
+      let end = col + 1
+      while (end < size && qr.isDark(row, end)) end++
+
+      // Relative moves keep the numbers short; the segment runs through the middle of the row.
+      d += `m${col - x} ${row + 0.5 - y}h${end - col}`
+      x = end
+      y = row + 0.5
+      col = end
+    }
   }
+
+  return { size, d }
 }
 
 /**
