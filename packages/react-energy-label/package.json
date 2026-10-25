@@ -1,0 +1,10 @@
+{
+  "name": "react-energy-label",
+  "version": "0.0.1",
+  "description": "React components for EU energy labels. See @energy-label/react.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marcmarine/energy-label.git"
+  },
+  "license": "MIT"
+}
