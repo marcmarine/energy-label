@@ -1,3 +1,20 @@
+# [1.0.0-beta.13](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2026-10-25)
+
+
+### Bug Fixes
+
+* Draw QR code as vector path ([b8d0e95](https://github.com/marcmarine/energy-label/commit/b8d0e9573490901386cc15357fa6e6f971aaa783))
+* Hide missing fridge or freezer compartments ([2638de6](https://github.com/marcmarine/energy-label/commit/2638de6e84e26cb913a2f41604f2bc75240765c3))
+* Remove SVG IDs for deterministic label markup ([22dec9a](https://github.com/marcmarine/energy-label/commit/22dec9a987c80c04b40c803d375b57839b2d7571))
+* Restrict class fields to regulation values ([d777be2](https://github.com/marcmarine/energy-label/commit/d777be2c2619321f8215f16246f5e97628243936))
+* Show battery cycles from EPREL hundreds ([5f58f56](https://github.com/marcmarine/energy-label/commit/5f58f56050514a2a7f9da50145b0e7808be9d6c6))
+* Validate classes and flag origin ([a097256](https://github.com/marcmarine/energy-label/commit/a0972567593befb5e84005de2bc987ef98656aac))
+
+
+### Features
+
+* Match official EPREL QR codes ([fed6590](https://github.com/marcmarine/energy-label/commit/fed659008df907076469dac193de0642563922b2))
+
 # [1.0.0-beta.12](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2026-10-17)
 
 
