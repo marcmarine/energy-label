@@ -6,6 +6,15 @@ export type FlagOriginData = 'EU' | 'UK'
 
 export type EnergyClass = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G'
 
+/** Airborne acoustical noise emission class of refrigerating appliances (Regulation (EU) 2019/2016). */
+export type NoiseClass = 'A' | 'B' | 'C' | 'D'
+
+/** Repairability class of smartphones and slate tablets (Regulation (EU) 2023/1669). */
+export type RepairabilityClass = 'A' | 'B' | 'C' | 'D' | 'E'
+
+/** Repeated free fall reliability class of smartphones and slate tablets (Regulation (EU) 2023/1669). */
+export type FreeFallReliabilityClass = 'A' | 'B' | 'C' | 'D' | 'E'
+
 export interface EnergyClassData {
   energyClass: EnergyClass
 }

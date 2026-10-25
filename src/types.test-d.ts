@@ -18,6 +18,18 @@ describe('Types', () => {
     expectTypeOf(templateFactory('refrigerating-appliances')).toEqualTypeOf<Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>>()
   })
 
+  it('class fields only accept the classes defined by each regulation', () => {
+    expectTypeOf<WineStorageAppliancesData['noiseClass']>().toEqualTypeOf<'A' | 'B' | 'C' | 'D'>()
+    expectTypeOf<HouseholdFridgesAndFreezersData['noiseClass']>().toEqualTypeOf<'A' | 'B' | 'C' | 'D'>()
+    expectTypeOf<SmartphonesAndTabletsData['repairabilityClass']>().toEqualTypeOf<'A' | 'B' | 'C' | 'D' | 'E'>()
+    expectTypeOf<SmartphonesAndTabletsData['repeatedFreeFallReliabilityClass']>().toEqualTypeOf<'A' | 'B' | 'C' | 'D' | 'E'>()
+
+    // @ts-expect-error 'E' is not a noise class
+    createEnergyLabel('refrigerating-appliances', { noiseClass: 'E' })
+    // @ts-expect-error 'F' is not a repairability class
+    createEnergyLabel('smartphones', { repairabilityClass: 'F' })
+  })
+
   it('capacities accept null for compartments the appliance does not have, as EPREL returns', () => {
     createEnergyLabel('refrigerating-appliances', { capRefrNet: null, capFreezeNet: 191 })
     createEnergyLabel('refrigerating-appliances', { capRefrNet: 200, capFreezeNet: null })

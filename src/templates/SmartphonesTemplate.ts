@@ -1,7 +1,7 @@
 import { Template } from './Template'
 import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
-import type { EnergyLabelBaseData } from '../definitions'
+import type { EnergyLabelBaseData, FreeFallReliabilityClass, RepairabilityClass } from '../definitions'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected getWidth(): number {
@@ -88,14 +88,14 @@ ${separator(2, 66, 88)}`
   protected createFeatures(data: Partial<SmartphonesAndTabletsData>): string {
     const { repeatedFreeFallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = data
 
-    const fallReliabilityClassIcon = (x: number, y: number, repeatedFreeFallReliabilityClass: string = 'B') => `
+    const fallReliabilityClassIcon = (x: number, y: number, repeatedFreeFallReliabilityClass: FreeFallReliabilityClass = 'B') => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(repeatedFreeFallReliabilityClass)}
   ${symbolFreeFall(18, 9)}
 </g>
 `
 
-    const repairabilityClassIcon = (x: number, y: number, repairabilityClass: string = 'D') => `
+    const repairabilityClassIcon = (x: number, y: number, repairabilityClass: RepairabilityClass = 'D') => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(repairabilityClass)}
   ${symbolRepairability(16, 16)}
@@ -120,7 +120,7 @@ ${separator(2, 66, 88)}`
 </g>
 `
 
-    const aToEScale = (selectedClass: string) => `<text fill="#000" font-family="${FONT_TEXT}">
+    const aToEScale = (selectedClass: RepairabilityClass | FreeFallReliabilityClass) => `<text fill="#000" font-family="${FONT_TEXT}">
   ${['A', 'B', 'C', 'D', 'E']
     .map(
       (cls, index) =>
@@ -178,8 +178,8 @@ ${separator(2, 66, 88)}`
 
 export interface SmartphonesAndTabletsData extends EnergyLabelBaseData {
   batteryEndurancePerCycle: number
-  repeatedFreeFallReliabilityClass: string
-  repairabilityClass: string
+  repeatedFreeFallReliabilityClass: FreeFallReliabilityClass
+  repairabilityClass: RepairabilityClass
   /** Battery endurance in hundreds of full charge cycles, as declared in EPREL (e.g. `10` for 1000 cycles). */
   batteryEnduranceInCycles: number
   ingressProtectionRating: string

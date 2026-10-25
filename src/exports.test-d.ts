@@ -3,7 +3,10 @@ import type {
   ArrowData,
   EnergyClass,
   FlagOriginData,
+  FreeFallReliabilityClass,
   HouseholdFridgesAndFreezersData,
+  NoiseClass,
+  RepairabilityClass,
   SmartphonesAndTabletsData,
   TemplateName,
   TemplatesData,
@@ -28,5 +31,8 @@ describe('Public types', () => {
     expectTypeOf<
       SmartphonesAndTabletsData['flagOrigin']
     >().toEqualTypeOf<FlagOriginData>()
+    expectTypeOf<WineStorageAppliancesData['noiseClass']>().toEqualTypeOf<NoiseClass>()
+    expectTypeOf<SmartphonesAndTabletsData['repairabilityClass']>().toEqualTypeOf<RepairabilityClass>()
+    expectTypeOf<SmartphonesAndTabletsData['repeatedFreeFallReliabilityClass']>().toEqualTypeOf<FreeFallReliabilityClass>()
   })
 })

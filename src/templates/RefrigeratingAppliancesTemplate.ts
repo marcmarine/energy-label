@@ -1,7 +1,7 @@
 import { escapeXml, mmToPx } from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import { Template } from './Template'
-import type { EnergyLabelBaseData } from '../definitions'
+import type { EnergyLabelBaseData, NoiseClass } from '../definitions'
 
 export class RefrigeratingAppliancesTemplate extends Template<WineStorageAppliancesData | HouseholdFridgesAndFreezersData> {
   protected getWidth(): number {
@@ -103,7 +103,7 @@ ${separator(3, 93, 123.5)}`
         .join('\n')
     }
 
-    const fridgesAndFreezers = (capRefrNet?: number | null, capFreezeNet?: number | null, noise: number | 'XY' = 'XY', noiseClass: string = 'A') => `${capacityFreezeUnfrozen(
+    const fridgesAndFreezers = (capRefrNet?: number | null, capFreezeNet?: number | null, noise: number | 'XY' = 'XY', noiseClass: NoiseClass = 'A') => `${capacityFreezeUnfrozen(
       capRefrNet,
       capFreezeNet
     )}
@@ -115,7 +115,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" ${cls === noiseClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
-    const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: string = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
+    const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: NoiseClass = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
 <text x="${mmToPx(48)}" y="${mmToPx(154.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
   <tspan font-size="16pt" font-weight="bold" >${escapeXml(capBottles)}</tspan>
 </text>
@@ -137,7 +137,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
 export interface RefrigeratingAppliancesData extends EnergyLabelBaseData {
   consolidatedEnergyConsAnnual: number
   noise: number
-  noiseClass: string
+  noiseClass: NoiseClass
 }
 export interface WineStorageAppliancesData extends RefrigeratingAppliancesData {
   capBottles: number | null
