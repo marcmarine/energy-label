@@ -6,9 +6,9 @@ on:
       - main
       - beta
     paths:
-      - '**'
-      - '!docs/**'
-      - '!package-lock.json'
+      - "**"
+      - "!docs/**"
+      - "!package-lock.json"
   workflow_dispatch:
 
 permissions:
@@ -41,6 +41,9 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Lint
+        run: bun run lint
 
       - name: Type check
         run: bun run test:types

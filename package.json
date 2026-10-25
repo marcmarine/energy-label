@@ -8,6 +8,7 @@
   },
   "main": "dist/index.js",
   "devDependencies": {
+    "@biomejs/biome": "2.6.3",
     "@semantic-release/changelog": "^7.0.0",
     "@semantic-release/git": "^11.0.1",
     "@zxing/library": "^0.23.0",
@@ -42,6 +43,8 @@
   "scripts": {
     "test": "vitest",
     "test:types": "tsc --noEmit -p tsconfig.test.json",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
     "build:example": "bun build-example.ts",
     "build:docs": "bunx typedoc",
     "build:types": "dts-bundle-generator --export-referenced-types=false -o dist/index.d.ts src/index.ts",
