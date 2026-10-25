@@ -20,6 +20,15 @@ export function escapeXml(value: unknown): string {
   return String(value).replace(/[&<>"]/g, char => XML_ESCAPES[char] ?? char)
 }
 
+/**
+ * Throws a RangeError when `value` is set but is not one of `allowed`. Missing values are allowed, as the label shows a placeholder.
+ */
+export function assertOneOf(field: string, value: unknown, allowed: readonly string[]): void {
+  if (value != null && !allowed.includes(value as string)) {
+    throw new RangeError(`Invalid ${field} "${value}". Expected one of: ${allowed.join(', ')}`)
+  }
+}
+
 export function minutesToHoursAndMinutes(totalMinutes?: number) {
   if (typeof totalMinutes !== 'number' || isNaN(totalMinutes) || totalMinutes < 0) {
     return { hours: 'X', minutes: 'Y' }

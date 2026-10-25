@@ -1,6 +1,7 @@
 import { EFFICIENCY_SCALE_COLORS, FONT_CLASS } from './common'
 import { Template } from './Template'
-import { escapeXml } from '../utils'
+import { assertOneOf, escapeXml } from '../utils'
+import { ENERGY_CLASSES } from '../constants'
 import type { EnergyClassData } from '../definitions'
 
 export class ArrowTemplate extends Template<ArrowData> {
@@ -10,6 +11,10 @@ export class ArrowTemplate extends Template<ArrowData> {
 
   protected getHeight(): number {
     return 51
+  }
+
+  protected validate(data: Partial<ArrowData>): void {
+    assertOneOf('energyClass', data.energyClass, ENERGY_CLASSES)
   }
 
   protected createEfficiencyScale(data: Partial<ArrowData>): string {

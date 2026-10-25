@@ -1,4 +1,5 @@
-import { escapeXml, mmToPx } from '../utils'
+import { assertOneOf, escapeXml, mmToPx } from '../utils'
+import { ENERGY_CLASSES, FLAG_ORIGINS, NOISE_CLASSES } from '../constants'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import { Template } from './Template'
 import type { EnergyLabelBaseData, NoiseClass } from '../definitions'
@@ -36,6 +37,12 @@ export class RefrigeratingAppliancesTemplate extends Template<WineStorageApplian
       },
       { flagOrigin, qrCode, supplierOrTrademark, modelIdentifier }
     )
+  }
+
+  protected validate(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): void {
+    assertOneOf('flagOrigin', data.flagOrigin, FLAG_ORIGINS)
+    assertOneOf('energyClass', data.energyClass, ENERGY_CLASSES)
+    assertOneOf('noiseClass', data.noiseClass, NOISE_CLASSES)
   }
 
   protected createEfficiencyScale(data: Partial<WineStorageAppliancesData | HouseholdFridgesAndFreezersData>): string {
@@ -112,7 +119,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noise)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
 <text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" ${cls === noiseClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
+  ${NOISE_CLASSES.map(cls => `<tspan font-size="${cls === noiseClass ? '16pt' : '10pt'}" ${cls === noiseClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     const wineStorage = (capBottles: number | null | 'XYZ' = 'XYZ', noiseEmissions: number | 'XY' = 'XY', noiseEmissionsClass: NoiseClass = 'A') => `${symbolWineStorage(mmToPx(48 - 14 / 2), mmToPx(133.5))}
@@ -124,7 +131,7 @@ ${symbolAcousticalNoise(mmToPx(48 - 21 / 2), mmToPx(161.5))}
   <tspan font-size="12pt" font-weight="bold">${escapeXml(noiseEmissions)}</tspan><tspan font-size="9pt">dB</tspan>
 </text>
 <text x="${mmToPx(48)}" y="${mmToPx(182.5)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
-  ${['A', 'B', 'C', 'D'].map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" ${cls === noiseEmissionsClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
+  ${NOISE_CLASSES.map(cls => `<tspan font-size="${cls === noiseEmissionsClass ? '16pt' : '10pt'}" ${cls === noiseEmissionsClass ? ' font-weight="bold"' : ''}>${cls}</tspan>`).join('')}
 </text>`
 
     return `${Boolean(capBottles) ? wineStorage(capBottles, noise, noiseClass) : fridgesAndFreezers(capRefrNet, capFreezeNet, noise, noiseClass)}

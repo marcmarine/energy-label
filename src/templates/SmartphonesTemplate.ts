@@ -1,5 +1,6 @@
 import { Template } from './Template'
-import { escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
+import { assertOneOf, escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
+import { ENERGY_CLASSES, FLAG_ORIGINS, FREE_FALL_RELIABILITY_CLASSES, REPAIRABILITY_CLASSES } from '../constants'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import type { EnergyLabelBaseData, FreeFallReliabilityClass, RepairabilityClass } from '../definitions'
 
@@ -36,6 +37,13 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
       },
       { flagOrigin, qrCode, supplierOrTrademark, modelIdentifier }
     )
+  }
+
+  protected validate(data: Partial<SmartphonesAndTabletsData>): void {
+    assertOneOf('flagOrigin', data.flagOrigin, FLAG_ORIGINS)
+    assertOneOf('energyClass', data.energyClass, ENERGY_CLASSES)
+    assertOneOf('repairabilityClass', data.repairabilityClass, REPAIRABILITY_CLASSES)
+    assertOneOf('repeatedFreeFallReliabilityClass', data.repeatedFreeFallReliabilityClass, FREE_FALL_RELIABILITY_CLASSES)
   }
 
   protected createEfficiencyScale(data: Partial<SmartphonesAndTabletsData>): string {
@@ -121,7 +129,7 @@ ${separator(2, 66, 88)}`
 `
 
     const aToEScale = (selectedClass: RepairabilityClass | FreeFallReliabilityClass) => `<text fill="#000" font-family="${FONT_TEXT}">
-  ${['A', 'B', 'C', 'D', 'E']
+  ${REPAIRABILITY_CLASSES
     .map(
       (cls, index) =>
         `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"${

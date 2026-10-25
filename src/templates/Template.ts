@@ -5,6 +5,8 @@ import { EPREL_BASE_URL } from './common'
 
 export abstract class Template<T> {
   generate(data: Partial<T>): string {
+    this.validate(data)
+
     const background = this.createBackground()
     const header = this.createHeader(data)
     const efficiencyScale = this.createEfficiencyScale(data)
@@ -13,6 +15,9 @@ export abstract class Template<T> {
 
     return this.render([background, header, efficiencyScale, consumption, features])
   }
+
+  /** Throws if the data can't be drawn on the label. */
+  protected validate(_data: Partial<T>): void {}
 
   protected createBackground(): string {
     return ''
