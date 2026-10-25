@@ -7,7 +7,7 @@ const projectRoot = dirname(fileURLToPath(import.meta.url))
 const pkgPath = join(projectRoot, 'package.json')
 const packageJson = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
-const external = Object.keys(packageJson.dependencies)
+const external = Object.keys(packageJson.dependencies ?? {})
 
 export default defineConfig([
   {

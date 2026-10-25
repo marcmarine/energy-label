@@ -1,18 +1,44 @@
 {
   "name": "energy-label",
   "version": "1.0.0-beta.12",
-  "description": "Generate EU-compliant energy labels in SVG format.",
-  "homepage": "https://docs.label.energy",
+  "author": "Marc Mariné <shenobi@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/marcmarine/energy-label.git"
   },
   "main": "dist/index.js",
+  "devDependencies": {
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/git": "^11.0.1",
+    "@zxing/library": "^0.23.0",
+    "dts-bundle-generator": "^9.5.1",
+    "rolldown": "^1.1.1",
+    "semantic-release": "^25.0.9",
+    "svgo": "^4.0.1",
+    "typedoc": "^0.28.19",
+    "typescript": "^5.9.3",
+    "varvara-typedoc-theme": "^0.3.12",
+    "vitest": "^3.2.6"
+  },
   "exports": {
     "import": "./dist/index.js"
   },
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "bugs": "https://github.com/marcmarine/energy-label/issues/new",
+  "description": "Generate EU-compliant energy labels in SVG format.",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://docs.label.energy",
+  "keywords": [
+    "energy",
+    "labels",
+    "generator",
+    "smartphones",
+    "european-union",
+    "great-britain",
+    "efficiency"
+  ],
+  "license": "MIT",
   "scripts": {
     "test": "vitest",
     "test:types": "tsc --noEmit -p tsconfig.test.json",
@@ -23,34 +49,6 @@
     "build": "bun build:lib && bun build:types",
     "dev": "bun build:lib -- --watch"
   },
-  "bugs": "https://github.com/marcmarine/energy-label/issues/new",
-  "author": "Marc Mariné <shenobi@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@semantic-release/changelog": "^7.0.0",
-    "@semantic-release/git": "^11.0.1",
-    "dts-bundle-generator": "^9.5.1",
-    "rolldown": "^1.1.1",
-    "semantic-release": "^25.0.9",
-    "svgo": "^4.0.1",
-    "typedoc": "^0.28.19",
-    "typescript": "^5.9.3",
-    "varvara-typedoc-theme": "^0.3.12",
-    "vitest": "^3.2.6"
-  },
-  "dependencies": {
-    "qrcode-generator": "^2.0.4"
-  },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "energy",
-    "labels",
-    "generator",
-    "smartphones",
-    "european-union",
-    "great-britain",
-    "efficiency"
-  ]
+  "type": "module",
+  "types": "dist/index.d.ts"
 }

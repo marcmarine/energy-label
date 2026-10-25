@@ -1,5 +1,5 @@
-import qrcode from 'qrcode-generator'
 import { describe, expect, it } from 'vitest'
+import { encodeQRCode } from './qrcode'
 import { qrCodePath } from './utils'
 
 /** Rebuilds the module matrix from the `m`/`h` commands of a QR code path drawn with a 1-unit stroke. */
@@ -26,14 +26,11 @@ function modulesFromPath(d: string, size: number): boolean[][] {
 
 describe('qrCodePath', () => {
   it.each([
-    'https://eprel.ec.europa.eu/screen/product/smartphonestablets20231669/1234567',
+    'https://eprel.ec.europa.eu/qr/1234567',
     'https://eprel.ec.europa.eu/screen/product/refrigeratingappliances2019'
   ])('should draw exactly the dark modules of %s', content => {
-    const reference = qrcode(0, 'L')
-    reference.addData(content)
-    reference.make()
-    const size = reference.getModuleCount()
-    const expected = Array.from({ length: size }, (_, row) => Array.from({ length: size }, (_, col) => reference.isDark(row, col)))
+    const expected = encodeQRCode(content)
+    const size = expected.length
 
     const qr = qrCodePath(content)
 

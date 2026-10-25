@@ -1,4 +1,4 @@
-import qrcode from 'qrcode-generator'
+import { encodeQRCode } from './qrcode'
 
 export const mmToPx = (mm: number): number => {
   const result = mm * (96 / 25.4)
@@ -42,21 +42,19 @@ export interface QRCodePath {
  * Each run of consecutive dark modules in a row becomes one horizontal segment.
  */
 export function qrCodePath(content: string): QRCodePath {
-  const qr = qrcode(0, 'L')
-  qr.addData(content)
-  qr.make()
-
-  const size = qr.getModuleCount()
+  const modules = encodeQRCode(content)
+  const size = modules.length
+  const isDark = (row: number, col: number) => modules[row]?.[col] === true
   let d = ''
   let x = 0
   let y = 0
 
   for (let row = 0; row < size; row++) {
     for (let col = 0; col < size; col++) {
-      if (!qr.isDark(row, col)) continue
+      if (!isDark(row, col)) continue
 
       let end = col + 1
-      while (end < size && qr.isDark(row, end)) end++
+      while (end < size && isDark(row, end)) end++
 
       // Relative moves keep the numbers short; the segment runs through the middle of the row.
       d += `m${col - x} ${row + 0.5 - y}h${end - col}`

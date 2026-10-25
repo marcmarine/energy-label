@@ -78,7 +78,7 @@ describe('Template', () => {
 
       const result = template['generateQRCode']('smartphones', 'ABC123')
 
-      expect(mockGenerate).toHaveBeenCalledWith('test-url/screen/product/smartphonestablets20231669/ABC123')
+      expect(mockGenerate).toHaveBeenCalledWith('test-url/qr/ABC123')
       expect(result).toBe(mockQRCode)
     })
 

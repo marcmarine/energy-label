@@ -36,12 +36,13 @@ export abstract class Template<T> {
   protected abstract getHeight(): number
 
   /**
-   * Links to the product page in EPREL or, without a registration number, to its product group page.
+   * Links to the product in EPREL with the same short URL as the QR code on official labels
+   * or, without a registration number, to the product group page.
    */
   protected buildEprelUrl(product: ProductName, registrationNumber?: string): string {
-    const groupUrl = `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
-
-    return registrationNumber ? `${groupUrl}/${encodeURIComponent(registrationNumber)}` : groupUrl
+    return registrationNumber
+      ? `${EPREL_BASE_URL}/qr/${encodeURIComponent(registrationNumber)}`
+      : `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
   }
 
   protected generateQRCode(product: ProductName, registrationNumber?: string) {
