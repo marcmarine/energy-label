@@ -1,9 +1,10 @@
 /**
  * @module energy-label
  */
+
+import { PRODUCT_GROUPS } from './constants'
 import EnergyLabel from './EnergyLabel'
 import { appendTo, download } from './utils'
-import { PRODUCT_GROUPS } from './constants'
 
 export type {
   ArrowData,
@@ -16,7 +17,7 @@ export type {
   SmartphonesAndTabletsData,
   TemplateName,
   TemplatesData,
-  WineStorageAppliancesData
+  WineStorageAppliancesData,
 } from './definitions'
 export * from './factories'
 

@@ -1,4 +1,5 @@
 ---
+
 title: Installation
 group: Getting Started
 ---
@@ -73,7 +74,7 @@ const labelData: SmartphonesAndTabletsData = {
   flagOrigin: 'EU',
   supplierOrTrademark: 'Sultana',
   modelIdentifier: '92COU8944VK',
-  energyClass: 'B'
+  energyClass: 'B',
 }
 
 const label = createEnergyLabel('smartphones', labelData)

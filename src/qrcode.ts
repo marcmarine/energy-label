@@ -10,14 +10,46 @@
 
 /** Level L error correction blocks per version: EC codewords per block, then pairs of block count and data codewords. */
 const EC_BLOCKS_L = [
-  [7, 1, 19], [10, 1, 34], [15, 1, 55], [20, 1, 80], [26, 1, 108],
-  [18, 2, 68], [20, 2, 78], [24, 2, 97], [30, 2, 116], [18, 2, 68, 2, 69],
-  [20, 4, 81], [24, 2, 92, 2, 93], [26, 4, 107], [30, 3, 115, 1, 116], [22, 5, 87, 1, 88],
-  [24, 5, 98, 1, 99], [28, 1, 107, 5, 108], [30, 5, 120, 1, 121], [28, 3, 113, 4, 114], [28, 3, 107, 5, 108],
-  [28, 4, 116, 4, 117], [28, 2, 111, 7, 112], [30, 4, 121, 5, 122], [30, 6, 117, 4, 118], [26, 8, 106, 4, 107],
-  [28, 10, 114, 2, 115], [30, 8, 122, 4, 123], [30, 3, 117, 10, 118], [30, 7, 116, 7, 117], [30, 5, 115, 10, 116],
-  [30, 13, 115, 3, 116], [30, 17, 115], [30, 17, 115, 1, 116], [30, 13, 115, 6, 116], [30, 12, 121, 7, 122],
-  [30, 6, 121, 14, 122], [30, 17, 122, 4, 123], [30, 4, 122, 18, 123], [30, 20, 117, 4, 118], [30, 19, 118, 6, 119]
+  [7, 1, 19],
+  [10, 1, 34],
+  [15, 1, 55],
+  [20, 1, 80],
+  [26, 1, 108],
+  [18, 2, 68],
+  [20, 2, 78],
+  [24, 2, 97],
+  [30, 2, 116],
+  [18, 2, 68, 2, 69],
+  [20, 4, 81],
+  [24, 2, 92, 2, 93],
+  [26, 4, 107],
+  [30, 3, 115, 1, 116],
+  [22, 5, 87, 1, 88],
+  [24, 5, 98, 1, 99],
+  [28, 1, 107, 5, 108],
+  [30, 5, 120, 1, 121],
+  [28, 3, 113, 4, 114],
+  [28, 3, 107, 5, 108],
+  [28, 4, 116, 4, 117],
+  [28, 2, 111, 7, 112],
+  [30, 4, 121, 5, 122],
+  [30, 6, 117, 4, 118],
+  [26, 8, 106, 4, 107],
+  [28, 10, 114, 2, 115],
+  [30, 8, 122, 4, 123],
+  [30, 3, 117, 10, 118],
+  [30, 7, 116, 7, 117],
+  [30, 5, 115, 10, 116],
+  [30, 13, 115, 3, 116],
+  [30, 17, 115],
+  [30, 17, 115, 1, 116],
+  [30, 13, 115, 6, 116],
+  [30, 12, 121, 7, 122],
+  [30, 6, 121, 14, 122],
+  [30, 17, 122, 4, 123],
+  [30, 4, 122, 18, 123],
+  [30, 20, 117, 4, 118],
+  [30, 19, 118, 6, 119],
 ] as const
 
 const MODE_ECI = 0b0111
@@ -38,7 +70,11 @@ interface Block {
 /** Encodes `content` and returns its modules by row, `true` for dark. */
 export function encodeQRCode(content: string): boolean[][] {
   const bytes = new TextEncoder().encode(content)
-  const header = [...toBits(MODE_ECI, 4), ...toBits(ECI_UTF8, 8), ...toBits(MODE_BYTE, 4)]
+  const header = [
+    ...toBits(MODE_ECI, 4),
+    ...toBits(ECI_UTF8, 8),
+    ...toBits(MODE_BYTE, 4),
+  ]
   const version = chooseVersion(header.length, bytes.length)
   const bits = [...header, ...toBits(bytes.length, version <= 9 ? 8 : 16)]
   for (const byte of bytes) bits.push(...toBits(byte, 8))
@@ -56,14 +92,17 @@ export function encodeQRCode(content: string): boolean[][] {
     }
   }
 
-  return best.map(row => row.map(cell => cell === 1))
+  return best.map((row) => row.map((cell) => cell === 1))
 }
 
 function toBits(value: number, length: number): number[] {
   return Array.from({ length }, (_, i) => (value >> (length - 1 - i)) & 1)
 }
 
-function blocksOf(version: number): { ecPerBlock: number; dataLengths: number[] } {
+function blocksOf(version: number): {
+  ecPerBlock: number
+  dataLengths: number[]
+} {
   const [ecPerBlock, ...groups] = EC_BLOCKS_L[version - 1] as readonly number[]
   const dataLengths: number[] = []
   for (let i = 0; i < groups.length; i += 2) {
@@ -96,8 +135,10 @@ function terminate(bits: number[], capacityBytes: number): number[] {
   while (bits.length % 8 !== 0) bits.push(0)
 
   const bytes: number[] = []
-  for (let i = 0; i < bits.length; i += 8) bytes.push(parseInt(bits.slice(i, i + 8).join(''), 2))
-  for (let i = 0; bytes.length < capacityBytes; i++) bytes.push(i % 2 === 0 ? 0xec : 0x11)
+  for (let i = 0; i < bits.length; i += 8)
+    bytes.push(parseInt(bits.slice(i, i + 8).join(''), 2))
+  for (let i = 0; bytes.length < capacityBytes; i++)
+    bytes.push(i % 2 === 0 ? 0xec : 0x11)
 
   return bytes
 }
@@ -116,7 +157,8 @@ function interleave(data: number[], version: number): number[] {
   const result: number[] = []
   const maxData = Math.max(...dataLengths)
   for (let i = 0; i < maxData; i++) {
-    for (const block of blocks) if (i < block.data.length) result.push(block.data[i])
+    for (const block of blocks)
+      if (i < block.data.length) result.push(block.data[i])
   }
   for (let i = 0; i < ecPerBlock; i++) {
     for (const block of blocks) result.push(block.ec[i])
@@ -144,7 +186,10 @@ function multiply(a: number, b: number): number {
 function generatorPolynomial(degree: number): number[] {
   let poly = [1]
   for (let i = 0; i < degree; i++) {
-    poly = Array.from({ length: poly.length + 1 }, (_, j) => (poly[j] ?? 0) ^ (j > 0 ? multiply(poly[j - 1], EXP[i]) : 0))
+    poly = Array.from(
+      { length: poly.length + 1 },
+      (_, j) => (poly[j] ?? 0) ^ (j > 0 ? multiply(poly[j - 1], EXP[i]) : 0),
+    )
   }
   return poly
 }
@@ -155,7 +200,8 @@ function reedSolomon(data: number[], generator: number[]): number[] {
   for (const byte of data) {
     const factor = byte ^ (remainder.shift() ?? 0)
     remainder.push(0)
-    for (let i = 0; i < degree; i++) remainder[i] ^= multiply(generator[i + 1], factor)
+    for (let i = 0; i < degree; i++)
+      remainder[i] ^= multiply(generator[i + 1], factor)
   }
   return remainder
 }
@@ -164,9 +210,11 @@ function alignmentCenters(version: number): number[] {
   if (version === 1) return []
   const size = version * 4 + 17
   const count = Math.floor(version / 7) + 2
-  const step = version === 32 ? 26 : Math.ceil((version * 4 + 4) / (count * 2 - 2)) * 2
+  const step =
+    version === 32 ? 26 : Math.ceil((version * 4 + 4) / (count * 2 - 2)) * 2
   const centers = [6]
-  for (let position = size - 7; centers.length < count; position -= step) centers.splice(1, 0, position)
+  for (let position = size - 7; centers.length < count; position -= step)
+    centers.splice(1, 0, position)
   return centers
 }
 
@@ -181,26 +229,44 @@ function bch(value: number, poly: number): number {
 function maskBit(mask: number, row: number, col: number): boolean {
   const product = row * col
   switch (mask) {
-    case 0: return ((row + col) & 1) === 0
-    case 1: return (row & 1) === 0
-    case 2: return col % 3 === 0
-    case 3: return (row + col) % 3 === 0
-    case 4: return ((Math.floor(row / 2) + Math.floor(col / 3)) & 1) === 0
-    case 5: return (product & 1) + (product % 3) === 0
-    case 6: return (((product & 1) + (product % 3)) & 1) === 0
-    default: return (((product % 3) + ((row + col) & 1)) & 1) === 0
+    case 0:
+      return ((row + col) & 1) === 0
+    case 1:
+      return (row & 1) === 0
+    case 2:
+      return col % 3 === 0
+    case 3:
+      return (row + col) % 3 === 0
+    case 4:
+      return ((Math.floor(row / 2) + Math.floor(col / 3)) & 1) === 0
+    case 5:
+      return (product & 1) + (product % 3) === 0
+    case 6:
+      return (((product & 1) + (product % 3)) & 1) === 0
+    default:
+      return (((product % 3) + ((row + col) & 1)) & 1) === 0
   }
 }
 
-function buildMatrix(codewords: number[], version: number, mask: number): Matrix {
+function buildMatrix(
+  codewords: number[],
+  version: number,
+  mask: number,
+): Matrix {
   const size = version * 4 + 17
-  const m: Matrix = Array.from({ length: size }, () => new Array<number>(size).fill(EMPTY))
+  const m: Matrix = Array.from({ length: size }, () =>
+    new Array<number>(size).fill(EMPTY),
+  )
   const set = (row: number, col: number, dark: boolean | number) => {
     m[row][col] = dark ? 1 : 0
   }
 
   // Finder patterns with their separators.
-  for (const [top, left] of [[0, 0], [0, size - 7], [size - 7, 0]] as const) {
+  for (const [top, left] of [
+    [0, 0],
+    [0, size - 7],
+    [size - 7, 0],
+  ] as const) {
     for (let r = -1; r <= 7; r++) {
       for (let c = -1; c <= 7; c++) {
         const row = top + r
@@ -219,7 +285,8 @@ function buildMatrix(codewords: number[], version: number, mask: number): Matrix
     for (const col of centers) {
       if (m[row][col] !== EMPTY) continue
       for (let r = -2; r <= 2; r++) {
-        for (let c = -2; c <= 2; c++) set(row + r, col + c, Math.max(Math.abs(r), Math.abs(c)) !== 1)
+        for (let c = -2; c <= 2; c++)
+          set(row + r, col + c, Math.max(Math.abs(r), Math.abs(c)) !== 1)
       }
     }
   }
@@ -233,7 +300,23 @@ function buildMatrix(codewords: number[], version: number, mask: number): Matrix
   // Format information: error correction level and mask, both copies.
   const typeInfo = (EC_LEVEL_L << 3) | mask
   const format = ((typeInfo << 10) | bch(typeInfo, 0x537)) ^ 0x5412
-  const formatCoordinates = [[0, 8], [1, 8], [2, 8], [3, 8], [4, 8], [5, 8], [7, 8], [8, 8], [8, 7], [8, 5], [8, 4], [8, 3], [8, 2], [8, 1], [8, 0]] as const
+  const formatCoordinates = [
+    [0, 8],
+    [1, 8],
+    [2, 8],
+    [3, 8],
+    [4, 8],
+    [5, 8],
+    [7, 8],
+    [8, 8],
+    [8, 7],
+    [8, 5],
+    [8, 4],
+    [8, 3],
+    [8, 2],
+    [8, 1],
+    [8, 0],
+  ] as const
   formatCoordinates.forEach(([row, col], i) => {
     const bit = (format >> i) & 1
     set(row, col, bit)
@@ -264,7 +347,8 @@ function buildMatrix(codewords: number[], version: number, mask: number): Matrix
       for (const col of [right, right - 1]) {
         if (m[row][col] !== EMPTY) continue
         const byte = codewords[bitIndex >> 3]
-        let dark = byte !== undefined && ((byte >> (7 - (bitIndex & 7))) & 1) === 1
+        let dark =
+          byte !== undefined && ((byte >> (7 - (bitIndex & 7))) & 1) === 1
         bitIndex++
         if (maskBit(mask, row, col)) dark = !dark
         set(row, col, dark)
@@ -304,33 +388,51 @@ function maskPenalty(m: Matrix): number {
   for (let row = 0; row < size - 1; row++) {
     for (let col = 0; col < size - 1; col++) {
       const value = at(row, col)
-      if (value === at(row, col + 1) && value === at(row + 1, col) && value === at(row + 1, col + 1)) penalty += 3
+      if (
+        value === at(row, col + 1) &&
+        value === at(row + 1, col) &&
+        value === at(row + 1, col + 1)
+      )
+        penalty += 3
     }
   }
 
   // Rule 3: finder-like 1:1:3:1:1 patterns with four light modules on either side.
   const pattern = [1, 0, 1, 1, 1, 0, 1]
   const lightRow = (row: number, from: number, to: number) => {
-    for (let col = Math.max(from, 0); col < Math.min(to, size); col++) if (at(row, col) === 1) return false
+    for (let col = Math.max(from, 0); col < Math.min(to, size); col++)
+      if (at(row, col) === 1) return false
     return true
   }
   const lightColumn = (col: number, from: number, to: number) => {
-    for (let row = Math.max(from, 0); row < Math.min(to, size); row++) if (at(row, col) === 1) return false
+    for (let row = Math.max(from, 0); row < Math.min(to, size); row++)
+      if (at(row, col) === 1) return false
     return true
   }
   for (let row = 0; row < size; row++) {
     for (let col = 0; col < size; col++) {
-      if (col + 6 < size && pattern.every((bit, k) => at(row, col + k) === bit) && (lightRow(row, col - 4, col) || lightRow(row, col + 7, col + 11))) {
+      if (
+        col + 6 < size &&
+        pattern.every((bit, k) => at(row, col + k) === bit) &&
+        (lightRow(row, col - 4, col) || lightRow(row, col + 7, col + 11))
+      ) {
         penalty += 40
       }
-      if (row + 6 < size && pattern.every((bit, k) => at(row + k, col) === bit) && (lightColumn(col, row - 4, row) || lightColumn(col, row + 7, row + 11))) {
+      if (
+        row + 6 < size &&
+        pattern.every((bit, k) => at(row + k, col) === bit) &&
+        (lightColumn(col, row - 4, row) || lightColumn(col, row + 7, row + 11))
+      ) {
         penalty += 40
       }
     }
   }
 
   // Rule 4: deviation of the proportion of dark modules from 50%, in steps of 5%.
-  const dark = m.reduce((sum, row) => sum + row.filter(cell => cell === 1).length, 0)
+  const dark = m.reduce(
+    (sum, row) => sum + row.filter((cell) => cell === 1).length,
+    0,
+  )
   const total = size * size
   penalty += Math.floor((Math.abs(dark * 2 - total) * 10) / total) * 10
 

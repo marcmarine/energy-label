@@ -4,7 +4,9 @@ import { qrCodePath } from './utils'
 
 /** Rebuilds the module matrix from the `m`/`h` commands of a QR code path drawn with a 1-unit stroke. */
 function modulesFromPath(d: string, size: number): boolean[][] {
-  const modules = Array.from({ length: size }, () => Array<boolean>(size).fill(false))
+  const modules = Array.from({ length: size }, () =>
+    Array<boolean>(size).fill(false),
+  )
   let x = 0
   let y = 0
 
@@ -27,8 +29,8 @@ function modulesFromPath(d: string, size: number): boolean[][] {
 describe('qrCodePath', () => {
   it.each([
     'https://eprel.ec.europa.eu/qr/1234567',
-    'https://eprel.ec.europa.eu/screen/product/refrigeratingappliances2019'
-  ])('should draw exactly the dark modules of %s', content => {
+    'https://eprel.ec.europa.eu/screen/product/refrigeratingappliances2019',
+  ])('should draw exactly the dark modules of %s', (content) => {
     const expected = encodeQRCode(content)
     const size = expected.length
 

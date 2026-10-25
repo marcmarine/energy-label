@@ -13,7 +13,13 @@ export abstract class Template<T> {
     const consumption = this.createConsumption(data)
     const features = this.createFeatures(data)
 
-    return this.render([background, header, efficiencyScale, consumption, features])
+    return this.render([
+      background,
+      header,
+      efficiencyScale,
+      consumption,
+      features,
+    ])
   }
 
   /** Throws if the data can't be drawn on the label. */
@@ -44,7 +50,10 @@ export abstract class Template<T> {
    * Links to the product in EPREL with the same short URL as the QR code on official labels
    * or, without a registration number, to the product group page.
    */
-  protected buildEprelUrl(product: ProductName, registrationNumber?: string): string {
+  protected buildEprelUrl(
+    product: ProductName,
+    registrationNumber?: string,
+  ): string {
     return registrationNumber
       ? `${EPREL_BASE_URL}/qr/${encodeURIComponent(registrationNumber)}`
       : `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
@@ -59,7 +68,9 @@ export abstract class Template<T> {
     const height = this.getHeight()
     const content = sections.join('')
 
-    return compactMarkup(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none">${content}</svg>`)
+    return compactMarkup(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none">${content}</svg>`,
+    )
   }
 }
 
@@ -71,6 +82,10 @@ export abstract class Template<T> {
 function compactMarkup(markup: string): string {
   return markup
     .split(/(<[^>]*>)/)
-    .map(part => (part.startsWith('<') ? part.replace(/\s+/g, ' ').replace(/ ?(\/?>)$/, '$1') : part.replace(/^\s*\n\s*|\s*\n\s*$/g, '')))
+    .map((part) =>
+      part.startsWith('<')
+        ? part.replace(/\s+/g, ' ').replace(/ ?(\/?>)$/, '$1')
+        : part.replace(/^\s*\n\s*|\s*\n\s*$/g, ''),
+    )
     .join('')
 }

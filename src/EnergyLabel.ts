@@ -1,6 +1,6 @@
+import type { TemplateName, TemplatesData } from './definitions'
 import { templateFactory } from './templates'
 import type { Template } from './templates/Template'
-import type { TemplateName, TemplatesData } from './definitions'
 
 /**
  * Energy label generator class that creates SVG energy efficiency labels using configurable templates and data.
@@ -51,7 +51,10 @@ export default class EnergyLabel<T extends TemplateName = 'arrow'> {
    * })
    * ```
    */
-  constructor(template: T = 'arrow' as T, data: Partial<TemplatesData[T]> = {}) {
+  constructor(
+    template: T = 'arrow' as T,
+    data: Partial<TemplatesData[T]> = {},
+  ) {
     this.template = templateFactory(template)
     this.data = data
   }

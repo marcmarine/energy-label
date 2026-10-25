@@ -1,4 +1,5 @@
 ---
+
 title: React Guide
 group: Guides
 ---
@@ -32,7 +33,7 @@ export function EnergyLabel() {
         repeatedFreeFallReliabilityClass: 'C',
         repairabilityClass: 'E',
         batteryEnduranceInCycles: 39,
-        ingressProtectionRating: 'IP14'
+        ingressProtectionRating: 'IP14',
       })
 
       const svgString = label.toString()
@@ -55,9 +56,18 @@ For more complex applications, create a custom hook to manage energy labels:
 
 ```tsx
 import { useCallback, useEffect, useState } from 'react'
-import { createEnergyLabel, type TemplateName, type TemplatesData, appendTo, download } from 'energy-label'
+import {
+  createEnergyLabel,
+  type TemplateName,
+  type TemplatesData,
+  appendTo,
+  download,
+} from 'energy-label'
 
-export function useEnergyLabel<T extends TemplateName>(template: T, data: Partial<TemplatesData[T]>) {
+export function useEnergyLabel<T extends TemplateName>(
+  template: T,
+  data: Partial<TemplatesData[T]>,
+) {
   const [svgString, setSvgString] = useState<string>('')
 
   useEffect(() => {
@@ -70,14 +80,14 @@ export function useEnergyLabel<T extends TemplateName>(template: T, data: Partia
     (element: HTMLElement) => {
       appendTo(element, svgString)
     },
-    [svgString]
+    [svgString],
   )
 
   const handleDownload = useCallback(
     (filename: string) => {
       download(svgString, filename)
     },
-    [svgString]
+    [svgString],
   )
 
   return { renderTo, download: handleDownload }

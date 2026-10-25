@@ -66,7 +66,7 @@ export const EFFICIENCY_SCALE_COLORS: Record<string, string> = {
   D: '#FFF200',
   E: '#FDB913',
   F: '#F37021',
-  G: '#ED1C24'
+  G: '#ED1C24',
 }
 
 export const EPREL_BASE_URL = 'https://eprel.ec.europa.eu'
@@ -76,7 +76,8 @@ export const EPREL_BASE_URL = 'https://eprel.ec.europa.eu'
  * installed everywhere (e.g. Linux or server-side rasterizers), so free lookalikes come next:
  * Carlito is metric-compatible with Calibri, DejaVu Sans is close to Verdana.
  */
-export const FONT_TEXT = "Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', sans-serif"
+export const FONT_TEXT =
+  "Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', sans-serif"
 export const FONT_CLASS = 'Calibri, Carlito, sans-serif'
 
 export function flagUK(x: number, y: number, width: number) {
@@ -91,7 +92,12 @@ export function flagEU(x: number, y: number, width: number) {
   return `<g transform="translate(${x}, ${y}) scale(${scale})"><path fill="#034EA2" d="M0 67h100V0H0z"/><path fill="#FFF200" d="m48.88 10.94 1.03-3.36 1.02 3.36h3.48l-2.8 2.2 1.08 3.44-2.78-2.12-2.77 2.12 1.1-3.45-2.82-2.19zm.22 44.49 1.11-3.37 1.09 3.37h3.67l-2.96 2.19 1.15 3.44-2.95-2.11-2.96 2.11 1.17-3.44-3-2.19h3.67Zm11.01-2.81 1.06-3.38 1.02 3.38h3.45l-2.79 2.16 1.1 3.47-2.78-2.14-2.8 2.14 1.11-3.47-2.82-2.16zm0-38.85 1.06-3.38 1.02 3.38h3.45l-2.79 2.17 1.1 3.46-2.78-2.13-2.8 2.13 1.11-3.46-2.82-2.17zM68.54 22l1.04-3.16L70.6 22h3.47l-2.79 2.04 1.07 3.24-2.77-1.98-2.78 1.98 1.1-3.25L65.09 22h3.46Zm0 22.52 1.04-3.16 1.02 3.16h3.47l-2.79 2.04 1.07 3.24-2.77-2-2.78 2 1.1-3.24-2.82-2.04zm2.79-11.27 1.06-3.15 1.02 3.15h3.47L74.1 35.3l1.07 3.24-2.77-2-2.78 2 1.09-3.24-2.8-2.05h3.43Zm-33.69-19.5 1.06-3.36 1.01 3.36h3.46l-2.79 2.19 1.09 3.46-2.77-2.13-2.8 2.13 1.1-3.46-2.82-2.19zm-7.86 8.45 1.05-3.36 1.02 3.37h3.46l-2.8 2.18 1.1 3.45-2.78-2.12-2.79 2.13 1.1-3.46-2.82-2.18h3.46Zm-2.81 11.06 1.05-3.16 1.02 3.16h3.46l-2.8 2.04 1.1 3.24-2.78-2-2.79 2 1.1-3.24-2.82-2.04zm2.81 11.26 1.05-3.16 1.02 3.16h3.46l-2.8 2.04 1.1 3.24-2.78-2-2.79 2 1.1-3.24-2.82-2.04zm8.08 8.08 1.1-3.36 1.1 3.37h3.67l-2.96 2.18 1.14 3.46-2.95-2.13-2.95 2.13 1.17-3.46-3-2.18h3.68Z"/></g>`
 }
 
-export function flag(x: number, y: number, width: number, origin: FlagOriginData = 'EU'): string {
+export function flag(
+  x: number,
+  y: number,
+  width: number,
+  origin: FlagOriginData = 'EU',
+): string {
   return origin === 'EU' ? flagEU(x, y, width) : flagUK(x, y, width)
 }
 
@@ -126,32 +132,46 @@ ${qrCode(mmToPx(layout.qrCode.x), mmToPx(layout.qrCode.y), mmToPx(layout.qrCode.
 ${separator(left, right, separatorY)}`
 }
 
-export function efficiencyScale(layout: EfficiencyScaleLayout, selectedClass: EnergyClass = 'A') {
+export function efficiencyScale(
+  layout: EfficiencyScaleLayout,
+  selectedClass: EnergyClass = 'A',
+) {
   const { barWidths, barHeight, barGap, tipWidth, letter, indicator } = layout
   const rowStep = barHeight + barGap
 
-  const rows = Object.entries(EFFICIENCY_SCALE_COLORS).map(([cls, color], index) => {
-    // Positions are computed in millimetres and converted once, so rounding doesn't accumulate row after row.
-    const rowTop = index * rowStep
-    const rowY = mmToPx(rowTop)
-    const bodyEnd = mmToPx(barWidths[index])
+  const rows = Object.entries(EFFICIENCY_SCALE_COLORS).map(
+    ([cls, color], index) => {
+      // Positions are computed in millimetres and converted once, so rounding doesn't accumulate row after row.
+      const rowTop = index * rowStep
+      const rowY = mmToPx(rowTop)
+      const bodyEnd = mmToPx(barWidths[index])
 
-    const bar = `<path d="M0,${rowY} H${bodyEnd} L${mmToPx(barWidths[index] + tipWidth)},${mmToPx(rowTop + barHeight / 2)} L${bodyEnd},${mmToPx(rowTop + barHeight)} H0 Z" fill="${color}" />`
-    const label = `<text x="${mmToPx(letter.x)}" y="${Number((mmToPx(rowTop + rowStep) - letter.offsetY).toFixed(2))}" font-family="${FONT_CLASS}" font-size="${letter.fontSize}" font-weight="bold" fill="#fff">${cls}</text>`
+      const bar = `<path d="M0,${rowY} H${bodyEnd} L${mmToPx(barWidths[index] + tipWidth)},${mmToPx(rowTop + barHeight / 2)} L${bodyEnd},${mmToPx(rowTop + barHeight)} H0 Z" fill="${color}" />`
+      const label = `<text x="${mmToPx(letter.x)}" y="${Number((mmToPx(rowTop + rowStep) - letter.offsetY).toFixed(2))}" font-family="${FONT_CLASS}" font-size="${letter.fontSize}" font-weight="bold" fill="#fff">${cls}</text>`
 
-    if (cls !== selectedClass) {
-      return bar + label
-    }
+      if (cls !== selectedClass) {
+        return bar + label
+      }
 
-    const { x, tipWidth: indicatorTip, width, height, letterX, letterY, fontSize, textAnchor } = indicator
+      const {
+        x,
+        tipWidth: indicatorTip,
+        width,
+        height,
+        letterX,
+        letterY,
+        fontSize,
+        textAnchor,
+      } = indicator
 
-    return `${bar}${label}<g transform="translate(0, ${mmToPx((barHeight - height) / 2)})">
+      return `${bar}${label}<g transform="translate(0, ${mmToPx((barHeight - height) / 2)})">
 <g transform="translate(0, ${rowY})">
   <polygon points="${mmToPx(x)},${mmToPx(height / 2)} ${mmToPx(x + indicatorTip)},0 ${mmToPx(x + width)},0 ${mmToPx(x + width)},${mmToPx(height)} ${mmToPx(x + indicatorTip)},${mmToPx(height)}" fill="#000" />
   <text x="${mmToPx(letterX)}" y="${mmToPx(letterY)}" font-size="${fontSize}" font-weight="bold" fill="#fff" font-family="${FONT_CLASS}"${textAnchor ? ` text-anchor="${textAnchor}"` : ''}>${cls}</text>
 </g>
 </g>`
-  })
+    },
+  )
 
   return `<g transform="translate(${mmToPx(layout.x)}, ${mmToPx(layout.y)})">${rows.join('')}</g>`
 }

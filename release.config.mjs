@@ -8,8 +8,8 @@ export default {
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'CHANGELOG.md'
-      }
+        changelogFile: 'CHANGELOG.md',
+      },
     ],
     '@semantic-release/npm',
     '@semantic-release/github',
@@ -17,8 +17,10 @@ export default {
       '@semantic-release/git',
       {
         assets: ['CHANGELOG.md', 'package.json'],
-        message: 'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}'
-      }
-    ]
-  ]
+        message:
+          // biome-ignore lint/suspicious/noTemplateCurlyInString: semantic-release fills in these placeholders
+          'chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}',
+      },
+    ],
+  ],
 }

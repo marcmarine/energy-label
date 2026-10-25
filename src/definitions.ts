@@ -1,5 +1,8 @@
 import type { ArrowData } from './templates/ArrowTemplate'
-import type { HouseholdFridgesAndFreezersData, WineStorageAppliancesData } from './templates/RefrigeratingAppliancesTemplate'
+import type {
+  HouseholdFridgesAndFreezersData,
+  WineStorageAppliancesData,
+} from './templates/RefrigeratingAppliancesTemplate'
 import type { SmartphonesAndTabletsData } from './templates/SmartphonesTemplate'
 
 export type FlagOriginData = 'EU' | 'UK'
@@ -26,13 +29,20 @@ export interface EnergyLabelBaseData extends EnergyClassData {
   eprelRegistrationNumber: string
 }
 
-export type { ArrowData, WineStorageAppliancesData, HouseholdFridgesAndFreezersData, SmartphonesAndTabletsData }
+export type {
+  ArrowData,
+  HouseholdFridgesAndFreezersData,
+  SmartphonesAndTabletsData,
+  WineStorageAppliancesData,
+}
 
 export type TemplateName = keyof TemplatesData
 
 export interface TemplatesData {
   arrow: ArrowData
-  'refrigerating-appliances': WineStorageAppliancesData | HouseholdFridgesAndFreezersData
+  'refrigerating-appliances':
+    | WineStorageAppliancesData
+    | HouseholdFridgesAndFreezersData
   smartphones: SmartphonesAndTabletsData
 }
 

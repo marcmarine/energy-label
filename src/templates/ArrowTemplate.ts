@@ -1,8 +1,8 @@
-import { EFFICIENCY_SCALE_COLORS, FONT_CLASS } from './common'
-import { Template } from './Template'
-import { assertOneOf, escapeXml } from '../utils'
 import { ENERGY_CLASSES } from '../constants'
 import type { EnergyClassData } from '../definitions'
+import { assertOneOf, escapeXml } from '../utils'
+import { EFFICIENCY_SCALE_COLORS, FONT_CLASS } from './common'
+import { Template } from './Template'
 
 export class ArrowTemplate extends Template<ArrowData> {
   protected getWidth(): number {

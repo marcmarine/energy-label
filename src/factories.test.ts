@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { createEnergyLabel, createClassArrow } from './factories'
+import { describe, expect, it } from 'vitest'
 import EnergyLabel from './EnergyLabel'
+import { createClassArrow, createEnergyLabel } from './factories'
 
 describe('Factories', () => {
   describe('createEnergyLabel', () => {

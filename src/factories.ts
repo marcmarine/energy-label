@@ -32,7 +32,10 @@ import type { ArrowData } from './templates/ArrowTemplate'
  * ```
  *
  */
-export function createEnergyLabel<T extends TemplateName = 'arrow'>(template?: T, data?: Partial<TemplatesData[T]>): EnergyLabel<T> {
+export function createEnergyLabel<T extends TemplateName = 'arrow'>(
+  template?: T,
+  data?: Partial<TemplatesData[T]>,
+): EnergyLabel<T> {
   return new EnergyLabel(template, data)
 }
 
@@ -53,9 +56,12 @@ export function createEnergyLabel<T extends TemplateName = 'arrow'>(template?: T
  * const svgString = label.toString()
  * ```
  */
-export function createClassArrow(energyClass: EnergyClass, options?: Omit<ArrowData, 'energyClass'>): EnergyLabel<'arrow'> {
+export function createClassArrow(
+  energyClass: EnergyClass,
+  options?: Omit<ArrowData, 'energyClass'>,
+): EnergyLabel<'arrow'> {
   return new EnergyLabel('arrow', {
     energyClass,
-    ...options
+    ...options,
   })
 }

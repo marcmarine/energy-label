@@ -1,8 +1,22 @@
-import { Template } from './Template'
-import { assertOneOf, escapeXml, minutesToHoursAndMinutes, mmToPx } from '../utils'
-import { ENERGY_CLASSES, FLAG_ORIGINS, FREE_FALL_RELIABILITY_CLASSES, REPAIRABILITY_CLASSES } from '../constants'
+import {
+  ENERGY_CLASSES,
+  FLAG_ORIGINS,
+  FREE_FALL_RELIABILITY_CLASSES,
+  REPAIRABILITY_CLASSES,
+} from '../constants'
+import type {
+  EnergyLabelBaseData,
+  FreeFallReliabilityClass,
+  RepairabilityClass,
+} from '../definitions'
+import {
+  assertOneOf,
+  escapeXml,
+  minutesToHoursAndMinutes,
+  mmToPx,
+} from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
-import type { EnergyLabelBaseData, FreeFallReliabilityClass, RepairabilityClass } from '../definitions'
+import { Template } from './Template'
 
 export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   protected getWidth(): number {
@@ -21,7 +35,12 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
   }
 
   protected createHeader(data: Partial<SmartphonesAndTabletsData>): string {
-    const { flagOrigin, eprelRegistrationNumber, supplierOrTrademark, modelIdentifier } = data
+    const {
+      flagOrigin,
+      eprelRegistrationNumber,
+      supplierOrTrademark,
+      modelIdentifier,
+    } = data
     const qrCode = this.generateQRCode('smartphones', eprelRegistrationNumber)
 
     return header(
@@ -33,20 +52,30 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
         right: 66,
         textY: 18,
         fontSize: '7pt',
-        separatorY: 19
+        separatorY: 19,
       },
-      { flagOrigin, qrCode, supplierOrTrademark, modelIdentifier }
+      { flagOrigin, qrCode, supplierOrTrademark, modelIdentifier },
     )
   }
 
   protected validate(data: Partial<SmartphonesAndTabletsData>): void {
     assertOneOf('flagOrigin', data.flagOrigin, FLAG_ORIGINS)
     assertOneOf('energyClass', data.energyClass, ENERGY_CLASSES)
-    assertOneOf('repairabilityClass', data.repairabilityClass, REPAIRABILITY_CLASSES)
-    assertOneOf('repeatedFreeFallReliabilityClass', data.repeatedFreeFallReliabilityClass, FREE_FALL_RELIABILITY_CLASSES)
+    assertOneOf(
+      'repairabilityClass',
+      data.repairabilityClass,
+      REPAIRABILITY_CLASSES,
+    )
+    assertOneOf(
+      'repeatedFreeFallReliabilityClass',
+      data.repeatedFreeFallReliabilityClass,
+      FREE_FALL_RELIABILITY_CLASSES,
+    )
   }
 
-  protected createEfficiencyScale(data: Partial<SmartphonesAndTabletsData>): string {
+  protected createEfficiencyScale(
+    data: Partial<SmartphonesAndTabletsData>,
+  ): string {
     const scale = efficiencyScale(
       {
         x: 2,
@@ -56,21 +85,37 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
         barGap: 1,
         tipWidth: 3,
         letter: { x: 2, fontSize: '11pt', offsetY: 11 },
-        indicator: { x: 48, tipWidth: 5.5, width: 16, height: 8, letterX: 58, letterY: 6.2, fontSize: '20pt', textAnchor: 'middle' }
+        indicator: {
+          x: 48,
+          tipWidth: 5.5,
+          width: 16,
+          height: 8,
+          letterX: 58,
+          letterY: 6.2,
+          fontSize: '20pt',
+          textAnchor: 'middle',
+        },
       },
-      data.energyClass
+      data.energyClass,
     )
 
     return `${scale}${separator(2, 66, 73)}`
   }
 
-  protected createConsumption(data: Partial<SmartphonesAndTabletsData>): string {
+  protected createConsumption(
+    data: Partial<SmartphonesAndTabletsData>,
+  ): string {
     const { batteryEndurancePerCycle } = data
-    const { hours, minutes } = minutesToHoursAndMinutes(batteryEndurancePerCycle)
+    const { hours, minutes } = minutesToHoursAndMinutes(
+      batteryEndurancePerCycle,
+    )
 
     const digits = `${hours}${minutes}`.length
 
-    const symbolBateryEndurance = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
+    const symbolBateryEndurance = (
+      x: number,
+      y: number,
+    ) => `<g transform="translate(${x}, ${y})">
   <path d="M15.176 5.49V29.4c0 .885-.641 1.6-1.434 1.6H2.434C1.643 31 1 30.285 1 29.4V5.49c0-.882.642-1.599 1.433-1.599h11.31c.792 0 1.433.717 1.433 1.6M4.962 3.892v-1.94c0-.525.382-.951.854-.951h4.326c.471 0 .852.426.852.952v1.94" fill="#fff"/>
   <path d="M4.962 3.891v-1.94c0-.525.382-.951.854-.951h4.326c.471 0 .852.426.852.952v1.94m4.182 1.599V29.4c0 .884-.641 1.599-1.434 1.599H2.434C1.643 31 1 30.285 1 29.4V5.49c0-.882.642-1.599 1.433-1.599h11.31c.792 0 1.433.717 1.433 1.6Z" stroke="#000" stroke-miterlimit="10"/>
   <path d="M24.832 19.315a7.17 7.17 0 0 1-5.176 2.208c-3.998 0-7.238-3.285-7.238-7.335 0-4.051 3.24-7.334 7.238-7.334 3.997 0 7.237 3.283 7.237 7.334" fill="#fff"/>
@@ -94,16 +139,29 @@ ${separator(2, 66, 88)}`
   }
 
   protected createFeatures(data: Partial<SmartphonesAndTabletsData>): string {
-    const { repeatedFreeFallReliabilityClass, repairabilityClass, batteryEnduranceInCycles, ingressProtectionRating } = data
+    const {
+      repeatedFreeFallReliabilityClass,
+      repairabilityClass,
+      batteryEnduranceInCycles,
+      ingressProtectionRating,
+    } = data
 
-    const fallReliabilityClassIcon = (x: number, y: number, repeatedFreeFallReliabilityClass: FreeFallReliabilityClass = 'B') => `
+    const fallReliabilityClassIcon = (
+      x: number,
+      y: number,
+      repeatedFreeFallReliabilityClass: FreeFallReliabilityClass = 'B',
+    ) => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(repeatedFreeFallReliabilityClass)}
   ${symbolFreeFall(18, 9)}
 </g>
 `
 
-    const repairabilityClassIcon = (x: number, y: number, repairabilityClass: RepairabilityClass = 'D') => `
+    const repairabilityClassIcon = (
+      x: number,
+      y: number,
+      repairabilityClass: RepairabilityClass = 'D',
+    ) => `
 <g transform="translate(${x}, ${y})">
   ${aToEScale(repairabilityClass)}
   ${symbolRepairability(16, 16)}
@@ -111,7 +169,11 @@ ${separator(2, 66, 88)}`
 `
 
     // EPREL declares the cycles in hundreds (10 for 1000), and the label shows the full number.
-    const batteryEnduranceCyclesIcon = (x: number, y: number, batteryEnduranceInCycles?: number) => `
+    const batteryEnduranceCyclesIcon = (
+      x: number,
+      y: number,
+      batteryEnduranceInCycles?: number,
+    ) => `
 <g transform="translate(${x}, ${y})">
   ${symbolBateryEnduranceCycles(-15.9, 0)}
   <text y="${mmToPx(16)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
@@ -120,7 +182,11 @@ ${separator(2, 66, 88)}`
 </g>
 `
 
-    const ingressProtectionIcon = (x: number, y: number, ingressProtectionRating: string = 'IPXY') => `<g transform="translate(${x}, ${y})">
+    const ingressProtectionIcon = (
+      x: number,
+      y: number,
+      ingressProtectionRating: string = 'IPXY',
+    ) => `<g transform="translate(${x}, ${y})">
   ${symbolIngressProtection(-24.64, mmToPx(2))}
   <text y="${mmToPx(16)}" fill="#000" font-family="${FONT_TEXT}" text-anchor="middle">
     <tspan font-size="12pt" font-weight="bold">${escapeXml(ingressProtectionRating)}</tspan>
@@ -128,30 +194,39 @@ ${separator(2, 66, 88)}`
 </g>
 `
 
-    const aToEScale = (selectedClass: RepairabilityClass | FreeFallReliabilityClass) => `<text fill="#000" font-family="${FONT_TEXT}">
-  ${REPAIRABILITY_CLASSES
-    .map(
-      (cls, index) =>
-        `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"${
-          cls === selectedClass ? ' font-weight="bold"' : ''
-        } alignment-baseline="${cls === selectedClass ? 'hanging' : 'before-edge'}">${cls}</tspan>`
-    )
-    .join('')}
+    const aToEScale = (
+      selectedClass: RepairabilityClass | FreeFallReliabilityClass,
+    ) => `<text fill="#000" font-family="${FONT_TEXT}">
+  ${REPAIRABILITY_CLASSES.map(
+    (cls, index) =>
+      `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"${
+        cls === selectedClass ? ' font-weight="bold"' : ''
+      } alignment-baseline="${cls === selectedClass ? 'hanging' : 'before-edge'}">${cls}</tspan>`,
+  ).join('')}
 </text>`
 
-    const symbolFreeFall = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
+    const symbolFreeFall = (
+      x: number,
+      y: number,
+    ) => `<g transform="translate(${x}, ${y})">
   <path d="m26.314 21.069 8.614 11.396a2.76 2.76 0 0 1-.547 3.865l-10.737 8.08a2.76 2.76 0 0 1-3.867-.545L1.556 19.649a2.76 2.76 0 0 1 .545-3.867l10.738-8.08a2.76 2.76 0 0 1 3.866.547l2.199 2.92M7.837 15.422l3.996-3.007m15.862 23.059a1.771 1.771 0 1 1-2.831 2.129 1.771 1.771 0 0 1 2.831-2.13" stroke="#000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="m28.128 43.424 3.332.425 2.41.308-2.336.67-3.844 1.1 2.459 1.249 2.139 1.087-2.395-.142-4.57-.27.413 2.177.202 1.072-.945-.547-3.033-1.756-2.462 2.446-.762.757-.088-1.07-.182-2.218-4.354 1.395-2.255.722 1.77-1.572 2.043-1.816-4.021-.113-3.235-.09 3.111-.89 3.844-1.1-2.46-1.25-1.621-.823 1.814-.122 3.714-.245" stroke="#000" stroke-miterlimit="8"/>
   <path d="M24.02 24.081V6.372m0-2.648v-2.43M21.4 16.788V5.052" stroke="#000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 `
 
-    const symbolRepairability = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
+    const symbolRepairability = (
+      x: number,
+      y: number,
+    ) => `<g transform="translate(${x}, ${y})">
   <path d="M11.129 30.928a5.65 5.65 0 0 1-5.992 1.291l3.407-3.405a1.33 1.33 0 0 0 0-1.882l-1.41-1.41a1.33 1.33 0 0 0-1.881.001l-3.407 3.405a5.65 5.65 0 0 1 1.29-5.992 5.655 5.655 0 0 1 6.642-1l12.59-12.59a5.653 5.653 0 0 1 6.993-7.932L25.954 4.82a1.33 1.33 0 0 0 0 1.882l1.41 1.41a1.33 1.33 0 0 0 1.88-.001l3.408-3.407a5.653 5.653 0 0 1-7.932 6.992L12.129 24.287a5.655 5.655 0 0 1-1 6.641m15.446-3.361L15.47 38.365m14.966-12.451 8.958-8.727h2.182l3.639-5.67-2.184-2.128-5.821 3.545v2.127l-8.958 8.726m-10.3 17.175a3.707 3.707 0 0 1-5.145 0 3.48 3.48 0 0 1 0-5.013L24.45 24.606a3.707 3.707 0 0 1 5.145 0 3.48 3.48 0 0 1 0 5.013z" stroke="#000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 `
 
-    const symbolBateryEnduranceCycles = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
+    const symbolBateryEnduranceCycles = (
+      x: number,
+      y: number,
+    ) => `<g transform="translate(${x}, ${y})">
   <path d="M4.685 10.104v-1.88c0-.51.376-.923.839-.923h4.259c.464 0 .84.414.84.923v1.88m4.33 1.55v23.178c0 .857-.63 1.55-1.41 1.55H2.41c-.779 0-1.411-.693-1.411-1.55V11.654c0-.855.632-1.55 1.41-1.55h11.133c.78 0 1.41.695 1.41 1.55Zm7.874-1.55v-1.88c0-.51.376-.923.84-.923h4.258c.464 0 .84.414.84.923v1.88m4.115 1.55v23.178c0 .857-.63 1.55-1.41 1.55H20.336c-.778 0-1.41-.693-1.41-1.55V11.654c0-.855.632-1.55 1.41-1.55H31.47c.78 0 1.411.695 1.411 1.55Z" stroke="#000" stroke-miterlimit="10"/>
   <path d="M10.637 40.892c1.624 1.666 4.041 2.642 6.668 2.458 2.595-.181 4.83-1.454 6.21-3.294" stroke="#000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="m8.835 42.99-.28-3.977 3.98-.279z" fill="#000"/>
@@ -161,7 +236,10 @@ ${separator(2, 66, 88)}`
 </g>
 `
 
-    const symbolIngressProtection = (x: number, y: number) => `<g transform="translate(${x}, ${y})">
+    const symbolIngressProtection = (
+      x: number,
+      y: number,
+    ) => `<g transform="translate(${x}, ${y})">
   <path d="M35.243.743c-1.229 1.346-4.562 5.317-4.562 8.694 0 2.506 2.032 4.544 4.53 4.544s4.53-2.038 4.53-4.544c0-3.95-3.255-7.49-4.498-8.694" fill="#fff"/>
   <path d="M35.243.743c-1.229 1.346-4.562 5.317-4.562 8.694 0 2.506 2.032 4.544 4.53 4.544s4.53-2.038 4.53-4.544c0-3.95-3.255-7.49-4.498-8.694Z" stroke="#000" stroke-miterlimit="10"/>
   <path d="M42.801 3.021C40.835 5.245 35.5 11.8 35.5 17.376c0 4.137 3.253 7.504 7.25 7.504 3.999 0 7.251-3.367 7.251-7.504 0-6.522-5.21-12.366-7.199-14.355" fill="#fff"/>

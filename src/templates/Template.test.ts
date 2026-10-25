@@ -1,12 +1,12 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { Template } from './Template'
 
 vi.mock('../utils', () => ({
-  qrCodePath: vi.fn()
+  qrCodePath: vi.fn(),
 }))
 
 vi.mock('./common', () => ({
-  EPREL_BASE_URL: 'test-url'
+  EPREL_BASE_URL: 'test-url',
 }))
 
 class TestTemplate extends Template<{ name: string; model: string }> {
@@ -26,7 +26,9 @@ class TestTemplate extends Template<{ name: string; model: string }> {
     return '<g id="background"></g>'
   }
 
-  protected createHeader(data: Partial<{ name: string; model: string }>): string {
+  protected createHeader(
+    data: Partial<{ name: string; model: string }>,
+  ): string {
     return `<g id="header">${data.name || 'Default'}</g>`
   }
 
@@ -36,6 +38,17 @@ class TestTemplate extends Template<{ name: string; model: string }> {
 
   protected createFeatures(): string {
     return '<g id="features">Features</g>'
+  }
+
+  // Expose the protected helpers under test.
+  public override generateQRCode(
+    ...args: Parameters<Template<unknown>['generateQRCode']>
+  ) {
+    return super.generateQRCode(...args)
+  }
+
+  public override render(sections: string[]): string {
+    return super.render(sections)
   }
 }
 
@@ -76,27 +89,36 @@ describe('Template', () => {
       const mockGenerate = vi.mocked(qrCodePath)
       mockGenerate.mockReturnValue(mockQRCode)
 
-      const result = template['generateQRCode']('smartphones', 'ABC123')
+      const result = template.generateQRCode('smartphones', 'ABC123')
 
       expect(mockGenerate).toHaveBeenCalledWith('test-url/qr/ABC123')
       expect(result).toBe(mockQRCode)
     })
 
-    it.each([undefined, ''])('should link to the product group when the registration number is %o', async registrationNumber => {
-      const { qrCodePath } = await import('../utils')
-      const mockGenerate = vi.mocked(qrCodePath)
+    it.each([undefined, ''])(
+      'should link to the product group when the registration number is %o',
+      async (registrationNumber) => {
+        const { qrCodePath } = await import('../utils')
+        const mockGenerate = vi.mocked(qrCodePath)
 
-      template['generateQRCode']('smartphones', registrationNumber)
+        template.generateQRCode('smartphones', registrationNumber)
 
-      expect(mockGenerate).toHaveBeenLastCalledWith('test-url/screen/product/smartphonestablets20231669')
-    })
+        expect(mockGenerate).toHaveBeenLastCalledWith(
+          'test-url/screen/product/smartphonestablets20231669',
+        )
+      },
+    )
   })
 
   describe('render', () => {
     it('should combine sections into valid SVG structure', () => {
-      const sections = ['<g id="background"></g>', '<g id="header">Title</g>', '<g id="content"></g>']
+      const sections = [
+        '<g id="background"></g>',
+        '<g id="header">Title</g>',
+        '<g id="content"></g>',
+      ]
 
-      const result = template['render'](sections)
+      const result = template.render(sections)
 
       expect(result).toMatch(/^<svg[^>]*>.*<\/svg>$/s)
       expect(result).toContain('xmlns="http://www.w3.org/2000/svg"')
@@ -104,17 +126,21 @@ describe('Template', () => {
       expect(result).toContain('viewBox="0 0 800 600"')
       expect(result).toContain('fill="none"')
 
-      sections.forEach(section => {
+      sections.forEach((section) => {
         expect(result).toContain(section)
       })
     })
 
     it('should remove template indentation but keep text content as is', () => {
-      const sections = ['<text\n    fill="black"  >\n  <tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan>\n</text>\n<g >\n  <path d="M0 0\n H1" />\n</g>']
+      const sections = [
+        '<text\n    fill="black"  >\n  <tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan>\n</text>\n<g >\n  <path d="M0 0\n H1" />\n</g>',
+      ]
 
-      const result = template['render'](sections)
+      const result = template.render(sections)
 
-      expect(result).toContain('<text fill="black"><tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan></text><g><path d="M0 0 H1"/></g>')
+      expect(result).toContain(
+        '<text fill="black"><tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan></text><g><path d="M0 0 H1"/></g>',
+      )
     })
   })
 })

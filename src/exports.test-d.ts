@@ -31,8 +31,14 @@ describe('Public types', () => {
     expectTypeOf<
       SmartphonesAndTabletsData['flagOrigin']
     >().toEqualTypeOf<FlagOriginData>()
-    expectTypeOf<WineStorageAppliancesData['noiseClass']>().toEqualTypeOf<NoiseClass>()
-    expectTypeOf<SmartphonesAndTabletsData['repairabilityClass']>().toEqualTypeOf<RepairabilityClass>()
-    expectTypeOf<SmartphonesAndTabletsData['repeatedFreeFallReliabilityClass']>().toEqualTypeOf<FreeFallReliabilityClass>()
+    expectTypeOf<
+      WineStorageAppliancesData['noiseClass']
+    >().toEqualTypeOf<NoiseClass>()
+    expectTypeOf<
+      SmartphonesAndTabletsData['repairabilityClass']
+    >().toEqualTypeOf<RepairabilityClass>()
+    expectTypeOf<
+      SmartphonesAndTabletsData['repeatedFreeFallReliabilityClass']
+    >().toEqualTypeOf<FreeFallReliabilityClass>()
   })
 })

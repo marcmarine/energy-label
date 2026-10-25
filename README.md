@@ -35,11 +35,8 @@ const svgString = label.toString()
 
 - Generate SVG energy labels following official **EU regulations**.
 - Use **product data from EPREL as is**: field names and units match the EPREL API.
-- **QR codes identical to the official EPREL labels**, drawn as vector paths so they stay sharp in print.
 - **Zero runtime dependencies** and compact SVG output.
 - Works in both **Node.js** and **modern browsers**, synchronously.
-- **Deterministic markup** without SVG ids, so several labels can share a page and server-rendered labels hydrate cleanly.
-- User-provided text is **escaped**, so supplier names like `Smith & Co` are safe.
 - Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
 - **Typed data** for each template in TypeScript.
 - Compatible with **any JavaScript framework**, including **React**, **Vue**, **Svelte**, **Angular**, and more.
@@ -96,7 +93,9 @@ To fetch EPREL data from the browser, you can host [eprel-api-proxy](https://git
 
 ```js
 // Requests to the proxy are forwarded to https://eprel.ec.europa.eu/api
-const response = await fetch('https://your-eprel-proxy.example.com/product/1573269')
+const response = await fetch(
+  'https://your-eprel-proxy.example.com/product/1573269',
+)
 const product = await response.json()
 
 const label = createEnergyLabel('refrigerating-appliances', product)
@@ -176,7 +175,7 @@ export function EnergyLabel() {
         batteryEnduranceInCycles: 39,
         ingressProtectionRating: 'IP14',
       }).toString(),
-    []
+    [],
   )
 
   return (
