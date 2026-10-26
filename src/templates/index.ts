@@ -1,13 +1,15 @@
 import type { TemplateName, TemplatesData } from '../definitions'
-import { ArrowTemplate } from './ArrowTemplate'
-import { RefrigeratingAppliancesTemplate } from './RefrigeratingAppliancesTemplate'
-import { SmartphonesTemplate } from './SmartphonesTemplate'
-import type { Template } from './Template'
+import { arrowTemplate } from './ArrowTemplate'
+import { refrigeratingAppliancesTemplate } from './RefrigeratingAppliancesTemplate'
+import { smartphonesTemplate } from './SmartphonesTemplate'
 
-const templates: { [K in TemplateName]: () => Template<TemplatesData[K]> } = {
-  arrow: () => new ArrowTemplate(),
-  'refrigerating-appliances': () => new RefrigeratingAppliancesTemplate(),
-  smartphones: () => new SmartphonesTemplate(),
+/** Draws a label as an SVG string. Throws if the data can't be drawn on the label. */
+export type Template<T> = (data: Partial<T>) => string
+
+const templates: { [K in TemplateName]: Template<TemplatesData[K]> } = {
+  arrow: arrowTemplate,
+  'refrigerating-appliances': refrigeratingAppliancesTemplate,
+  smartphones: smartphonesTemplate,
 }
 
 export const templateFactory = <T extends TemplateName>(
@@ -19,5 +21,5 @@ export const templateFactory = <T extends TemplateName>(
     )
   }
 
-  return templates[templateKey]()
+  return templates[templateKey]
 }

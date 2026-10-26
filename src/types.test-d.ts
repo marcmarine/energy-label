@@ -6,9 +6,8 @@ import type {
 } from './definitions'
 import type EnergyLabel from './EnergyLabel'
 import { createEnergyLabel } from './factories'
-import { templateFactory } from './templates'
+import { type Template, templateFactory } from './templates'
 import type { ArrowData } from './templates/ArrowTemplate'
-import type { Template } from './templates/Template'
 
 describe('Types', () => {
   it('createEnergyLabel keeps the template name', () => {
