@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { eprelQRCode, eprelUrl, qrCodePath } from './eprel'
 import { encodeQRCode } from './qrcode'
-import { qrCodePath } from './utils'
 
 /** Rebuilds the module matrix from the `m`/`h` commands of a QR code path drawn with a 1-unit stroke. */
 function modulesFromPath(d: string, size: number): boolean[][] {
@@ -38,5 +38,30 @@ describe('qrCodePath', () => {
 
     expect(qr.size).toBe(size)
     expect(modulesFromPath(qr.d, size)).toEqual(expected)
+  })
+})
+
+describe('eprelUrl', () => {
+  it('should link to the product page in EPREL', () => {
+    expect(eprelUrl('smartphones', 'ABC123')).toBe(
+      'https://eprel.ec.europa.eu/qr/ABC123',
+    )
+  })
+
+  it.each([undefined, ''])(
+    'should link to the product group when the registration number is %o',
+    (registrationNumber) => {
+      expect(eprelUrl('smartphones', registrationNumber)).toBe(
+        'https://eprel.ec.europa.eu/screen/product/smartphonestablets20231669',
+      )
+    },
+  )
+})
+
+describe('eprelQRCode', () => {
+  it('should encode the EPREL link of the product', () => {
+    expect(eprelQRCode('refrigerating-appliances', '1234567')).toEqual(
+      qrCodePath('https://eprel.ec.europa.eu/qr/1234567'),
+    )
   })
 })

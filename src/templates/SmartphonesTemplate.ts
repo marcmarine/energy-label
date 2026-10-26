@@ -9,6 +9,7 @@ import type {
   FreeFallReliabilityClass,
   RepairabilityClass,
 } from '../definitions'
+import { eprelQRCode } from '../eprel'
 import {
   assertOneOf,
   escapeXml,
@@ -41,7 +42,7 @@ export class SmartphonesTemplate extends Template<SmartphonesAndTabletsData> {
       supplierOrTrademark,
       modelIdentifier,
     } = data
-    const qrCode = this.generateQRCode('smartphones', eprelRegistrationNumber)
+    const qrCode = eprelQRCode('smartphones', eprelRegistrationNumber)
 
     return header(
       {

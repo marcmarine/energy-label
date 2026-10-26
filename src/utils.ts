@@ -1,5 +1,3 @@
-import { encodeQRCode } from './qrcode'
-
 export const mmToPx = (mm: number): number => {
   const result = mm * (96 / 25.4)
 
@@ -48,42 +46,6 @@ export function minutesToHoursAndMinutes(totalMinutes?: number) {
   const minutes = totalMinutes % 60
 
   return { hours, minutes }
-}
-export interface QRCodePath {
-  /** Number of modules per side. */
-  size: number
-  /** Path data in module units, meant to be drawn with a 1-unit stroke. */
-  d: string
-}
-
-/**
- * Encodes `content` as a QR code drawn with vectors, so it stays sharp when the label is scaled or printed.
- * Each run of consecutive dark modules in a row becomes one horizontal segment.
- */
-export function qrCodePath(content: string): QRCodePath {
-  const modules = encodeQRCode(content)
-  const size = modules.length
-  const isDark = (row: number, col: number) => modules[row]?.[col] === true
-  let d = ''
-  let x = 0
-  let y = 0
-
-  for (let row = 0; row < size; row++) {
-    for (let col = 0; col < size; col++) {
-      if (!isDark(row, col)) continue
-
-      let end = col + 1
-      while (end < size && isDark(row, end)) end++
-
-      // Relative moves keep the numbers short; the segment runs through the middle of the row.
-      d += `m${col - x} ${row + 0.5 - y}h${end - col}`
-      x = end
-      y = row + 0.5
-      col = end
-    }
-  }
-
-  return { size, d }
 }
 
 /**

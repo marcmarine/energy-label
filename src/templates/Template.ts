@@ -1,8 +1,3 @@
-import { PRODUCT_GROUPS } from '../constants'
-import type { ProductName } from '../definitions'
-import { qrCodePath } from '../utils'
-import { EPREL_BASE_URL } from './common'
-
 export abstract class Template<T> {
   generate(data: Partial<T>): string {
     this.validate(data)
@@ -45,23 +40,6 @@ export abstract class Template<T> {
 
   protected abstract getWidth(): number
   protected abstract getHeight(): number
-
-  /**
-   * Links to the product in EPREL with the same short URL as the QR code on official labels
-   * or, without a registration number, to the product group page.
-   */
-  protected buildEprelUrl(
-    product: ProductName,
-    registrationNumber?: string,
-  ): string {
-    return registrationNumber
-      ? `${EPREL_BASE_URL}/qr/${encodeURIComponent(registrationNumber)}`
-      : `${EPREL_BASE_URL}/screen/product/${PRODUCT_GROUPS[product].urlCode}`
-  }
-
-  protected generateQRCode(product: ProductName, registrationNumber?: string) {
-    return qrCodePath(this.buildEprelUrl(product, registrationNumber))
-  }
 
   protected render(sections: string[]): string {
     const width = this.getWidth()

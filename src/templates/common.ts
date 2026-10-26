@@ -1,5 +1,6 @@
 import type { EnergyClass, FlagOriginData } from '../definitions'
-import { escapeXml, mmToPx, type QRCodePath } from '../utils'
+import type { QRCodePath } from '../eprel'
+import { escapeXml, mmToPx } from '../utils'
 
 /** Position and width of a header element, in millimetres. */
 interface Box {
@@ -68,8 +69,6 @@ export const EFFICIENCY_SCALE_COLORS: Record<string, string> = {
   F: '#F37021',
   G: '#ED1C24',
 }
-
-export const EPREL_BASE_URL = 'https://eprel.ec.europa.eu'
 
 /**
  * Font stacks for the `font-family` attribute. The regulations use Verdana and Calibri, which are not

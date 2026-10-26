@@ -1,5 +1,6 @@
 import { ENERGY_CLASSES, FLAG_ORIGINS, NOISE_CLASSES } from '../constants'
 import type { EnergyLabelBaseData, NoiseClass } from '../definitions'
+import { eprelQRCode } from '../eprel'
 import { assertOneOf, escapeXml, mmToPx } from '../utils'
 import { efficiencyScale, FONT_TEXT, header, separator } from './common'
 import { Template } from './Template'
@@ -31,7 +32,7 @@ export class RefrigeratingAppliancesTemplate extends Template<
       supplierOrTrademark,
       modelIdentifier,
     } = data
-    const qrCode = this.generateQRCode(
+    const qrCode = eprelQRCode(
       'refrigerating-appliances',
       eprelRegistrationNumber,
     )

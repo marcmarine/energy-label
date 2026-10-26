@@ -1,13 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { Template } from './Template'
-
-vi.mock('../utils', () => ({
-  qrCodePath: vi.fn(),
-}))
-
-vi.mock('./common', () => ({
-  EPREL_BASE_URL: 'test-url',
-}))
 
 class TestTemplate extends Template<{ name: string; model: string }> {
   createEfficiencyScale(): string {
@@ -40,13 +32,7 @@ class TestTemplate extends Template<{ name: string; model: string }> {
     return '<g id="features">Features</g>'
   }
 
-  // Expose the protected helpers under test.
-  public override generateQRCode(
-    ...args: Parameters<Template<unknown>['generateQRCode']>
-  ) {
-    return super.generateQRCode(...args)
-  }
-
+  // Expose the protected helper under test.
   public override render(sections: string[]): string {
     return super.render(sections)
   }
@@ -57,7 +43,6 @@ describe('Template', () => {
 
   beforeEach(() => {
     template = new TestTemplate()
-    vi.clearAllMocks()
   })
 
   describe('generate', () => {
@@ -80,34 +65,6 @@ describe('Template', () => {
       expect(result).toContain('Default')
       expect(result).toMatch(/<svg[^>]*>.*<\/svg>/s)
     })
-  })
-
-  describe('generateQRCode', () => {
-    it('should generate the QR code for the product page in EPREL', async () => {
-      const mockQRCode = { size: 21, d: 'm0 .5h7' }
-      const { qrCodePath } = await import('../utils')
-      const mockGenerate = vi.mocked(qrCodePath)
-      mockGenerate.mockReturnValue(mockQRCode)
-
-      const result = template.generateQRCode('smartphones', 'ABC123')
-
-      expect(mockGenerate).toHaveBeenCalledWith('test-url/qr/ABC123')
-      expect(result).toBe(mockQRCode)
-    })
-
-    it.each([undefined, ''])(
-      'should link to the product group when the registration number is %o',
-      async (registrationNumber) => {
-        const { qrCodePath } = await import('../utils')
-        const mockGenerate = vi.mocked(qrCodePath)
-
-        template.generateQRCode('smartphones', registrationNumber)
-
-        expect(mockGenerate).toHaveBeenLastCalledWith(
-          'test-url/screen/product/smartphonestablets20231669',
-        )
-      },
-    )
   })
 
   describe('render', () => {
