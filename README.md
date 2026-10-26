@@ -14,10 +14,9 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 ![Example of a class arrow](arrow-example.svg)
 
 ```js
-import { createClassArrow } from 'energy-label'
+import { renderClassArrow } from 'energy-label'
 
-const arrowLabel = createClassArrow('A', { labelOrientation: 'RIGHT' })
-const svgString = arrowLabel.toString()
+const svgString = renderClassArrow('A', { labelOrientation: 'LEFT' })
 ```
 
 ## Smartphone Label
@@ -25,10 +24,9 @@ const svgString = arrowLabel.toString()
 ![Example of an energy label for smartphones](smartphone-label.svg)
 
 ```js
-import { createEnergyLabel } from 'energy-label'
+import { renderSmartphonesLabel } from 'energy-label'
 
-const label = createEnergyLabel('smartphones')
-const svgString = label.toString()
+const svgString = renderSmartphonesLabel()
 ```
 
 ## Features
@@ -36,6 +34,7 @@ const svgString = label.toString()
 - Generate SVG energy labels following official **EU regulations**.
 - Use **product data from EPREL as is**: field names and units match the EPREL API.
 - **Zero runtime dependencies** and compact SVG output.
+- **Tree-shakeable**: bundle only the labels you use.
 - Works in both **Node.js** and **modern browsers**, synchronously.
 - Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
 - **Typed data** for each template in TypeScript.
@@ -53,9 +52,6 @@ npm install energy-label@beta
 See our [documentation](https://docs.label.energy) for more installation methods.
 
 ## Basic Usage
-
-> [!WARNING]
-> This library is in the early stages of development, so breaking changes are possible.
 
 ### Node.js
 
@@ -187,6 +183,25 @@ export function EnergyLabel() {
   )
 }
 ```
+
+### Smaller Bundles
+
+`EnergyLabel`, `createEnergyLabel` and `createClassArrow` choose the template by name, so they bundle all of them. If you only use one label, import its render function instead, which returns the SVG string and bundles only that label:
+
+```js
+import { renderClassArrow } from 'energy-label'
+
+const svgString = renderClassArrow('A', { labelOrientation: 'RIGHT' })
+```
+
+| Import                               | Minified + gzipped |
+| ------------------------------------ | ------------------ |
+| `renderClassArrow`                   | 1 KB               |
+| `renderRefrigeratingAppliancesLabel` | 7 KB               |
+| `renderSmartphonesLabel`             | 8.3 KB             |
+| `createEnergyLabel` (all labels)     | 10.2 KB            |
+
+The class arrow is the lightest, as it has no header with the QR code.
 
 ## Fonts
 
