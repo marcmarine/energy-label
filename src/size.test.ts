@@ -1,3 +1,4 @@
+import { rolldown } from 'rolldown'
 import { describe, expect, it } from 'vitest'
 import type { TemplateName, TemplatesData } from './definitions'
 import EnergyLabel from './EnergyLabel'
@@ -54,6 +55,86 @@ describe('Output size', () => {
       const svg = new EnergyLabel(template, data).toString()
 
       expect(new TextEncoder().encode(svg).length).toBeLessThanOrEqual(maxBytes)
+    },
+  )
+})
+
+/**
+ * Importing one template must only bundle that template and what it draws, so projects that use
+ * a single label don't ship the others. `excludes` lists markers of code that must be left out:
+ * the QR code encoder and EPREL links (header), `kWh` (refrigerating appliances), `IPXY` (smartphones).
+ * Budgets are minified bytes, about 10% over the current size.
+ */
+const BUNDLES: {
+  name: string
+  module: string
+  exportName: string
+  excludes: string[]
+  maxBytes: number
+}[] = [
+  {
+    name: 'arrow',
+    module: './templates/ArrowTemplate.ts',
+    exportName: 'arrowTemplate',
+    excludes: [
+      'Content too long for a QR code',
+      'eprel.ec.europa.eu',
+      'kWh',
+      'IPXY',
+    ],
+    maxBytes: 2_000,
+  },
+  {
+    name: 'smartphones',
+    module: './templates/SmartphonesTemplate.ts',
+    exportName: 'smartphonesTemplate',
+    excludes: ['kWh'],
+    maxBytes: 23_000,
+  },
+  {
+    name: 'refrigerating appliances',
+    module: './templates/RefrigeratingAppliancesTemplate.ts',
+    exportName: 'refrigeratingAppliancesTemplate',
+    excludes: ['IPXY'],
+    maxBytes: 19_000,
+  },
+]
+
+/** Bundles and minifies an entry that only re-exports `exportName` from `module`. */
+async function bundleExport(module: string, exportName: string) {
+  const path = new URL(module, import.meta.url).pathname
+  const build = await rolldown({
+    input: 'entry',
+    logLevel: 'silent',
+    plugins: [
+      {
+        name: 'entry',
+        resolveId: (id) => (id === 'entry' ? '\0entry' : null),
+        load: (id) =>
+          id === '\0entry'
+            ? `export { ${exportName} } from ${JSON.stringify(path)}`
+            : null,
+      },
+    ],
+  })
+  const { output } = await build.generate({ minify: true })
+  await build.close()
+
+  return output[0].code
+}
+
+describe('Bundle size', () => {
+  it.each(BUNDLES)(
+    '$name template should bundle on its own within $maxBytes bytes',
+    async ({ module, exportName, excludes, maxBytes }) => {
+      const code = await bundleExport(module, exportName)
+
+      for (const marker of excludes) {
+        expect(code).not.toContain(marker)
+      }
+      expect(new TextEncoder().encode(code).length).toBeLessThanOrEqual(
+        maxBytes,
+      )
     },
   )
 })
