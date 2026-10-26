@@ -1,3 +1,10 @@
+# [1.0.0-beta.14](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2026-10-26)
+
+
+### Features
+
+* Add render functions to bundle single labels ([358268c](https://github.com/marcmarine/energy-label/commit/358268c05dc72229f71b7011cb370dd8632adafa))
+
 # [1.0.0-beta.13](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2026-10-25)
 
 
