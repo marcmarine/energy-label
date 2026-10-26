@@ -49,7 +49,7 @@ Edit your `package.json` to enable ES modules:
 ### Step 3: Install the Library
 
 ```bash
-npm install energy-label@beta
+npm install energy-label
 ```
 
 ### Step 4: Create Your First Label
@@ -94,7 +94,7 @@ Create an `index.html` file:
     <div id="label-container"></div>
 
     <script type="module">
-      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label@beta'
+      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label'
 
       const label = createEnergyLabel('smartphones')
 

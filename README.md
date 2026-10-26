@@ -2,10 +2,10 @@
 
 A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG, in Node.js and in the browser.
 
-[![NPM Version (with dist tag)](https://img.shields.io/npm/v/energy-label/beta)](https://www.npmjs.com/package/energy-label/v/beta)
+[![NPM Version](https://img.shields.io/npm/v/energy-label)](https://www.npmjs.com/package/energy-label)
 [![GitHub License](https://img.shields.io/github/license/marcmarine/energy-label)](https://github.com/marcmarine/energy-label/blob/main/LICENSE)
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
-![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label/beta)
+![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label)
 [![TypeDoc](https://img.shields.io/badge/view-docs-cyan.svg)](https://docs.label.energy)
 [![Studio](https://img.shields.io/badge/view-playground-fuchsia.svg)](https://studio.label.energy)
 
@@ -46,7 +46,7 @@ const svgString = renderSmartphonesLabel()
 ## Installation
 
 ```bash
-npm install energy-label@beta
+npm install energy-label
 ```
 
 See our [documentation](https://docs.label.energy) for more installation methods.
@@ -123,7 +123,7 @@ Display energy labels directly in web pages using HTML and JavaScript.
       import {
         createEnergyLabel,
         appendTo,
-      } from 'https://esm.sh/energy-label@beta'
+      } from 'https://esm.sh/energy-label'
 
       const label = createEnergyLabel('smartphones')
 

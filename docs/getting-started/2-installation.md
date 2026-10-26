@@ -17,7 +17,7 @@ You can install the Energy Label in different ways. Choose the method that works
 Install using your preferred package manager:
 
 ```bash
-npm install energy-label@beta
+npm install energy-label
 ```
 
 > #### Requirements
@@ -33,7 +33,7 @@ For quick testing or projects without a build system, you can load the library d
 
 ```html
 <script type="module">
-  import EnergyLabel from 'https://esm.sh/energy-label@beta'
+  import EnergyLabel from 'https://esm.sh/energy-label'
 
   // Your code here
 </script>
