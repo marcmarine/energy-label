@@ -52,6 +52,7 @@
     "build": "bun build:lib && bun build:types",
     "dev": "bun build:lib -- --watch"
   },
+  "sideEffects": false,
   "type": "module",
   "types": "dist/index.d.ts"
 }

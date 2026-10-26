@@ -10,6 +10,9 @@ describe('Index', () => {
       'download',
       'EnergyLabel',
       'PRODUCT_GROUPS',
+      'renderClassArrow',
+      'renderRefrigeratingAppliancesLabel',
+      'renderSmartphonesLabel',
     ].forEach((moduleName) => {
       expect(Object.keys(index)).toContain(moduleName)
     })

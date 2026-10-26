@@ -20,5 +20,6 @@ export type {
   WineStorageAppliancesData,
 } from './definitions'
 export * from './factories'
+export * from './renderers'
 
 export { appendTo, download, EnergyLabel, PRODUCT_GROUPS }

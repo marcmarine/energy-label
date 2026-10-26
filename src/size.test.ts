@@ -60,22 +60,20 @@ describe('Output size', () => {
 })
 
 /**
- * Importing one template must only bundle that template and what it draws, so projects that use
- * a single label don't ship the others. `excludes` lists markers of code that must be left out:
+ * Importing one render function from the package entry must only bundle that template and what it draws,
+ * so projects that use a single label don't ship the others. `excludes` lists markers of code that must be left out:
  * the QR code encoder and EPREL links (header), `kWh` (refrigerating appliances), `IPXY` (smartphones).
  * Budgets are minified bytes, about 10% over the current size.
  */
 const BUNDLES: {
   name: string
-  module: string
   exportName: string
   excludes: string[]
   maxBytes: number
 }[] = [
   {
     name: 'arrow',
-    module: './templates/ArrowTemplate.ts',
-    exportName: 'arrowTemplate',
+    exportName: 'renderClassArrow',
     excludes: [
       'Content too long for a QR code',
       'eprel.ec.europa.eu',
@@ -86,23 +84,21 @@ const BUNDLES: {
   },
   {
     name: 'smartphones',
-    module: './templates/SmartphonesTemplate.ts',
-    exportName: 'smartphonesTemplate',
+    exportName: 'renderSmartphonesLabel',
     excludes: ['kWh'],
     maxBytes: 23_000,
   },
   {
     name: 'refrigerating appliances',
-    module: './templates/RefrigeratingAppliancesTemplate.ts',
-    exportName: 'refrigeratingAppliancesTemplate',
+    exportName: 'renderRefrigeratingAppliancesLabel',
     excludes: ['IPXY'],
     maxBytes: 19_000,
   },
 ]
 
-/** Bundles and minifies an entry that only re-exports `exportName` from `module`. */
-async function bundleExport(module: string, exportName: string) {
-  const path = new URL(module, import.meta.url).pathname
+/** Bundles and minifies an entry that only re-exports `exportName` from the package entry. */
+async function bundleExport(exportName: string) {
+  const path = new URL('./index.ts', import.meta.url).pathname
   const build = await rolldown({
     input: 'entry',
     logLevel: 'silent',
@@ -126,8 +122,8 @@ async function bundleExport(module: string, exportName: string) {
 describe('Bundle size', () => {
   it.each(BUNDLES)(
     '$name template should bundle on its own within $maxBytes bytes',
-    async ({ module, exportName, excludes, maxBytes }) => {
-      const code = await bundleExport(module, exportName)
+    async ({ exportName, excludes, maxBytes }) => {
+      const code = await bundleExport(exportName)
 
       for (const marker of excludes) {
         expect(code).not.toContain(marker)
