@@ -1,3 +1,10 @@
+# [1.0.0-beta.15](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2026-10-26)
+
+
+### Bug Fixes
+
+* Position A–E scale without alignment-baseline ([6dccaa9](https://github.com/marcmarine/energy-label/commit/6dccaa90de056bd6dd0fbafbe539e5a4b93f90b3))
+
 # [1.0.0-beta.14](https://github.com/marcmarine/energy-label/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2026-10-26)
 
 
