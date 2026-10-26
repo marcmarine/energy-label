@@ -192,14 +192,16 @@ ${symbolIngressProtection(-24.64, mmToPx(2))}
 </g>
 `
 
+  // Letters hang from the top of each row. Their baselines are set explicitly because Firefox ignores
+  // `alignment-baseline`; the offsets match how Chrome placed them with `hanging` and `before-edge`.
   const aToEScale = (
     selectedClass: RepairabilityClass | FreeFallReliabilityClass,
   ) => `<text fill="#000" font-family="${FONT_TEXT}">
 ${REPAIRABILITY_CLASSES.map(
   (cls, index) =>
-    `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"${
+    `<tspan x="${cls === selectedClass ? '-1.5' : '0'}" y="${index * 12 + (cls === selectedClass ? 12.8 : 11)}" font-size="${cls === selectedClass ? '12pt' : '8pt'}"${
       cls === selectedClass ? ' font-weight="bold"' : ''
-    } alignment-baseline="${cls === selectedClass ? 'hanging' : 'before-edge'}">${cls}</tspan>`,
+    }>${cls}</tspan>`,
 ).join('')}
 </text>`
 
