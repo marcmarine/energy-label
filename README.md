@@ -148,41 +148,44 @@ download(svgString)
 // download(svgString, 'my-energy-label.svg')
 ```
 
-### React
+### React and Preact
 
-Labels are generated synchronously and their markup is deterministic, so they can be rendered on the server and on the client alike.
+Labels are generated synchronously and their markup is deterministic, so they can be rendered on the server and on the client alike, including React Server Components. Use the render functions to bundle only the label you need:
 
 ```tsx
-import { useMemo } from 'react'
-import { createEnergyLabel } from 'energy-label'
+import {
+  renderSmartphonesLabel,
+  type SmartphonesAndTabletsData,
+} from 'energy-label'
 
-export function EnergyLabel() {
-  const svgString = useMemo(
-    () =>
-      createEnergyLabel('smartphones', {
-        flagOrigin: 'EU',
-        supplierOrTrademark: 'Sultana',
-        modelIdentifier: '92COU8944VK',
-        eprelRegistrationNumber: '3712289',
-        energyClass: 'D',
-        batteryEndurancePerCycle: 4020,
-        repeatedFreeFallReliabilityClass: 'C',
-        repairabilityClass: 'E',
-        batteryEnduranceInCycles: 39,
-        ingressProtectionRating: 'IP14',
-      }).toString(),
-    [],
-  )
-
+export function SmartphonesLabel(data: Partial<SmartphonesAndTabletsData>) {
+  // User-provided text is escaped when the label is generated.
   return (
-    <div>
-      <h2>Energy Label</h2>
-      {/* User-provided text is escaped when the label is generated. */}
-      <div dangerouslySetInnerHTML={{ __html: svgString }} />
-    </div>
+    <div dangerouslySetInnerHTML={{ __html: renderSmartphonesLabel(data) }} />
   )
 }
 ```
+
+```tsx
+<SmartphonesLabel
+  flagOrigin="EU"
+  supplierOrTrademark="Sultana"
+  modelIdentifier="92COU8944VK"
+  energyClass="D"
+/>
+```
+
+For the class arrow alone:
+
+```tsx
+import { renderClassArrow, type EnergyClass } from 'energy-label'
+
+export function ClassArrow({ energyClass }: { energyClass: EnergyClass }) {
+  return <span dangerouslySetInnerHTML={{ __html: renderClassArrow(energyClass) }} />
+}
+```
+
+The same components work in Preact.
 
 ### Smaller Bundles
 
@@ -202,6 +205,12 @@ const svgString = renderClassArrow('A', { labelOrientation: 'RIGHT' })
 | `createEnergyLabel` (all labels)     | 10.2 KB            |
 
 The class arrow is the lightest, as it has no header with the QR code.
+
+Without a bundler, [esm.sh](https://esm.sh) can do the same if you list the exports you use:
+
+```js
+import { renderClassArrow } from 'https://esm.sh/energy-label?exports=renderClassArrow'
+```
 
 ## Fonts
 
