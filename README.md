@@ -148,6 +148,18 @@ download(svgString)
 // download(svgString, 'my-energy-label.svg')
 ```
 
+#### Use the Label as an Image
+
+`toDataURL` turns the label into a data URL, to use it as an image source or in CSS. It also works in Node.js:
+
+```js
+import { renderClassArrow, toDataURL } from 'energy-label'
+
+const img = document.createElement('img')
+img.src = toDataURL(renderClassArrow('A'))
+img.alt = 'Energy class A'
+```
+
 ### React and Preact
 
 Labels are generated synchronously and their markup is deterministic, so they can be rendered on the server and on the client alike, including React Server Components. Use the render functions to bundle only the label you need:
@@ -167,12 +179,16 @@ export function SmartphonesLabel(data: Partial<SmartphonesAndTabletsData>) {
 ```
 
 ```tsx
-<SmartphonesLabel
-  flagOrigin="EU"
-  supplierOrTrademark="Sultana"
-  modelIdentifier="92COU8944VK"
-  energyClass="D"
-/>
+export function ProductPage() {
+  return (
+    <SmartphonesLabel
+      flagOrigin="EU"
+      supplierOrTrademark="Sultana"
+      modelIdentifier="92COU8944VK"
+      energyClass="D"
+    />
+  )
+}
 ```
 
 For the class arrow alone:
@@ -181,7 +197,9 @@ For the class arrow alone:
 import { renderClassArrow, type EnergyClass } from 'energy-label'
 
 export function ClassArrow({ energyClass }: { energyClass: EnergyClass }) {
-  return <span dangerouslySetInnerHTML={{ __html: renderClassArrow(energyClass) }} />
+  return (
+    <span dangerouslySetInnerHTML={{ __html: renderClassArrow(energyClass) }} />
+  )
 }
 ```
 

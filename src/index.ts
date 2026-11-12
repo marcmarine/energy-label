@@ -4,7 +4,7 @@
 
 import { PRODUCT_GROUPS } from './constants'
 import EnergyLabel from './EnergyLabel'
-import { appendTo, download } from './utils'
+import { appendTo, download, toDataURL } from './utils'
 
 export type {
   ArrowData,
@@ -22,4 +22,4 @@ export type {
 export * from './factories'
 export * from './renderers'
 
-export { appendTo, download, EnergyLabel, PRODUCT_GROUPS }
+export { appendTo, download, EnergyLabel, PRODUCT_GROUPS, toDataURL }

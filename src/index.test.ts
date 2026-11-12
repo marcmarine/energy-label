@@ -13,6 +13,7 @@ describe('Index', () => {
       'renderClassArrow',
       'renderRefrigeratingAppliancesLabel',
       'renderSmartphonesLabel',
+      'toDataURL',
     ].forEach((moduleName) => {
       expect(Object.keys(index)).toContain(moduleName)
     })

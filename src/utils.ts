@@ -49,6 +49,28 @@ export function minutesToHoursAndMinutes(totalMinutes?: number) {
 }
 
 /**
+ * Converts an SVG string into a data URL, to use it as an image source or in CSS.
+ *
+ * Works in browsers and Node.js.
+ *
+ * @param {string} svgString - The SVG markup as a string.
+ *
+ * @returns {string} A `data:image/svg+xml` URL.
+ *
+ * @example
+ * ```typescript
+ * import { renderClassArrow, toDataURL } from 'energy-label'
+ *
+ * const img = document.createElement('img')
+ * img.src = toDataURL(renderClassArrow('A'))
+ * img.alt = 'Energy class A'
+ * ```
+ */
+export function toDataURL(svgString: string): string {
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`
+}
+
+/**
  * Appends an SVG string to a DOM element, replacing any existing content.
  *
  * @param {HTMLElement} container - The DOM element where the SVG will be appended.
