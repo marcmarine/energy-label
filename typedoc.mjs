@@ -18,7 +18,7 @@ const config = {
     '*',
   ],
   navigationLinks: {
-    'GitHub repository': 'https://github.com/marcmarine/energy-label/tree/beta',
+    'GitHub repository': 'https://github.com/marcmarine/energy-label',
     'Figma files':
       'https://www.figma.com/community/file/1487367561346990079/energy-label-designs',
     'Studio ✨ (beta)': 'https://studio.label.energy',

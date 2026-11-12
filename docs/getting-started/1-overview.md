@@ -28,4 +28,4 @@ If you’re building an online store, a product management tool, or just need to
 
 ## Getting started
 
-Check the [installation steps](./2-installation.md) and the guides for [Node.js](./3-quick-start.md), the [browser](./3-quick-start.md), or [React](../guides/react.md) to integrate labels into your project.
+Check the [installation steps](./2-installation.md) and the [quick start](./3-quick-start.md) for Node.js and the browser. Then see the guides to create labels from [EPREL](../guides/eprel.md) data, integrate them with [React or Preact](../guides/react.md), or [keep your bundle small](../guides/bundle-size.md).

@@ -57,7 +57,7 @@ npm install energy-label
 Create a file called `index.js`:
 
 ```js
-import EnergyLabel from 'energy-label'
+import { EnergyLabel } from 'energy-label'
 import fs from 'node:fs'
 
 // Create a smartphone energy label
@@ -107,10 +107,24 @@ Create an `index.html` file:
 
 ### Step 2: Open in Browser
 
-Save the file as `index.html` and open it in your browser. With this minimal example you'll see an smartphone label.
+Save the file as `index.html` and open it in your browser. With this minimal example you'll see a smartphone label.
+
+### Use the Label as an Image
+
+`toDataURL` turns the label into a data URL, to use it as an image source or in CSS:
+
+```js
+import { renderClassArrow, toDataURL } from 'energy-label'
+
+const img = document.createElement('img')
+img.src = toDataURL(renderClassArrow('A'))
+img.alt = 'Energy class A'
+```
 
 ## Next Steps
 
 Now that you've created your first energy label, explore these guides:
 
-- [React Guide](../guides/react.md) - Integrate with React.
+- [EPREL Guide](../guides/eprel.md) - Create labels from EPREL product data.
+- [React and Preact Guide](../guides/react.md) - Integrate with React or Preact.
+- [Bundle Size Guide](../guides/bundle-size.md) - Bundle only the labels you use.
