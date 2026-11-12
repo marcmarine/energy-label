@@ -7,6 +7,7 @@ describe('Index', () => {
       'appendTo',
       'createClassArrow',
       'createEnergyLabel',
+      'createEnergyLabelFromEprel',
       'download',
       'EnergyLabel',
       'PRODUCT_GROUPS',

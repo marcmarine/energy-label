@@ -76,14 +76,16 @@ The data fields use the same names and units as the [EPREL](https://eprel.ec.eur
 The EPREL API doesn't allow requests from browsers (CORS), so fetch the data on your server, as in this Node.js example:
 
 ```js
-import { createEnergyLabel } from 'energy-label'
+import { createEnergyLabelFromEprel } from 'energy-label'
 
 const response = await fetch('https://eprel.ec.europa.eu/api/product/1573269')
 const product = await response.json()
 
-const label = createEnergyLabel('refrigerating-appliances', product)
+const label = createEnergyLabelFromEprel(product)
 const svgString = label.toString()
 ```
+
+`createEnergyLabelFromEprel` chooses the label from the product's `productGroup`, and throws if the library has no label for it. If you already know the product group, `createEnergyLabel('refrigerating-appliances', product)` does the same.
 
 To fetch EPREL data from the browser, you can host [eprel-api-proxy](https://github.com/marcmarine/eprel-api-proxy), a small proxy that forwards requests to the EPREL API and adds the CORS headers:
 
@@ -94,7 +96,7 @@ const response = await fetch(
 )
 const product = await response.json()
 
-const label = createEnergyLabel('refrigerating-appliances', product)
+const label = createEnergyLabelFromEprel(product)
 ```
 
 > [!TIP]

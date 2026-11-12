@@ -1,4 +1,10 @@
-import type { EnergyClass, TemplateName, TemplatesData } from './definitions'
+import { PRODUCT_GROUPS } from './constants'
+import type {
+  EnergyClass,
+  ProductName,
+  TemplateName,
+  TemplatesData,
+} from './definitions'
 import EnergyLabel from './EnergyLabel'
 import type { ArrowData } from './templates/ArrowTemplate'
 
@@ -64,4 +70,45 @@ export function createClassArrow(
     energyClass,
     ...options,
   })
+}
+
+/**
+ * Creates an `EnergyLabel` instance from a product in [EPREL](https://eprel.ec.europa.eu), choosing the label from its `productGroup`.
+ *
+ * Pass the product as the EPREL public API returns it. Like `createEnergyLabel`, it bundles all the labels.
+ *
+ * @param {{ productGroup: string }} product - The product data from the EPREL API.
+ *
+ * @returns {EnergyLabel<ProductName>} An `EnergyLabel` instance ready to generate the SVG.
+ *
+ * @throws {Error} If the product group has no label in this library.
+ *
+ * @example
+ * ```typescript
+ * const response = await fetch('https://eprel.ec.europa.eu/api/product/1573269')
+ * const product = await response.json()
+ *
+ * const svgString = createEnergyLabelFromEprel(product).toString()
+ * ```
+ */
+export function createEnergyLabelFromEprel(product: {
+  productGroup: string
+}): EnergyLabel<ProductName> {
+  const productGroup = product?.productGroup
+  const groups = Object.entries(PRODUCT_GROUPS) as [
+    ProductName,
+    (typeof PRODUCT_GROUPS)[ProductName],
+  ][]
+  const match = groups.find(([, group]) => group.urlCode === productGroup)
+
+  if (!match) {
+    throw new Error(
+      `Unsupported EPREL product group "${productGroup}". Supported product groups: ${groups.map(([, group]) => group.urlCode).join(', ')}`,
+    )
+  }
+
+  return new EnergyLabel(
+    match[0],
+    product as Partial<TemplatesData[ProductName]>,
+  )
 }
