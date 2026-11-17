@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/marcmarine/energy-label/compare/v1.0.0...v1.1.0) (2026-11-17)
+
+
+### Features
+
+* Add toDataURL to use labels as images ([d371439](https://github.com/marcmarine/energy-label/commit/d3714391c7ebcd1e17e49ca50554685affa092ea))
+* Create labels from EPREL data ([ff6afba](https://github.com/marcmarine/energy-label/commit/ff6afba1f33fe5675f5652a1b8a8eb5f5e619c59))
+
 # 1.0.0 (2026-10-26)
 
 
