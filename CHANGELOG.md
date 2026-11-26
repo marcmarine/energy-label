@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/marcmarine/energy-label/compare/v1.1.0...v1.2.0) (2026-11-26)
+
+
+### Features
+
+* Make labels accessible to screen readers ([aeb3701](https://github.com/marcmarine/energy-label/commit/aeb3701c3c8aa893456ae14c960b8336cf9124f7))
+
 # [1.1.0](https://github.com/marcmarine/energy-label/compare/v1.0.0...v1.1.0) (2026-11-17)
 
 
