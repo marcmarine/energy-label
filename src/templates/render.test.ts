@@ -9,7 +9,7 @@ describe('renderSvg', () => {
       '<g id="content"></g>',
     ]
 
-    const result = renderSvg(800, 600, sections)
+    const result = renderSvg(800, 600, 'Label', sections)
 
     expect(result).toMatch(/^<svg[^>]*>.*<\/svg>$/s)
     expect(result).toContain('xmlns="http://www.w3.org/2000/svg"')
@@ -24,10 +24,18 @@ describe('renderSvg', () => {
       '<text\n    fill="black"  >\n  <tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan>\n</text>\n<g >\n  <path d="M0 0\n H1" />\n</g>',
     ]
 
-    const result = renderSvg(800, 600, sections)
+    const result = renderSvg(800, 600, 'Label', sections)
 
     expect(result).toContain(
       '<text fill="black"><tspan x="1">Smith  &amp;  Co</tspan> <tspan>kWh</tspan></text><g><path d="M0 0 H1"/></g>',
+    )
+  })
+
+  it('should escape the accessible name', () => {
+    const result = renderSvg(800, 600, 'Smith & "Co" <b>', [])
+
+    expect(result).toContain(
+      'aria-label="Smith &amp; &quot;Co&quot; &lt;b&gt;"><title>Smith &amp; &quot;Co&quot; &lt;b&gt;</title>',
     )
   })
 })

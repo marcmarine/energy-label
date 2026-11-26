@@ -7,7 +7,9 @@ import { renderSvg } from './render'
 export function arrowTemplate(data: Partial<ArrowData>): string {
   assertOneOf('energyClass', data.energyClass, ENERGY_CLASSES)
 
-  return renderSvg(92, 51, [createEfficiencyScale(data)])
+  return renderSvg(92, 51, `Energy class ${data.energyClass ?? 'A'}`, [
+    createEfficiencyScale(data),
+  ])
 }
 
 function createEfficiencyScale(data: Partial<ArrowData>): string {

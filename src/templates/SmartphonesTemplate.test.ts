@@ -17,4 +17,19 @@ describe('Smartphones Template', () => {
       '>XY00</tspan><tspan font-size="10pt">x<',
     )
   })
+
+  it('should be announced as an image with its energy class, supplier and model', () => {
+    expect(
+      smartphonesTemplate({
+        energyClass: 'D',
+        supplierOrTrademark: 'Sultana',
+        modelIdentifier: '92COU8944VK',
+      }),
+    ).toContain(
+      'role="img" aria-label="Energy label: class D, Sultana 92COU8944VK"><title>Energy label: class D, Sultana 92COU8944VK</title>',
+    )
+    expect(smartphonesTemplate({})).toContain(
+      'aria-label="Energy label: class A"',
+    )
+  })
 })

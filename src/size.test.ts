@@ -5,7 +5,8 @@ import EnergyLabel from './EnergyLabel'
 
 /**
  * Size budgets, in bytes, based on what the labels weighed when SVGO optimized them at runtime,
- * plus the fallback font stacks (`FONT_TEXT`, `FONT_CLASS`) and the vector QR code (~0.5 KB more than the former GIF).
+ * plus the fallback font stacks (`FONT_TEXT`, `FONT_CLASS`), the vector QR code (~0.5 KB more than the former GIF)
+ * and the accessible name (`role`, `aria-label` and `<title>`, ~70–120 B).
  * If one fails, optimize the new or changed markup (e.g. `bunx svgo icon.svg -o -`) before raising the budget.
  */
 const BASE = {
@@ -26,7 +27,7 @@ const BUDGETS: {
     name: 'arrow',
     template: 'arrow',
     data: { energyClass: 'A' },
-    maxBytes: 950,
+    maxBytes: 1_000,
   },
   {
     name: 'smartphones',

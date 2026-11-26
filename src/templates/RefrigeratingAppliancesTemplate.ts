@@ -2,7 +2,13 @@ import { ENERGY_CLASSES, FLAG_ORIGINS, NOISE_CLASSES } from '../constants'
 import type { EnergyLabelBaseData, NoiseClass } from '../definitions'
 import { eprelQRCode } from '../eprel'
 import { assertOneOf, escapeXml, mmToPx } from '../utils'
-import { efficiencyScale, FONT_TEXT, header, separator } from './common'
+import {
+  efficiencyScale,
+  FONT_TEXT,
+  header,
+  labelName,
+  separator,
+} from './common'
 import { renderSvg } from './render'
 
 export function refrigeratingAppliancesTemplate(
@@ -13,13 +19,18 @@ export function refrigeratingAppliancesTemplate(
   const width = mmToPx(96)
   const height = mmToPx(192)
 
-  return renderSvg(width, height, [
-    `<rect width="${width}" height="${height}" fill="#fff" />`,
-    createHeader(data),
-    createEfficiencyScale(data),
-    createConsumption(data),
-    createFeatures(data),
-  ])
+  return renderSvg(
+    width,
+    height,
+    labelName(data.energyClass, data.supplierOrTrademark, data.modelIdentifier),
+    [
+      `<rect width="${width}" height="${height}" fill="#fff" />`,
+      createHeader(data),
+      createEfficiencyScale(data),
+      createConsumption(data),
+      createFeatures(data),
+    ],
+  )
 }
 
 function createHeader(

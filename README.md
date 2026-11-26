@@ -33,6 +33,7 @@ const svgString = renderSmartphonesLabel()
 
 - Generate SVG energy labels following official **EU regulations**.
 - Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
+- **Accessible**: screen readers announce each label as a single image, with its energy class, supplier and model.
 - Use **product data from EPREL as is**: field names and units match the EPREL API.
 - **Zero runtime dependencies** and compact SVG output.
 - **Tree-shakeable**: bundle only the labels you use.
@@ -68,6 +69,8 @@ fs.writeFileSync('smartphone-label.svg', svgString)
 ```
 
 Missing fields are shown as placeholders (such as `XYZ`), so you can preview a label before having all its data.
+
+Labels are accessible: screen readers announce them as a single image, such as `Energy label: class D, Sultana 92COU8944VK`, and never read the placeholders. When you use a label as an `<img>`, give it an `alt` text.
 
 ### Using EPREL Data
 

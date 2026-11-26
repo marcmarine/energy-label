@@ -1,13 +1,21 @@
-/** Wraps the label sections, in drawing order, in a compact SVG document. */
+import { escapeXml } from '../utils'
+
+/**
+ * Wraps the label sections, in drawing order, in a compact SVG document.
+ * `name` is plain text: screen readers announce it instead of the loose texts of the label (`role="img"` and `aria-label`),
+ * and `<title>` shows it as a tooltip. No `id` is needed, so several labels can share a page.
+ */
 export function renderSvg(
   width: number,
   height: number,
+  name: string,
   sections: string[],
 ): string {
   const content = sections.join('')
+  const label = escapeXml(name)
 
   return compactMarkup(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none">${content}</svg>`,
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" role="img" aria-label="${label}"><title>${label}</title>${content}</svg>`,
   )
 }
 

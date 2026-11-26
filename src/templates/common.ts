@@ -79,6 +79,23 @@ export const FONT_TEXT =
   "Verdana, 'DejaVu Sans', 'Bitstream Vera Sans', sans-serif"
 export const FONT_CLASS = 'Calibri, Carlito, sans-serif'
 
+/**
+ * Accessible name of a label, e.g. `Energy label: class D, Sultana 92COU8944VK`.
+ * Missing supplier or model are left out, so placeholders are never read aloud.
+ */
+export function labelName(
+  energyClass: EnergyClass = 'A',
+  supplierOrTrademark?: string,
+  modelIdentifier?: string,
+): string {
+  const product = [supplierOrTrademark, modelIdentifier]
+    .map((value) => value?.trim())
+    .filter(Boolean)
+    .join(' ')
+
+  return `Energy label: class ${energyClass}${product ? `, ${product}` : ''}`
+}
+
 export function flagUK(x: number, y: number, width: number) {
   const scale = Number(width / 100).toPrecision(3)
 

@@ -55,6 +55,8 @@ export function ClassArrow({ energyClass }: { energyClass: EnergyClass }) {
 }
 ```
 
+Screen readers announce the arrow as `Energy class B`. If it is inside an element that already has its own accessible text, such as `<a aria-label="View energy label, class B">`, add `aria-hidden="true"` to the `<span>` so it isn't read twice.
+
 ## As an image
 
 To use the label as an `<img>`, convert it with `toDataURL`:

@@ -60,4 +60,19 @@ describe('Regrigerating Appliances Template', () => {
       ])
     })
   })
+
+  it('should be announced as an image with its energy class, supplier and model', () => {
+    expect(
+      refrigeratingAppliancesTemplate({
+        energyClass: 'E',
+        supplierOrTrademark: 'FRIDGEMASTER',
+        modelIdentifier: 'MCF198E',
+      }),
+    ).toContain(
+      'role="img" aria-label="Energy label: class E, FRIDGEMASTER MCF198E"><title>Energy label: class E, FRIDGEMASTER MCF198E</title>',
+    )
+    expect(refrigeratingAppliancesTemplate({})).toContain(
+      'aria-label="Energy label: class A"',
+    )
+  })
 })

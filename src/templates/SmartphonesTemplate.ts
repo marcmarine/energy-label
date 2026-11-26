@@ -16,7 +16,13 @@ import {
   minutesToHoursAndMinutes,
   mmToPx,
 } from '../utils'
-import { efficiencyScale, FONT_TEXT, header, separator } from './common'
+import {
+  efficiencyScale,
+  FONT_TEXT,
+  header,
+  labelName,
+  separator,
+} from './common'
 import { renderSvg } from './render'
 
 export function smartphonesTemplate(
@@ -27,13 +33,18 @@ export function smartphonesTemplate(
   const width = mmToPx(68)
   const height = mmToPx(136)
 
-  return renderSvg(width, height, [
-    `<rect width="${width}" height="${height}" fill="#fff" />`,
-    createHeader(data),
-    createEfficiencyScale(data),
-    createConsumption(data),
-    createFeatures(data),
-  ])
+  return renderSvg(
+    width,
+    height,
+    labelName(data.energyClass, data.supplierOrTrademark, data.modelIdentifier),
+    [
+      `<rect width="${width}" height="${height}" fill="#fff" />`,
+      createHeader(data),
+      createEfficiencyScale(data),
+      createConsumption(data),
+      createFeatures(data),
+    ],
+  )
 }
 
 function createHeader(data: Partial<SmartphonesAndTabletsData>): string {

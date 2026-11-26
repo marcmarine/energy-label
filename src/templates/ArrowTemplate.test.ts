@@ -13,4 +13,11 @@ describe('Arrow Template', () => {
 
     expect(result).toMatchSnapshot()
   })
+
+  it('should be announced as an image with its energy class', () => {
+    expect(arrowTemplate({ energyClass: 'B' })).toContain(
+      'role="img" aria-label="Energy class B"><title>Energy class B</title>',
+    )
+    expect(arrowTemplate({})).toContain('aria-label="Energy class A"')
+  })
 })
