@@ -1,4 +1,4 @@
-# Energy ⚡ Label Generator
+# Energy Label Generator
 
 A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG, in Node.js and in the browser.
 
@@ -7,7 +7,7 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 [![View Changelog](https://img.shields.io/badge/view-CHANGELOG.md-white.svg)](https://github.com/marcmarine/energy-label/releases)
 ![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/energy-label)
 [![TypeDoc](https://img.shields.io/badge/view-docs-cyan.svg)](https://docs.label.energy)
-[![Studio](https://img.shields.io/badge/view-playground-fuchsia.svg)](https://studio.label.energy)
+[![Studio](https://img.shields.io/badge/view-studio-fuchsia.svg)](https://studio.label.energy)
 
 ## Class Arrow
 
@@ -32,11 +32,11 @@ const svgString = renderSmartphonesLabel()
 ## Features
 
 - Generate SVG energy labels following official **EU regulations**.
+- Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
 - Use **product data from EPREL as is**: field names and units match the EPREL API.
 - **Zero runtime dependencies** and compact SVG output.
 - **Tree-shakeable**: bundle only the labels you use.
 - Works in both **Node.js** and **modern browsers**, synchronously.
-- Supports flags for both **European Union** (🇪🇺) and **Great Britain** (🇬🇧) markets.
 - **Typed data** for each template in TypeScript.
 - Compatible with **any JavaScript framework**, including **React**, **Vue**, **Svelte**, **Angular**, and more.
 
@@ -122,10 +122,7 @@ Display energy labels directly in web pages using HTML and JavaScript.
     <div id="label-container"></div>
 
     <script type="module">
-      import {
-        createEnergyLabel,
-        appendTo,
-      } from 'https://esm.sh/energy-label'
+      import { createEnergyLabel, appendTo } from 'https://esm.sh/energy-label'
 
       const label = createEnergyLabel('smartphones')
 
