@@ -45,7 +45,7 @@
     "test:types": "tsc --noEmit -p tsconfig.test.json",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "build:example": "bun build-example.ts",
+    "build:examples": "bun scripts/build-examples.ts",
     "build:docs": "bunx typedoc",
     "build:types": "dts-bundle-generator --export-referenced-types=false -o dist/index.d.ts src/index.ts",
     "build:lib": "rolldown --config rolldown.config.mjs",

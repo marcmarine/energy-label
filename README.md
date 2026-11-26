@@ -11,7 +11,7 @@ A JavaScript/TypeScript library for generating EU-compliant energy labels as SVG
 
 ## Class Arrow
 
-![Example of a class arrow](arrow-example.svg)
+![Example of a class arrow](.github/assets/arrow-example.svg)
 
 ```js
 import { renderClassArrow } from 'energy-label'
@@ -21,7 +21,7 @@ const svgString = renderClassArrow('A', { labelOrientation: 'LEFT' })
 
 ## Smartphone Label
 
-![Example of an energy label for smartphones](smartphone-label.svg)
+![Example of an energy label for smartphones](.github/assets/smartphone-label.svg)
 
 ```js
 import { renderSmartphonesLabel } from 'energy-label'
